@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, use, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 import ModalLogin from "./ModalLogin";
 import ModalRegister from "./ModalRegister";
 import ModalForgotPassword from "./ModalForgotPassword";
@@ -8,14 +9,14 @@ import "../styles/HeaderFooter.css";
 import logo from "../images/logo.svg";
 import menu from "../images/iconoMenu.png";
 
-function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }) {
+function Header({ toggleCarrito, carrito }) {
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showRegister, setShowRegister] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
-
+  const { usuario, login, logout, esAdmin, esEditor } = useContext(AuthContext);
 
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
@@ -28,15 +29,15 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogoutClick = () => {
-    if (window.confirm("¿Desea cerrar sesión?")) {
-      onLogout();
-      setShowUserMenu(false);
-      if (location.pathname === "/profile") {
-        navigate("/");
-      }
-    }
-  };
+  // const handleLogoutClick = () => {
+  //   if (window.confirm("¿Desea cerrar sesión?")) {
+  //     onLogout();
+  //     setShowUserMenu(false);
+  //     if (location.pathname === "/profile") {
+  //       navigate("/");
+  //     }
+  //   }
+  // };
 
   const [bounce, setBounce] = useState(false);
 
@@ -112,7 +113,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
               >
                 Mi perfil
               </button>
-              <button onClick={handleLogoutClick} className="logout-btn">
+              <button onClick={logout} className="logout-btn">
                 Cerrar sesión
               </button>
             </div>

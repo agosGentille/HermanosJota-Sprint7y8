@@ -24,7 +24,7 @@ import {
   calcularTotal,
 } from "./components/CarritoFunciones";
 import Admin from "./pages/Admin";
-import AdminPage from "./pages/Admin"; 
+import AdminPage from "./pages/Admin";
 import AdminProductForm from "./components/AdminProductForm";
 import ToastContainer from "./components/ToastContainer";
 import useToast from "./hooks/useToast";
@@ -119,7 +119,7 @@ function App() {
   return (
     <Router>
       <ToastContainer toasts={toasts} removeToast={removeToast} />
-      
+
       <Header
         toggleCarrito={toggleCarrito}
         carrito={carrito}
@@ -167,17 +167,35 @@ function App() {
         {/* CRUD de productos: admin y editor */}
         <Route
           path="/admin/crear-producto"
-          element={(esAdmin || esEditor) ? <AdminProductForm showToast={showToast} /> : <Navigate to="/" />}
+          element={
+            esAdmin || esEditor ? (
+              <AdminProductForm showToast={showToast} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
         <Route
           path="/admin/editar-producto/:id"
-          element={(esAdmin || esEditor) ? <AdminProductForm editMode={true} showToast={showToast} /> : <Navigate to="/" />}
+          element={
+            esAdmin || esEditor ? (
+              <AdminProductForm editMode={true} showToast={showToast} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
 
         {/* CRUD de usuarios: solo admin */}
         <Route
           path="/admin"
-          element={(esAdmin || esEditor) ? <AdminPage showToast={showToast} usuario={usuario}/> : <Navigate to="/" />}
+          element={
+            esAdmin || esEditor ? (
+              <AdminPage showToast={showToast} usuario={usuario} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
         />
       </Routes>
       <Footer />

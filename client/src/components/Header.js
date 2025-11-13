@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { useCarrito } from "../context/CarritoContext";
 import ModalLogin from "./ModalLogin";
 import ModalRegister from "./ModalRegister";
 import ModalForgotPassword from "./ModalForgotPassword";
@@ -9,14 +10,17 @@ import "../styles/HeaderFooter.css";
 import logo from "../images/logo.svg";
 import menu from "../images/iconoMenu.png";
 
-function Header({ toggleCarrito, carrito }) {
+function Header() { 
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showRegister, setShowRegister] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
+  
+  
   const { usuario, login, logout, esAdmin, esEditor } = useContext(AuthContext);
+  const { toggleCarrito, bounce, cantidadProductos } = useCarrito(); 
 
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
@@ -29,25 +33,7 @@ function Header({ toggleCarrito, carrito }) {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // const handleLogoutClick = () => {
-  //   if (window.confirm("¿Desea cerrar sesión?")) {
-  //     onLogout();
-  //     setShowUserMenu(false);
-  //     if (location.pathname === "/profile") {
-  //       navigate("/");
-  //     }
-  //   }
-  // };
-
-  const [bounce, setBounce] = useState(false);
-
-  useEffect(() => {
-    if (carrito.length > 0) {
-      setBounce(true);
-      const timeout = setTimeout(() => setBounce(false), 300);
-      return () => clearTimeout(timeout);
-    }
-  }, [carrito]);
+  
 
   return (
     <header className="header-sticky">
@@ -125,8 +111,6 @@ function Header({ toggleCarrito, carrito }) {
           show={showLogin}
           onClose={() => setShowLogin(false)}
           onLogin={(token) => {
-            // Esta función se llamará cuando el login sea exitoso
-            // El estado de usuario se manejará en App.js a través de localStorage
             login(token);
             setShowLogin(false);
           }}
@@ -137,8 +121,6 @@ function Header({ toggleCarrito, carrito }) {
           show={showRegister}
           onClose={() => setShowRegister(false)}
           onLogin={(userData) => {
-            // Esta función se llamará cuando el registro sea exitoso
-            // El estado de usuario se manejará en App.js a través de localStorage
             setShowRegister(false);
           }}
           onShowLogin={() => setShowLogin(true)}
@@ -148,7 +130,7 @@ function Header({ toggleCarrito, carrito }) {
           onClose={() => setShowForgot(false)}
         />
 
-        {/* Carrito */}
+        
         <div className="header-carrito-container" onClick={toggleCarrito}>
           <span
             className="header-carrito material-symbols-outlined"
@@ -157,7 +139,7 @@ function Header({ toggleCarrito, carrito }) {
             shopping_bag
           </span>
           <span className={`numerito ${bounce ? "bounce" : ""}`}>
-            {carrito.length}
+            {cantidadProductos} 
           </span>
         </div>
 

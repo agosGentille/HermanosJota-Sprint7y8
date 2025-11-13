@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -13,29 +13,15 @@ import ProductDetail from "./components/ProductDetail";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
 import CarritoLateral from "./components/CarritoLateral";
-import { cargarCarrito, guardarCarrito } from "./components/CarritoStorage";
 import Producto from "./pages/Productos";
-import {
-  agregarProducto,
-  eliminarProducto,
-  vaciarCarrito,
-  sumarCantidad,
-  restarCantidad,
-  calcularTotal,
-} from "./components/CarritoFunciones";
-// import Admin from "./pages/Admin";
 import AdminPage from "./pages/Admin";
 import AdminProductForm from "./components/AdminProductForm";
 import ToastContainer from "./components/ToastContainer";
 import useToast from "./hooks/useToast";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import { CarritoProvider } from "./context/CarritoContext";
 function App() {
-  const [isCarritoAbierto, setIsCarritoAbierto] = useState(false);
-  const [carrito, setCarrito] = useState([]);
   const [usuario, setUsuario] = useState(null);
-  const saveTimeout = useRef(null);
-  const toggleCarrito = () => setIsCarritoAbierto((prev) => !prev);
   const { toasts, showToast, removeToast } = useToast();
 
   // Función para verificar y cargar el usuario
@@ -55,14 +41,9 @@ function App() {
     }
   };
 
-  // Cargar carrito y usuario al iniciar
+  // Cargar usuario al iniciar
   useEffect(() => {
-    const usuarioEmail = cargarUsuario();
-    const initCarrito = async () => {
-      const data = await cargarCarrito(usuarioEmail);
-      setCarrito(data || []);
-    };
-    initCarrito();
+    cargarUsuario();
   }, []);
 
   // Escuchar cambios en localStorage para actualizar usuario
@@ -72,41 +53,13 @@ function App() {
     };
 
     window.addEventListener("storage", handleStorageChange);
-    const interval = setInterval(cargarUsuario);
+    const interval = setInterval(cargarUsuario, 1000);
 
     return () => {
       window.removeEventListener("storage", handleStorageChange);
       clearInterval(interval);
     };
   }, []);
-
-  // Guardar carrito en localStorage y backend
-  useEffect(() => {
-    localStorage.setItem("productos-en-carrito", JSON.stringify(carrito));
-    const usuarioEmail = localStorage.getItem("emailUsuario");
-    if (usuarioEmail) {
-      if (saveTimeout.current) clearTimeout(saveTimeout.current);
-      saveTimeout.current = setTimeout(() => {
-        guardarCarrito(usuarioEmail, carrito);
-      }, 1000);
-      return () => {
-        if (saveTimeout.current) clearTimeout(saveTimeout.current);
-      };
-    }
-  }, [carrito]);
-
-  const total = calcularTotal(carrito);
-
-  const carritoFunciones = {
-    agregarProducto: (producto) => {
-      agregarProducto(carrito, setCarrito, producto);
-      showToast("Producto agregado al carrito", "success");
-    },
-    eliminarProducto: (id) => eliminarProducto(carrito, setCarrito, id),
-    vaciarCarrito: () => vaciarCarrito(setCarrito),
-    sumarCantidad: (id) => sumarCantidad(carrito, setCarrito, id),
-    restarCantidad: (id) => restarCantidad(carrito, setCarrito, id),
-  };
 
   const handleLogout = () => {
     localStorage.clear();
@@ -118,96 +71,91 @@ function App() {
   const esEditor = usuario && usuario.rol === "editor";
 
   return (
-    <Router>
-      <ToastContainer toasts={toasts} removeToast={removeToast} />
+    <CarritoProvider>
+      <Router>
+        <ToastContainer toasts={toasts} removeToast={removeToast} />
+        
+        <Header
+          usuario={usuario}
+          esAdmin={esAdmin}
+          esEditor={esEditor}
+          onLogout={handleLogout}
+        />
+        
+        <CarritoLateral />
+        
+        <Routes>
+          <Route path="/" element={<Home />} />
+          
+          <Route
+            path="/carrito"
+            element={
+              <ProtectedRoute>
+                <Carrito />
+              </ProtectedRoute>
+            }
+          />
+          
+          <Route path="/productos" element={<Producto />} />
+          
+          <Route path="/contacto" element={<Contacto />} />
+          
+          <Route
+            path="/ProductDetail/:id"
+            element={
+              <ProductDetail
+                esAdmin={esAdmin}
+                showToast={showToast}
+              />
+            }
+          />
+          
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <PerfilUsuario usuario={usuario} onLogout={handleLogout} />
+              </ProtectedRoute>
+            }
+          />
 
-      <Header
-        toggleCarrito={toggleCarrito}
-        carrito={carrito}
-        usuario={usuario}
-        esAdmin={esAdmin}
-        esEditor={esEditor}
-        onLogout={handleLogout}
-      />
-      <CarritoLateral
-        isAbierto={isCarritoAbierto}
-        toggleCarrito={toggleCarrito}
-        carrito={carrito}
-        total={total}
-        {...carritoFunciones}
-      />
-      <Routes>
-        <Route
-          path="/"
-          element={<Home onAddToCart={carritoFunciones.agregarProducto} />}
-        />
-        <Route
-          path="/carrito"
-          element={
-          <ProtectedRoute>
-            <Carrito carrito={carrito} {...carritoFunciones} />
-          </ProtectedRoute>}
-        />
-        <Route
-          path="/productos"
-          element={<Producto onAddToCart={carritoFunciones.agregarProducto} />}
-        />
-        <Route path="/contacto" element={<Contacto />} />
-        <Route
-          path="/ProductDetail/:id"
-          element={
-            <ProductDetail
-              onAddToCart={carritoFunciones.agregarProducto}
-              esAdmin={esAdmin}
-              showToast={showToast}
-            />
-          }
-        />
-        <Route
-          path="/profile"
-          element={
-          <ProtectedRoute>
-            <PerfilUsuario usuario={usuario} onLogout={handleLogout} />
-          </ProtectedRoute>
-        }
-        />
+          {/* CRUD de productos: admin y editor */}
+          <Route
+            path="/admin/crear-producto"
+            element={
+              esAdmin || esEditor ? (
+                <AdminProductForm showToast={showToast} />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/admin/editar-producto/:id"
+            element={
+              esAdmin || esEditor ? (
+                <AdminProductForm editMode={true} showToast={showToast} />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
 
-        {/* CRUD de productos: admin y editor */}
-        <Route
-          path="/admin/crear-producto"
-          element={
-            esAdmin || esEditor ? (
-              <AdminProductForm showToast={showToast} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/admin/editar-producto/:id"
-          element={
-            esAdmin || esEditor ? (
-              <AdminProductForm editMode={true} showToast={showToast} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-
-        {/* CRUD de usuarios: solo admin */}
-        <Route
-          path="/admin"
-          element={
-            esAdmin || esEditor ? (
-              <AdminPage showToast={showToast} usuario={usuario} />
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-      </Routes>
-      <Footer />
-    </Router>
+          {/* CRUD de usuarios: solo admin */}
+          <Route
+            path="/admin"
+            element={
+              esAdmin || esEditor ? (
+                <AdminPage showToast={showToast} usuario={usuario} />
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+        </Routes>
+        <Footer />
+      </Router>
+    </CarritoProvider>
   );
 }
 

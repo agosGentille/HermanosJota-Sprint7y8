@@ -2,10 +2,13 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import '../styles/productDetail.css';
 import { API_BASE_URL } from '../config/api';
+import { useCarrito } from '../context/CarritoContext'; 
 
-export default function ProductDetail({ onAddToCart, esAdmin }) {
+export default function ProductDetail({ esAdmin, showToast }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { agregarProducto } = useCarrito(); 
+  
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,19 +25,19 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
         return res.json();
       })
       .then(data => {
-  // Mapear URLs de imágenes si es necesario
-  const productoConUrls = {
-    ...data,
-    imagen: `${API_BASE_URL.replace('/api', '')}${data.imagen}`,
-    imagenHover: data.imagenHover ? `${API_BASE_URL.replace('/api', '')}${data.imagenHover}` : null
-  };
-  
-  setProducto(productoConUrls);
-  setImages([
-    productoConUrls.imagen, 
-    productoConUrls.imagenHover || null
-  ].filter(Boolean));
-})
+        // Mapear URLs de imágenes si es necesario
+        const productoConUrls = {
+          ...data,
+          imagen: `${API_BASE_URL.replace('/api', '')}${data.imagen}`,
+          imagenHover: data.imagenHover ? `${API_BASE_URL.replace('/api', '')}${data.imagenHover}` : null
+        };
+        
+        setProducto(productoConUrls);
+        setImages([
+          productoConUrls.imagen, 
+          productoConUrls.imagenHover || null
+        ].filter(Boolean));
+      })
       .catch(err => setError(err.message))
       .finally(() => setLoading(false));
   }, [id]);
@@ -44,6 +47,15 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
     const x = ((e.pageX - left) / width) * 100;
     const y = ((e.pageY - top) / height) * 100;
     setBackgroundPos(`${x}% ${y}%`);
+  };
+
+  const handleAddToCart = () => {
+    if (producto) {
+      agregarProducto(producto);
+      if (showToast) {
+        showToast("Producto agregado al carrito", "success");
+      }
+    }
   };
 
   const handleEliminar = async () => {
@@ -131,7 +143,8 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
             {producto.stock !== undefined && <p><strong>Stock disponible:</strong> {producto.stock} unidades</p>}
           </div>
           
-          <button className="btn-agregarcarrito" onClick={() => onAddToCart(producto)}>
+          
+          <button className="btn-agregarcarrito" onClick={handleAddToCart}>
             Añadir al carrito
           </button>
 

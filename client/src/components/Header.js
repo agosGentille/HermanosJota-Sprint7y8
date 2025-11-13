@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, use, useContext } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import ModalLogin from "./ModalLogin";
@@ -73,7 +73,7 @@ function Header({ toggleCarrito, carrito }) {
             <Link to="/contacto">CONTACTO</Link>
           </li>
           {/* Solo mostrar Administrar si es admin */}
-          {(esAdmin || usuario?.rol === "editor") && (
+          {(esAdmin || esEditor) && (
             <li>
               <Link to="/admin" className="admin-link">
                 ADMINISTRAR
@@ -124,9 +124,10 @@ function Header({ toggleCarrito, carrito }) {
         <ModalLogin
           show={showLogin}
           onClose={() => setShowLogin(false)}
-          onLogin={(userData) => {
+          onLogin={(token) => {
             // Esta función se llamará cuando el login sea exitoso
             // El estado de usuario se manejará en App.js a través de localStorage
+            login(token);
             setShowLogin(false);
           }}
           onShowRegister={() => setShowRegister(true)}

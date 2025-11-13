@@ -7,13 +7,11 @@ export const AuthContext = createContext(null);
 // 2. Crear el componente Proveedor
 export const AuthProvider = ({ children }) => {
   const [usuario, setUsuario] = useState(null);
-  const [token, setToken] = useState(null);
 
   // La lógica que antes estaba en App.js ahora vive aquí
   useEffect(() => {
     const tokenLocal = localStorage.getItem("token");
     if (tokenLocal) {
-      setToken(tokenLocal);
       const decodedUser = jwtDecode(tokenLocal);
       setUsuario(decodedUser);
     }
@@ -27,15 +25,15 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem("token");
+    localStorage.clear();
     setUsuario(null);
-    setToken(null);
     window.location.href = "/";
   };
 
   // 3. Pasamos el estado y las funciones a través del 'value' del Provider
   const esAdmin = usuario?.rol === "administrador";
   const esEditor = usuario?.rol === "editor";
-  const value = { usuario, token, login, logout, esAdmin, esEditor };
+  const value = { usuario, login, logout, esAdmin, esEditor };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

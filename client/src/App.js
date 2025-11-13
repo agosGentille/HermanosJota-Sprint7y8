@@ -23,7 +23,7 @@ import {
   restarCantidad,
   calcularTotal,
 } from "./components/CarritoFunciones";
-import Admin from "./pages/Admin";
+// import Admin from "./pages/Admin";
 import AdminPage from "./pages/Admin";
 import AdminProductForm from "./components/AdminProductForm";
 import ToastContainer from "./components/ToastContainer";

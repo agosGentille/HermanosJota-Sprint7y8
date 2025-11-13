@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from "react";
-import '../styles/PerfilUsuario.css';
-import { API_BASE_URL } from '../config/api';
+import React, { useState, useEffect, useContext } from "react";
+import "../styles/PerfilUsuario.css";
+import { API_BASE_URL } from "../config/api";
+import { AuthContext } from "../context/AuthContext";
 
-function PerfilUsuario({ onLogout }) {
+function PerfilUsuario() {
   const [usuario, setUsuario] = useState({
     nombre: "",
     email: "",
@@ -11,16 +12,18 @@ function PerfilUsuario({ onLogout }) {
     direccionCalle: "",
     direccionLocalidad: "",
     direccionProvincia: "",
-    direccionPais: "" 
+    direccionPais: "",
   });
   const [editable, setEditable] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-useEffect(() => {
+  const { logout } = useContext(AuthContext);
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const token = localStorage.getItem("token");
         if (!token) {
           setError("No autorizado");
           setLoading(false);
@@ -29,8 +32,8 @@ useEffect(() => {
 
         const res = await fetch(`${API_BASE_URL}/usuario`, {
           headers: {
-            "Authorization": `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         });
 
         if (!res.ok) {
@@ -48,9 +51,9 @@ useEffect(() => {
           dni: data.usuario.dni || "",
           telefono: data.usuario.telefono || "",
           direccionCalle: data.usuario.direccionCalle || "",
-          direccionLocalidad: data.usuario.direccionLocalidad || "" ,
-          direccionProvincia: data.usuario.direccionProvincia || "" ,
-          direccionPais: data.usuario.direccionPais || "" 
+          direccionLocalidad: data.usuario.direccionLocalidad || "",
+          direccionProvincia: data.usuario.direccionProvincia || "",
+          direccionPais: data.usuario.direccionPais || "",
         });
         setLoading(false);
       } catch (err) {
@@ -61,62 +64,66 @@ useEffect(() => {
     };
 
     fetchUsuario();
-  }, []);
+  }, [token]);
 
-  const handleChange = e => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setUsuario(prev => ({ ...prev, [name]: value }));
+    setUsuario((prev) => ({ ...prev, [name]: value }));
   };
 
- const handleActualizar = async () => {
-  setLoading(true);
-  setError("");
-  try {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`${API_BASE_URL}/usuario`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${token}`
-      },
-      body: JSON.stringify({
-        nombreCompleto: usuario.nombre,
-        dni: usuario.dni,
-        telefono: usuario.telefono,
-        direccionCalle: usuario.direccionCalle,
-        direccionLocalidad: usuario.direccionLocalidad,
-        direccionProvincia: usuario.direccionProvincia,
-        direccionPais: usuario.direccionPais
-      })
-    });
+  const handleActualizar = async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE_URL}/usuario`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          nombreCompleto: usuario.nombre,
+          dni: usuario.dni,
+          telefono: usuario.telefono,
+          direccionCalle: usuario.direccionCalle,
+          direccionLocalidad: usuario.direccionLocalidad,
+          direccionProvincia: usuario.direccionProvincia,
+          direccionPais: usuario.direccionPais,
+        }),
+      });
 
-    setLoading(false);
+      setLoading(false);
 
-    if (!res.ok) {
-      const data = await res.json();
-      setError(data.error || "Error al actualizar los datos");
-      return;
+      if (!res.ok) {
+        const data = await res.json();
+        setError(data.error || "Error al actualizar los datos");
+        return;
+      }
+
+      alert("Datos actualizados correctamente");
+      setEditable(false);
+    } catch (err) {
+      setError("No se pudo conectar con el servidor");
+      setLoading(false);
     }
-
-    alert("Datos actualizados correctamente");
-    setEditable(false);
-  } catch (err) {
-    setError("No se pudo conectar con el servidor");
-    setLoading(false);
-  }
-};
-
+  };
 
   const handleEliminarCuenta = async () => {
-    if (!window.confirm("¿Seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer.")) return;
-    
+    if (
+      !window.confirm(
+        "¿Seguro que deseas eliminar tu cuenta? Esta acción no se puede deshacer."
+      )
+    )
+      return;
+
     try {
       const token = localStorage.getItem("token");
       const res = await fetch(`${API_BASE_URL}/usuario`, {
         method: "DELETE",
         headers: {
-          "Authorization": `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       if (!res.ok) {
@@ -125,8 +132,7 @@ useEffect(() => {
         return;
       }
       alert("Cuenta eliminada correctamente");
-      localStorage.clear();
-      onLogout();
+      logout();
     } catch (err) {
       setError("No se pudo conectar con el servidor");
     }
@@ -149,23 +155,18 @@ useEffect(() => {
         <label>DNI:</label>
         <input
           type="dni"
-          name="dni" 
+          name="dni"
           value={usuario.dni ? usuario.dni : ""}
           onChange={handleChange}
         />
 
         <label>Email:</label>
-        <input
-          type="email"
-          name="email"
-          value={usuario.email}
-          disabled
-        />
+        <input type="email" name="email" value={usuario.email} disabled />
 
         <label>Teléfono:</label>
         <input
           type="telefono"
-          name="telefono" 
+          name="telefono"
           value={usuario.telefono ? usuario.telefono : ""}
           onChange={handleChange}
         />
@@ -210,7 +211,9 @@ useEffect(() => {
           ) : (
             <button onClick={() => setEditable(true)}>Actualizar datos</button>
           )}
-          <button onClick={handleEliminarCuenta} className="delete-btn">Eliminar cuenta</button>
+          <button onClick={handleEliminarCuenta} className="delete-btn">
+            Eliminar cuenta
+          </button>
         </div>
       </div>
     </div>

@@ -35,7 +35,13 @@ exports.login = async (req, res) => {
     // con el id del usuario y se firma con una clave secreta.
     // process.env.JWT_SECRET -> se lee desde el archivo .env 
     // expiresIn: "1h" -> significa q el token vence en 1 hora.
-    const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign(
+      { 
+        id: usuario._id,
+        nombre: usuario.nombreCompleto,
+        email: usuario.email,
+        rol: usuario.rol
+      }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
 

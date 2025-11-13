@@ -72,8 +72,13 @@ function Header() {
       <div className="header-right">
         {/* Icono usuario */}
         <div className="user-container" ref={userMenuRef}>
+          
+          {(usuario) && (
+            <span className="user-welcome">Hola {usuario?.nombre}!</span>
+          )}
+
           <span
-            className={`material-symbols-outlined header-usuario ${
+            className={`material-symbols-outlined header-usuario user-container ${
               usuario ? "logueado" : ""
             }`}
             onClick={() => {
@@ -83,7 +88,7 @@ function Header() {
                 setShowLogin(true);
               }
             }}
-            title={usuario ? "Usuario" : "Iniciar sesión"}
+            title={usuario ? `${usuario?.nombre}` : "Iniciar sesión"}
           >
             account_circle
           </span>

@@ -28,6 +28,7 @@ import AdminPage from "./pages/Admin";
 import AdminProductForm from "./components/AdminProductForm";
 import ToastContainer from "./components/ToastContainer";
 import useToast from "./hooks/useToast";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [isCarritoAbierto, setIsCarritoAbierto] = useState(false);
@@ -142,7 +143,10 @@ function App() {
         />
         <Route
           path="/carrito"
-          element={<Carrito carrito={carrito} {...carritoFunciones} />}
+          element={
+          <ProtectedRoute>
+            <Carrito carrito={carrito} {...carritoFunciones} />
+          </ProtectedRoute>}
         />
         <Route
           path="/productos"
@@ -161,7 +165,11 @@ function App() {
         />
         <Route
           path="/profile"
-          element={<PerfilUsuario usuario={usuario} onLogout={handleLogout} />}
+          element={
+          <ProtectedRoute>
+            <PerfilUsuario usuario={usuario} onLogout={handleLogout} />
+          </ProtectedRoute>
+        }
         />
 
         {/* CRUD de productos: admin y editor */}

@@ -42,3 +42,9 @@ export const guardarCarrito = async (usuario, carrito) => {
     console.error("Error al guardar carrito:", err);
   }
 };
+
+// Exportación por defecto (opcional, para compatibilidad)
+export default {
+  cargarCarrito,
+  guardarCarrito
+};

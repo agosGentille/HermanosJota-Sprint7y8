@@ -3,9 +3,13 @@ import "../styles/StyleProductos.css";
 import ProductList from "../components/ProductList";
 import { Link } from "react-router-dom";
 import { API_BASE_URL } from '../config/api';
+import { useCarrito } from '../context/CarritoContext'; // 
 
-function Productos({onAddToCart}) {
+function Productos() {
   console.log("Render Productos");
+  
+  const { agregarProducto } = useCarrito();
+  
   // Estados principales
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -178,6 +182,11 @@ function Productos({onAddToCart}) {
     }
   });
 
+  // Función para manejar agregar al carrito usando el contexto
+  const handleAddToCart = (producto) => {
+    agregarProducto(producto);
+  };
+
   //Render principal
   return (
     <main className="productos-container">
@@ -308,10 +317,10 @@ function Productos({onAddToCart}) {
           </div>
         </div>
 
-        {/* ProductList en lugar del contenedor de tarjetas */}
+        
         <ProductList
           productos={productosOrdenados}
-          onAddToCart={onAddToCart}
+          onAddToCart={handleAddToCart}
           emptyMessage="No se encontraron productos con los filtros aplicados"
         />
       </section>

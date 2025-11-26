@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
-import '../styles/HeaderFooter.css';
+import "../styles/HeaderFooter.css";
 import { validarEmail } from "../utils/validarEmail";
 import ReCaptchaCheckbox from "./ReCaptchaCheckbox";
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL } from "../config/api";
 
-function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
+function ModalRegister({ show, onClose, onLogin, onShowLogin }) {
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword1, setShowPassword1] = useState(false); 
+  const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
 
   const [showCaptcha, setShowCaptcha] = useState(false);
   const [captchaToken, setCaptchaToken] = useState(null);
   const [errors, setErrors] = useState({ captcha: "" });
-  
 
   const handleCaptchaVerify = (token) => {
     console.log("ReCAPTCHA verificado, token:", token);
@@ -40,11 +39,11 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
 
   if (!show) return null;
 
-  const handleSubmit = async e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setLoading(true);
- 
+
     if (!showCaptcha) {
       setShowCaptcha(true);
       setLoading(false);
@@ -78,20 +77,19 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
         const res = await fetch(`${API_BASE_URL}/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nombre, email, password, captchaToken })
+          body: JSON.stringify({ nombre, email, password, captchaToken }),
         });
 
         setLoading(false);
 
+        const data = await res.json();
+
         if (!res.ok) {
-          const data = await res.json();
           setError(data.error || "Error al registrarse");
           return;
         }
 
-        const data = await res.json();
-
-       if (onShowLogin) onShowLogin();
+        if (onShowLogin) onShowLogin();
         onClose();
       } catch (err) {
         setError("No se pudo conectar con el servidor");
@@ -101,7 +99,7 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
   };
 
   return (
-    <div className="modal" style={{ display: show ? 'flex' : 'none' }}>
+    <div className="modal" style={{ display: show ? "flex" : "none" }}>
       <div className="modal-content">
         <div className="botones-cerrar-volver">
           <span
@@ -113,18 +111,32 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
           >
             <span className="material-symbols-outlined">arrow_back</span>
           </span>
-          <span className="close" onClick={onClose}>&times;</span>
+          <span className="close" onClick={onClose}>
+            &times;
+          </span>
         </div>
         <h2>Registro</h2>
         <p className={`errorLogin ${error ? "active" : ""}`}>* {error}</p>
         <form onSubmit={handleSubmit} className="loginForm">
-          <input type="text" required placeholder="Nombre Completo" value={nombre} onChange={e => setNombre(e.target.value)} />
-          <input type="email" required placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
+          <input
+            type="text"
+            required
+            placeholder="Nombre Completo"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+          />
+          <input
+            type="email"
+            required
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
           <div className="password">
             <input
               type={showPassword1 ? "text" : "password"}
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Contraseña"
               required
             />
@@ -140,7 +152,7 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
             <input
               type={showPassword2 ? "text" : "password"}
               value={password2}
-              onChange={e => setPassword2(e.target.value)}
+              onChange={(e) => setPassword2(e.target.value)}
               placeholder="Repetir Contraseña"
               required
             />
@@ -169,8 +181,10 @@ function ModalRegister({ show, onClose, onLogin, onShowLogin}) {
               )}
             </div>
           )}
-          
-          <button type="submit" className="button-submit">{loading ? "Procesando..." : "Registrarse"}</button>
+
+          <button type="submit" className="button-submit">
+            {loading ? "Procesando..." : "Registrarse"}
+          </button>
         </form>
       </div>
     </div>

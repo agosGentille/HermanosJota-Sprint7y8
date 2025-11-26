@@ -1,30 +1,32 @@
 import React, { useState } from "react";
 import "../styles/Carrito.css";
 import CarritoCantidad from "../components/CarritoCantidad";
-import { calcularTotal } from "../components/CarritoFunciones";
+import { useCarrito } from "../context/CarritoContext"; // 
 import caja from "../images/caja.svg";
-const Carrito = ({
-  carrito,
-  sumarCantidad,
-  restarCantidad,
-  eliminarProducto,
-  vaciarCarrito,
-}) => {
+
+const Carrito = () => {
+  const {
+    carrito,
+    sumarCantidad,
+    restarCantidad,
+    eliminarProducto,
+    vaciarCarrito,
+    total
+  } = useCarrito();
+
   const [nota, setNota] = useState("");
   const [procesandoCompra, setProcesandoCompra] = useState(false);
   const [compraFinalizada, setCompraFinalizada] = useState(false);
 
-  const total = calcularTotal(carrito);
-
   const handleComprar = async () => {
-  setProcesandoCompra(true);
+    setProcesandoCompra(true);
 
-  setTimeout(async () => {
-    setProcesandoCompra(false);
-    setCompraFinalizada(true);
-    await vaciarCarrito(); 
-  }, 4000);
-};
+    setTimeout(async () => {
+      setProcesandoCompra(false);
+      setCompraFinalizada(true);
+      await vaciarCarrito(); 
+    }, 4000);
+  };
 
   return (
     <main className="contenedor__carrito">

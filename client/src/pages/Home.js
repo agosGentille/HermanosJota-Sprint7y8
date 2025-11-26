@@ -14,11 +14,16 @@ import tintes from '../images/Home/tintes-vegetales.jpg'
 import Carrusel_Principios from '../components/ListNavegable'
 import { API_BASE_URL } from '../config/api';
 import ProductList from '../components/ProductList';
+import { useCarrito } from '../context/CarritoContext'; // 
 
-function Home({ onAddToCart }) {
+function Home() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
+
+  const { agregarProducto } = useCarrito();
+  
   console.log("Render Home");
 
   useEffect(() => {
@@ -64,6 +69,11 @@ function Home({ onAddToCart }) {
     }
     return resultado;
   }
+
+  
+  const handleAddToCart = (producto) => {
+    agregarProducto(producto);
+  };
     
   return (
     <main>
@@ -75,7 +85,7 @@ function Home({ onAddToCart }) {
             productos={productos.filter(p => p.masVendidos)}
             titulo="Best Sellers"
             mostrarMax={3}
-            onAddToCart={onAddToCart}
+            onAddToCart={handleAddToCart} 
             emptyMessage="No hay productos más vendidos por el momento"
           />
         </section>
@@ -151,7 +161,7 @@ function Home({ onAddToCart }) {
           <ProductList
             productos={obtenerAleatorios(productos, 3)}
             mostrarMax={3}
-            onAddToCart={onAddToCart}
+            onAddToCart={handleAddToCart} 
           />
         </section>
         

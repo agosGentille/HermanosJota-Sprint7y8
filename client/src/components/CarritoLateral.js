@@ -2,19 +2,38 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/CarritoLateral.css";
 import CarritoCantidad from "./CarritoCantidad";
+import { useCarrito } from "../context/CarritoContext";
 
-function CarritoLateral({
-  isAbierto,
-  toggleCarrito,
-  carrito,
-  eliminarProducto,
-  vaciarCarrito,
-  sumarCantidad,
-  restarCantidad,
-  total
-}) {
+function CarritoLateral() {
+  const {
+    isCarritoAbierto,
+    toggleCarrito,
+    carrito,
+    eliminarProducto,
+    vaciarCarrito,
+    sumarCantidad,
+    restarCantidad,
+    total,
+    loading 
+  } = useCarrito();
+
+  
+  if (loading) {
+    return (
+      <aside className={`carrito-lateral ${isCarritoAbierto ? "abierto" : ""}`}>
+        <div className="carrito-header">
+          <h2>Carrito</h2>
+          <button onClick={toggleCarrito}>&times;</button>
+        </div>
+        <div className="carrito-productos">
+          <p>Cargando carrito...</p>
+        </div>
+      </aside>
+    );
+  }
+
   return (
-    <aside className={`carrito-lateral ${isAbierto ? "abierto" : ""}`}>
+    <aside className={`carrito-lateral ${isCarritoAbierto ? "abierto" : ""}`}>
       <div className="carrito-header">
         <h2>Carrito</h2>
         <button onClick={toggleCarrito}>&times;</button>

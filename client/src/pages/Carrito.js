@@ -58,7 +58,6 @@ const Carrito = () => {
                 <th>Cantidad</th>
                 <th>Precio</th>
                 <th>Subtotal</th>
-                <th>Eliminar</th>
               </tr>
             </thead>
             <tbody>

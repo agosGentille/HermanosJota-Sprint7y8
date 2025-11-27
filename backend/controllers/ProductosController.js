@@ -1,5 +1,5 @@
 const Producto = require("../models/producto");
-const Categoria = require("../models/categories"); // <-- FIX: import correcto
+const Categoria = require("../models/categories"); 
 
 // GET todos los productos
 const getAllProductos = async (req, res) => {

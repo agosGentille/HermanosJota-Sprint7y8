@@ -3,7 +3,7 @@
 
 .tarjeta-producto {
   flex: 0 0 auto; 
-  background-color: #a0522d;
+  background-color: var(--color-madera);
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   padding: 25px 0 0 0;
@@ -26,7 +26,7 @@
 }
 
 .fondo-tarjeta{
-  background-color: #ffff;
+  background-color: var(--color-fondo-tarjeta);
   border-radius: 50px 50px 12px 12px;
 }
 
@@ -74,7 +74,7 @@
 
 .tarjeta-producto h3 {
   font-family: "Playfair Display", sans-serif;
-  color: #a0522d;
+  color: var(--color-madera);
   margin-top: 10px;
   margin-bottom: 20px; /* separo del resto */
   text-align: center;
@@ -82,13 +82,13 @@
 }
 
 .tarjeta-producto p {
-  color: #333;
+  color: var(--color-texto);
   text-align: center;
   font-weight: 600;
 }
 
 .btnAgregarCarrito {
-  color: #d4a437; 
+  color: var(--color-dorado); 
   background-color: transparent;
   border-top: 1px solid #d4a437;
   padding: 10px;
@@ -102,8 +102,8 @@
 }
 
 .btnAgregarCarrito:hover {
-  background-color: #d4a437;
-  color: white;
+  background-color: var(--color-dorado);
+  color:var(--color-texto-blanco);
 }
 
 /* Badge Más Vendido para el catálogo */

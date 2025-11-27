@@ -83,10 +83,6 @@ function Header() {
         </div>
         {/* Icono usuario */}
         <div className="user-container" ref={userMenuRef}>
-          
-          {(usuario) && (
-            <span className="user-welcome">Hola {usuario?.nombre}!</span>
-          )}
 
           <span
             className={`material-symbols-outlined header-usuario user-container ${

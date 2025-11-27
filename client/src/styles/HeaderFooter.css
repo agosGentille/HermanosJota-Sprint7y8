@@ -174,9 +174,7 @@
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
   overflow: hidden;
-  width: 160px; /* ancho del dropdown */
-  
-  /* Para animación de slide */
+  width: 160px; 
   max-height: 0;
   opacity: 0;
   transform: translateY(-20px);
@@ -184,9 +182,8 @@
   z-index: 100;
 }
 
-/* Cuando el dropdown está visible */
 .user-container .user-dropdown.show {
-  max-height: 500px; /* suficientemente grande para contener todo */
+  max-height: 500px; 
   opacity: 1;
   transform: translateY(0);
 }
@@ -214,6 +211,7 @@
   cursor: pointer;
   font-size: 14px;
   transition: background 0.2s;
+  color: var(--color-texto);
 }
 
 .user-dropdown button:hover {
@@ -235,7 +233,6 @@ footer {
     color: var(--color-texto);
     text-align: center;
     padding: 1rem;
-    margin-top: 2rem;
     display: flex;
     flex-direction: column;
     width: 100vw;
@@ -336,6 +333,7 @@ footer {
 .horarios img{
   width: auto;
   height: 40px;
+  filter: var(--filtro-iconos);
 }
 
 .footer-columna2 .horarios p {
@@ -346,7 +344,7 @@ footer {
 }
 
 .footer-columna2 .horarios p::before {             
-  color: #c47a6d;            
+  color: var(--color-rosa);            
 }
 
 /*Para pantallas más grandes*/
@@ -380,21 +378,21 @@ footer {
 
   .header-nav ul {
     flex-direction: row;
-    gap: 2rem;
+    gap: 1rem;
     margin-top: 0;
   }
 
   .header-nav ul li a:hover, .header-right > a:hover{
     color: rgba(212, 164, 55, 0.5);
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   .header-marca p {
-    font-size: 1.8rem;
+    font-size: 1.2rem;
   }
 
   .header-marca #logo {
-    width: 50px;
+    width: 40px;
   }
 
   .material-symbols-outlined {
@@ -424,7 +422,7 @@ footer {
 }
 
 .modal-content {
-    background-color: #fff;
+    background-color: var(--color-fondo);
     padding: 1.5rem;
     border-radius: 8px;
     max-width: 300px;
@@ -447,10 +445,10 @@ footer {
 
 .modal-content button {
     padding: 0.5rem;
-    background-color: #D4A437;
+    background-color: var(--color-dorado);
     border: none;
     border-radius: 5px;
-    color: white;
+    color: var(--color-texto-blanco);
     font-weight: bold;
     cursor: pointer;
 }
@@ -468,7 +466,7 @@ footer {
 }
 
 .iconoUsuario , .header-carrito {
-  color: #333; 
+  color: var(--color-texto); 
   transition: color 0.3s ease;
 }
 
@@ -478,7 +476,7 @@ footer {
 }
 
 .header-usuario.logueado {
-  color: #87A96B; 
+  color: var(--color-verde); 
 }
 
 .errorLogin{
@@ -486,7 +484,7 @@ footer {
   background-color: brown;
   padding: 5px;
   border-radius: 5px;
-  color: white;
+  color:var(--color-texto-blanco);
   width:fit-content;
   font-size: 16px;
   text-align: right;
@@ -501,12 +499,12 @@ footer {
 
 .registro-texto{
   font-size: 14px;
-  color: #333;
+  color: var(--color-texto);
 }
 
 .link-registrate{
   text-decoration: none;
-  color: #505050;
+  color: var(--color-texto-secundario);
   transition: all 0.3s ease;
   position: relative;
   padding-bottom: 3px;
@@ -520,7 +518,7 @@ footer {
   bottom: 0;
   height: 2px;
   width: 100%;
-  background-color: #c47a6d;
+  background-color: var(--color-rosa);
   transform: scaleX(1);
   transform-origin: left; 
   transition: transform 0.3s ease-out;
@@ -536,7 +534,7 @@ footer {
 .volver {
   cursor: pointer;
   font-size: 1.5rem;
-  color: #333;
+  color: var(--color-texto);
 }
 
 .password, .repetir-password {
@@ -559,7 +557,7 @@ footer {
   transform: translateY(-50%); 
   cursor: pointer;
   font-size: 20px;             
-  color: #555;
+  color: var(--color-texto-secundario);
 }
 
 .button-submit{
@@ -568,7 +566,7 @@ footer {
 
 .button-submit:hover{
   background-color: transparent;
-  color: #D4A437;
+  color: var(--color-dorado);
   border: 1px solid #D4A437;
 }
 
@@ -605,7 +603,6 @@ footer {
   justify-content: center;
   cursor: pointer;
   transition: all 0.3s ease;
-  font-size: 0.5rem;
 }
 
 /* Hover */

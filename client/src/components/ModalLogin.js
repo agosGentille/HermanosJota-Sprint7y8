@@ -18,7 +18,6 @@ function ModalLogin({ show, onClose, onLogin, onShowRegister, onShowForgot }) {
     if (emailGuardado) setEmail(emailGuardado);
   }, [show]);
 
-  // ✅ LIMPIAR FORMULARIO AL CERRAR
   useEffect(() => {
     if (!show) {
       setEmail("");
@@ -33,7 +32,7 @@ function ModalLogin({ show, onClose, onLogin, onShowRegister, onShowForgot }) {
     setLoading(true);
 
     try {
-      console.log("📤 Enviando login...", { email });
+      console.log("Enviando login...", { email });
       
       const res = await fetch(`${API_BASE_URL}/login`, {
         method: "POST",
@@ -42,21 +41,15 @@ function ModalLogin({ show, onClose, onLogin, onShowRegister, onShowForgot }) {
       });
 
       const data = await res.json();
-      console.log("📨 Respuesta del servidor:", data);
+      console.log("Respuesta del servidor:", data);
 
       if (!res.ok) {
         throw new Error(data.error || "Error al iniciar sesión");
       }
 
-      // ✅ GUARDAR EN LOCALSTORAGE (opcional, para persistencia)
       localStorage.setItem("nombreUsuario", data.usuario.nombre);
       localStorage.setItem("emailUsuario", data.usuario.email);
-      localStorage.setItem("token", data.token); // ✅ IMPORTANTE: guardar el token
-
-      console.log("✅ Login exitoso - Rol:", data.usuario.rol);
-      console.log("✅ Token recibido:", data.token);
-
-      // ✅ PASAR EL TOKEN AL CONTEXTO DE AUTENTICACIÓN
+      localStorage.setItem("token", data.token); 
       if (data.token) {
         onLogin(data.token); // Esto actualiza el AuthContext
         onClose();
@@ -65,7 +58,7 @@ function ModalLogin({ show, onClose, onLogin, onShowRegister, onShowForgot }) {
       }
 
     } catch (err) {
-      console.error("❌ Error en login:", err);
+      console.error("Error en login:", err);
       setError(err.message);
     } finally {
       setLoading(false);

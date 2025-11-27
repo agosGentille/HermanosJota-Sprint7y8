@@ -17,7 +17,7 @@
   max-width: 400px;
   padding: 16px;
   border-radius: 8px;
-  color: white;
+  color: var(--color-texto-blanco);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   animation: toastSlideIn 0.3s ease-out;
   transition: all 0.3s ease;
@@ -67,7 +67,7 @@
 .toast-close {
   background: none;
   border: none;
-  color: white;
+  color: var(--color-texto-blanco);
   font-size: 20px;
   cursor: pointer;
   padding: 0;

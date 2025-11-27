@@ -1,9 +1,8 @@
 /* Estilo para la pagina Productos*/
 *{
-  margin:0;
+margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:sans-serif;
 }
 
 .buscador-productos{
@@ -12,7 +11,7 @@
   align-items:stretch;     
   gap:12px;
   margin:20px;
-  color:#c47a6d;
+  color:var(--color-rosa);
 }
 
 .buscador-productos input[type="search"],
@@ -24,17 +23,17 @@
   border-radius:8px;
   box-shadow:0 4px 8px rgba(0,0,0,.1);
   padding:8px 10px;
-  background-color:rgba(245,230,211,.8);
-  color:#c47a6d;
+  background-color:var(--color-fondo-secundario);
+  color: var(--color-texto-secundario) !important;
   font-size:14px;
   height:36px;
 }
 
 .catalogo-header label,
 .filtros label {
-  font-family: "Poppins", sans-serif;     /* tipografía moderna y limpia */
-  color: #704a2a;                         /* marrón suave, combina con #a0522d */
-  font-weight: 500;                       /* ni tan grueso ni tan fino */
+  font-family: "Poppins", sans-serif;   
+  color: var(--color-marron-acento);                         
+  font-weight: 500;                       
   font-size: 0.95rem;
   letter-spacing: 0.3px;
   margin-right: 6px;
@@ -54,7 +53,7 @@
   flex-direction:column;    
   gap:20px;
   padding:20px;
-  background-color:#fafafa;
+  background-color:var(--color-fondo);
 }
 
 .filtros{
@@ -62,7 +61,7 @@
   flex-direction:column;
   gap:20px;
   align-items:stretch;
-  background:#fff;
+  background:var(--color-fondo);
   padding:15px;
   border-radius:8px;
   box-shadow:0 2px 6px rgba(0,0,0,.1);
@@ -70,7 +69,7 @@
 .filtros h2{
   margin-bottom:12px;
   font-size:1rem;
-  color:#a0522d;
+  color:var(--color-madera);
 }
 
 .filtro-seccion{
@@ -84,7 +83,7 @@
 }
 .filtro-seccion h3{
   margin:0 0 6px 0;
-  color:#c47a6d;
+  color:var(--color-rosa);
   font-size:.95rem;
   font-weight:600;
 }
@@ -99,22 +98,22 @@
   display:flex;
   align-items:center;
   gap:6px;
-  color:#333;
+  color: var(--color-texto);
   font-size:.85rem;
   cursor:pointer;
   line-height:1.4;
 }
 .filtro-seccion input[type="checkbox"],
 .filtro-seccion input[type="radio"]{
-  accent-color:#a0522d;
+  accent-color:var(--color-dorado);
   transform:scale(1.1);
   cursor:pointer;
 }
 
 .btn-limpiar{
   align-self:stretch;
-  background-color:#a0522d;
-  color:#fff;
+  background-color:var(--color-madera);
+  color:var(--color-texto-blanco);
   border:none;
   border-radius:6px;
   padding:10px 16px;
@@ -128,8 +127,8 @@
 
 /* mostrar/ocultar filtros (solo mobile) */
 .btn-toggle-filtros{
-  background-color:#a0522d;
-  color:#fff;
+  background-color:var(--color-madera);
+  color:var(--color-texto-blanco);
   border:none;
   border-radius:8px;
   padding:10px 16px;
@@ -153,8 +152,8 @@
   padding: 10px 14px;
   border: 1.5px solid #a0522d;               
   border-radius: 10px;
-  background-color: rgba(245, 230, 211, 0.6); 
-  color: #5b3a29;                             
+  background-color: var(--color-fondo-secundario); 
+  color: var(--color-texto-secundario) !important;                             
   font-size: 0.95rem;
   outline: none;
   transition: all 0.3s ease;
@@ -162,8 +161,9 @@
 }
 
 .catalogo-header input[type="search"]:focus {
-  border-color: #c47a6d;                      
-  background-color: rgba(245, 230, 211, 0.85);
+  border-color: var(--color-rosa);                      
+  background-color: var(--color-fondo-secundario);
+  color: var(--color-texto-secundario) !important;
   box-shadow: 0 0 6px rgba(196, 122, 109, 0.3);
 }
 
@@ -172,8 +172,8 @@
   padding: 10px 14px;
   border: 1.5px solid #a0522d;                
   border-radius: 10px;
-  background-color: rgba(245, 230, 211, 0.6); 
-  color: #5b3a29;                             
+  background-color: var(--color-fondo-secundario); 
+  color: var(--color-texto-secundario) !important;                             
   font-size: 0.95rem;
   outline: none;
   transition: all 0.3s ease;
@@ -189,7 +189,7 @@
 
 .catalogo-header select:focus {
   border-color: #c47a6d;                      
-  background-color: rgba(245, 230, 211, 0.85);
+  background-color: var(--color-fondo);
   box-shadow: 0 0 6px rgba(196, 122, 109, 0.3);
 }
 
@@ -223,14 +223,11 @@
   .catalogo-header input[type="search"]{
     padding:6px 10px;
     border-radius:6px;
-    border:1px solid #ccc;
     max-width:320px;
   }
   .catalogo-header select{
     padding:6px 10px;
     border-radius:6px;
-    border:1px solid #ccc;
-    background:#fff;
   }
 
   .buscador-productos{
@@ -247,23 +244,13 @@
     height:36px;
     padding:0 12px;
   }
-  .buscador-productos label{
-    margin-left:auto;
-    margin-right:6px;
-    margin-top:10px;
-    font-weight:600;
-    font-size:14px;
-    color:#c47a6d;
-  }
+
   .buscador-productos select{
     width:auto;
     min-width:180px;
     height:36px;
     padding:0 10px;
-    border:1px solid #a0522d;
     border-radius:6px;
-    background-color:rgba(245,230,211,.8);
-    color:#c47a6d;
     font-size:13px;
     box-shadow:0 2px 4px rgba(0,0,0,.1);
   }

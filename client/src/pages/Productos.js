@@ -304,7 +304,7 @@ function Productos() {
 
           <div>
             <label htmlFor="orden">Ordenar por: </label>
-            <select
+            <select className="select"
               id="orden"
               value={ordenamiento}
               onChange={(e) => setOrdenamiento(e.target.value)}

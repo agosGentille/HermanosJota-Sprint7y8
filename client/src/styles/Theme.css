@@ -4,6 +4,7 @@
   --color-fondo: #FFFFFF;
   --color-fondo-secundario: #F5E6D3; /* beige cálido */
   --color-fondo-tarjeta: #FFFFFF;
+  --color-fondo-disabled: #f8f3eb;
 
   /* Textos */
   --color-texto: #333333;
@@ -20,6 +21,8 @@
   /* Acentos */
   --color-dorado-hover: #E1C067;
   --color-rosa-hover: #AA5D50;
+  --color-marron-acento: #704a2a;
+  --color-verde-acento: #9abd7d;
 
   /* Bordes y sombras */
   --color-borde: 1px solid rgba(0, 0, 0, 0.1);
@@ -44,6 +47,7 @@
 
   /* Iconos */
   --filtro-iconos: invert(20%);
+  --filtro-icono-ig: invert(100%);
 }
 
 /* ------------ MODO OSCURO ------------ */
@@ -52,6 +56,7 @@
   --color-fondo: #1B1B1B;
   --color-fondo-secundario: #242424;
   --color-fondo-tarjeta: #2D2D2D;
+  --color-fondo-disabled: #181818;
 
   /* Textos */
   --color-texto: #EDEDED;
@@ -68,6 +73,8 @@
   /* Acentos */
   --color-dorado-hover: #E1C067;
   --color-rosa-hover: #AA5D50;
+  --color-marron-acento: #704a2a;
+  --color-verde-acento: #9abd7d;
 
   /* Bordes y sombras */
   --color-borde: 1px solid rgba(255, 255, 255, 0.15);
@@ -89,6 +96,7 @@
 
   /* Iconos */
   --filtro-iconos: invert(100%);
+  --filtro-icono-ig: invert(0%);
 }
 
 /* APLICACIÓN GLOBAL*/

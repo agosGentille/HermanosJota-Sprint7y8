@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import "../styles/PerfilUsuario.css";
 import { API_BASE_URL } from "../config/api";
-import { AuthContext } from "../context/AuthContext"; // ✅ Ruta corregida (contexts vs context)
+import { AuthContext } from "../context/AuthContext"; 
 
 function PerfilUsuario() {
   const [perfil, setPerfil] = useState({
@@ -18,12 +18,11 @@ function PerfilUsuario() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const { usuario, logout } = useContext(AuthContext); // ✅ Obtener usuario del contexto
+  const { usuario, logout } = useContext(AuthContext); 
 
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        // ✅ Usar el token del contexto en lugar de localStorage directamente
         const token = localStorage.getItem("token");
         
         if (!token || !usuario) {
@@ -46,10 +45,9 @@ function PerfilUsuario() {
         }
 
         const data = await res.json();
-        // ✅ Actualizar el estado del perfil
         setPerfil({
           nombre: data.usuario.nombreCompleto || "",
-          email: data.usuario.email || usuario.email || "", // ✅ Usar email del contexto como fallback
+          email: data.usuario.email || usuario.email || "", 
           dni: data.usuario.dni || "",
           telefono: data.usuario.telefono || "",
           direccionCalle: data.usuario.direccionCalle || "",
@@ -68,7 +66,7 @@ function PerfilUsuario() {
     if (usuario) {
       fetchUsuario();
     }
-  }, [usuario]); // ✅ Dependencia del usuario del contexto
+  }, [usuario]); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -136,19 +134,19 @@ function PerfilUsuario() {
         return;
       }
       alert("Cuenta eliminada correctamente");
-      logout(); // ✅ Usar logout del contexto
+      logout(); 
     } catch (err) {
       setError("No se pudo conectar con el servidor");
     }
   };
 
-  // ✅ Mostrar loading mientras se carga
   if (loading && !perfil.email) {
-    return <div className="perfil-container">Cargando perfil...</div>;
+    return <div className="perfil-tarjeta">Cargando perfil...</div>;
   }
 
   return (
     <div className="perfil-container">
+      <div className="perfil-tarjeta">
       <h2>Mi Perfil</h2>
       {error && <p className="errorLogin active">* {error}</p>}
 
@@ -159,12 +157,12 @@ function PerfilUsuario() {
           name="nombre"
           value={perfil.nombre}
           onChange={handleChange}
-          disabled={!editable}
+          
         />
 
         <label>DNI:</label>
         <input
-          type="text" // ✅ Cambiado de "dni" a "text"
+          type="text" 
           name="dni"
           value={perfil.dni}
           onChange={handleChange}
@@ -181,7 +179,7 @@ function PerfilUsuario() {
 
         <label>Teléfono:</label>
         <input
-          type="tel" // ✅ Cambiado a "tel" para mejor UX
+          type="tel" 
           name="telefono"
           value={perfil.telefono}
           onChange={handleChange}
@@ -248,6 +246,7 @@ function PerfilUsuario() {
           </button>
         </div>
       </div>
+    </div>
     </div>
   );
 }

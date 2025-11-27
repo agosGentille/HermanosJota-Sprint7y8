@@ -1,7 +1,17 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
 .detalle_producto {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  color: var(--color-texto);
+  background-color: var(--color-fondo); 
+  padding: 2rem 1rem;
 }
 
 .producto-img {
@@ -14,7 +24,7 @@
   width: 100%; 
   max-width: 400px; 
   border-radius: 8px;
-  background-color: rgba(240, 230, 211, 0.8);
+  background-color: var(--color-fondo-secundario);
 }
 
 .zoom-image {
@@ -41,7 +51,7 @@
   top: 0;
   left: 410px;
   z-index: 1000;
-  background-color: rgba(240, 230, 211, 0.8);
+  background-color: var(--color-fondo-secundario);
 }
 
 .zoom-container {
@@ -71,12 +81,12 @@
   border: 2px solid transparent;
   border-radius: 4px;
   transition: all 0.2s;
-  background-color: rgba(240, 230, 211, 0.8);
+  background-color: var(--color-fondo-secundario);
 }
 
 .miniatura.activo {
   opacity: 1;
-  border-color: #c47a6d;
+  border-color: var(--color-rosa);
 }
 
 .detalle_contenido {
@@ -88,32 +98,32 @@
 .detalle_contenido h2 {
   text-align: center;
   font-size: 28px;
-  color: #a0522d;
+  color: var(--color-madera);
   font-family: "Playfair Display", sans-serif;
 }
 
 .precio {
   font-size: 2rem;
   text-align: center;
-  color: #333;
+  color: var(--color-texto);
 }
 .detalle_info {
   display: flex;
   flex-direction: column;
   gap: 5px;
-  background-color: rgba(240, 230, 211, 0.8);
+  background-color: var(--color-fondo-secundario);
   padding: 15px;
   border-radius: 8px;
 }
 
 .detalle_info p strong {
-  color: #c47a6d;
+  color: var(--color-rosa);
 }
 
 .btn-agregarcarrito {
   padding: 15px 30px;
-  background-color: #c47a6d;
-  color: #fff;
+  background-color: var(--color-rosa);
+  color: var(--color-texto-blanco);
   border: none;
   border-radius: 8px;
   font-weight: bold;
@@ -122,7 +132,7 @@
 }
 
 .btn-agregarcarrito:hover {
-  background-color: #a0522d;
+  background-color: var(--color-madera);
 }
 
 @media (min-width: 768px) {
@@ -157,12 +167,6 @@
   body {
     padding-top: 80px;
   }
-
-  .detalle_producto {
-    margin-top: 10vh;
-    margin-bottom: 20vh;
-  }
-
   .imagen-principal {
     max-width: 500px;
   }

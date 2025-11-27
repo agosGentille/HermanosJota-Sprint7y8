@@ -10,28 +10,30 @@ html {
   font-size: 15px; /*Este valor equivale a 1rem*/
 }
 
-body {
-  background-color: white;
-  color: #333;
-}
-
 .perfil-container {
-  max-width: 480px;
-  margin: 80px auto 40px auto;
-  padding: 40px 30px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-  color: #333;
-  border: 1px solid #f5e6d3;
+  width: 100% !important;
+  background-color: var(--color-fondo);
+  border-bottom: var(--color-borde);
+  color: var(--color-texto);
+  display: flex;
+  justify-content: center;
 }
 
-.perfil-container h2 {
+.perfil-tarjeta {
+  max-width: 480px;
+  padding: 40px 30px;
+  background-color: var(--color-fondo-tarjeta);
+  border-radius: 12px;
+  box-shadow: var(--sombra-suave);
+  color: var(--color-texto);
+}
+
+.perfil-tarjeta h2 {
   text-align: center;
   margin-bottom: 30px;
   font-size: 2rem;
   font-family: "Playfair Display", serif;
-  color: #a0522d;
+  color: var(--color-madera);
   font-weight: 600;
   letter-spacing: 0.5px;
 }
@@ -57,7 +59,7 @@ body {
   font-weight: 600;
   font-size: 14px;
   margin-bottom: 8px;
-  color: #555;
+  color: var(--color-texto-secundario);
 }
 
 .perfil-form input {
@@ -67,20 +69,21 @@ body {
   font-size: 14px;
   outline: none;
   transition: all 0.3s ease-in-out;
-  background-color: #fcfaf7;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
 }
 
 .perfil-form input:focus {
-  border-color: #d4a437;
+  border-color: var(--color-dorado);
   box-shadow: 0 0 8px rgba(212, 164, 55, 0.25);
-  background-color: #fff;
+  background-color: var(--color-fondo);
 }
 
 .perfil-form input[disabled] {
-  background-color: #f9f9f9;
-  color: #999;
+  background-color: var(--color-fondo-disabled);
+  color: var(--color-texto);
   cursor: not-allowed;
-  border-color: #e9e9e9;
+  border: var(--color-borde);
 }
 
 /* Botones */
@@ -105,33 +108,33 @@ body {
 }
 
 .perfil-buttons button:first-child {
-  background-color: #87a96b;
-  color: #fff;
+  background-color: var(--color-verde);
+  color: var(--color-texto-blanco);
   transition: all 0.3s ease;
 }
 
 .perfil-buttons button:first-child:hover {
-  background-color: #9abd7d;
+  background-color: var(--color-verde-acento);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(135, 169, 107, 0.3);
 }
 
 .perfil-buttons .delete-btn {
-  background-color: #c47a6d;
-  color: #fff;
+  background-color: var(--color-rosa);
+  color: var(--color-texto-blanco);
   transition: all 0.3s ease;
 }
 
 .perfil-buttons .delete-btn:hover {
-  background-color: #aa5d50;
+  background-color: var(--color-rosa-hover);
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(196, 122, 109, 0.3);
 }
 
 /* Efectos de hover suaves para inputs */
 .perfil-form input:not([disabled]):hover {
-  border-color: #d4a437;
-  background-color: #fefcf9;
+  border-color: var(--color-dorado);
+  background-color: var(--color-fondo-secundario);
 }
 
 /* Responsive */

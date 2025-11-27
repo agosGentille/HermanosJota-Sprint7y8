@@ -76,7 +76,7 @@
   font-size: 0.8rem;
   padding: 0.15rem 0.35rem;
   background-color: var(--color-dorado);
-  color: var(--color-texto-invertido);
+  color: var(--color-texto-blanco);
   border-radius: 50px;
 }
 
@@ -296,8 +296,8 @@ footer {
   transition: filter 0.3s ease-out, transform 0.3s ease-out;
   width: 45px;
 }
-#icono-ig-contacto {filter: invert(100%);width: 30px;}
-#icono-wsp-contacto {filter:invert(30%);}
+#icono-ig-contacto {filter: var(--filtro-icono-ig);width: 30px;}
+#icono-wsp-contacto {filter:var(--filtro-iconos);}
 .contactos img:hover{
   transform: scale(1.05);
 }

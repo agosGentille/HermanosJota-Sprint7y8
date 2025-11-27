@@ -1,10 +1,10 @@
-const API_BASE = "http://localhost:4000/api/carrito";
+import { API_BASE_URL } from '../config/api';
 
 // Cargar carrito desde backend o localStorage
 export const cargarCarrito = async (usuario) => {
   try {
     if (usuario) {
-      const res = await fetch(`${API_BASE}/${usuario}`);
+      const res = await fetch(`${API_BASE_URL}/carrito/${usuario}`);
       if (!res.ok) throw new Error("Error al obtener carrito");
       const data = await res.json();
       return Array.isArray(data)
@@ -30,7 +30,7 @@ export const cargarCarrito = async (usuario) => {
 export const guardarCarrito = async (usuario, carrito) => {
   try {
     if (usuario) {
-      await fetch(`${API_BASE}/${usuario}`, {
+      await fetch(`${API_BASE_URL}/carrito/${usuario}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(carrito),
@@ -41,4 +41,10 @@ export const guardarCarrito = async (usuario, carrito) => {
   } catch (err) {
     console.error("Error al guardar carrito:", err);
   }
+};
+
+// Exportación por defecto (opcional, para compatibilidad)
+export default {
+  cargarCarrito,
+  guardarCarrito
 };

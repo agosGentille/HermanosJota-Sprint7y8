@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReCaptchaCheckbox from "./ReCaptchaCheckbox";
+import { API_BASE_URL } from '../config/api';
 
 // para el estado inicial se puede tomar los datos del localStorage
 
@@ -171,7 +172,7 @@ export default function ContactForm() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/contacto", {
+      const response = await fetch(`${API_BASE_URL}/contacto`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

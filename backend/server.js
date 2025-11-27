@@ -13,8 +13,6 @@ const usersRoutes = require("./routes/usersRoutes.js");
 const productRoutes = require("./routes/productRoutes.js");
 const contactoRoutes = require("./routes/ContactRoutes.js");
 const carritoRoutes = require("./routes/carritoRoutes");
-
-// ⬇️ NUEVO: importar las rutas de categorías
 const categoriesRoutes = require("./routes/categories.js");
 
 app.use(cors({
@@ -36,11 +34,9 @@ app.use("/api", usersRoutes);
 app.use("/api/productos", productRoutes);
 app.use("/api/contacto", contactoRoutes);
 app.use("/api/carrito", carritoRoutes);
-
-// ⬇️ NUEVO: montar /api/categories
 app.use("/api/categories", categoriesRoutes);
 
-app.use("/Images", express.static(path.join(__dirname, "public/images")));
+app.use("/images", express.static(path.join(__dirname, "public/images")));
 
 // 200
 app.get("/", (req, res) => {
@@ -60,5 +56,6 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Se inició el servidor en el puerto: ${PORT}`);
-  console.log(`URL: http://localhost:${PORT}`);
+  // console.log(`URL: https://hermanosjota-sprint5y6.onrender.com/`);
+  console.log(`URL: http://localhost:${PORT}/`);
 });

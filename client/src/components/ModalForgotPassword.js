@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import '../styles/HeaderFooter.css';
 import { validarEmail } from "../utils/validarEmail";
 import ReCaptchaCheckbox from "./ReCaptchaCheckbox";
+import { API_BASE_URL } from '../config/api';
+
 
 function ModalForgotPassword({ show, onClose, onLogin, onShowLogin}) {
   const [email, setEmail] = useState("");
@@ -80,7 +82,7 @@ function ModalForgotPassword({ show, onClose, onLogin, onShowLogin}) {
 
     setTimeout(async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/usuario/password", {
+        const res = await fetch(`${API_BASE_URL}/usuario/password`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, newPassword: password, captchaToken })

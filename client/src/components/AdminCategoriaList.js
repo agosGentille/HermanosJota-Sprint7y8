@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/AdminList.css";
-
+import { API_BASE_URL } from '../config/api';
 
 const AdminCategoriasList = ({ showToast, onAddCategoryClick, onEditCategory }) => {
   const [categorias, setCategorias] = useState([]);
@@ -12,7 +12,7 @@ const AdminCategoriasList = ({ showToast, onAddCategoryClick, onEditCategory }) 
 
   const fetchCategorias = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/categories');
+      const response = await fetch(`${API_BASE_URL}/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategorias(data);
@@ -34,7 +34,7 @@ const AdminCategoriasList = ({ showToast, onAddCategoryClick, onEditCategory }) 
   const handleDelete = async (id) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar esta categoría?")) {
       try {
-        const response = await fetch(`http://localhost:4000/api/categories/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
           method: 'DELETE'
         });
 

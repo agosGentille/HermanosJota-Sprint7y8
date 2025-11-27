@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../styles/AdminForm.css";
+import { API_BASE_URL } from '../config/api';
 
 const AdminProductForm = ({ editMode = false, inPanel = false, showToast }) => {
   const navigate = useNavigate();
@@ -118,9 +119,7 @@ const AdminProductForm = ({ editMode = false, inPanel = false, showToast }) => {
     if (editMode && id) {
       const fetchProducto = async () => {
         try {
-          const response = await fetch(
-            `http://localhost:4000/api/productos/${id}`
-          );
+          const response = await fetch(`${API_BASE_URL}/productos/${id}`);
           if (!response.ok) throw new Error("Error cargando producto");
           const data = await response.json();
           setProducto(data);
@@ -169,8 +168,8 @@ const AdminProductForm = ({ editMode = false, inPanel = false, showToast }) => {
 
     try {
       const url = editMode
-        ? `http://localhost:4000/api/productos/${id}`
-        : "http://localhost:4000/api/productos";
+  ? `${API_BASE_URL}/productos/${id}`
+  : `${API_BASE_URL}/productos`;
 
       const method = editMode ? "PUT" : "POST";
 
@@ -220,7 +219,7 @@ const AdminProductForm = ({ editMode = false, inPanel = false, showToast }) => {
   useEffect(() => {
   const fetchCategorias = async () => {
     try {
-      const response = await fetch('http://localhost:4000/api/categories');
+      const response = await fetch(`${API_BASE_URL}/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategorias(data);

@@ -12,18 +12,23 @@ import cera from '../images/Home/cera-abejas.jpeg'
 import tintes from '../images/Home/tintes-vegetales.jpg'
 //principios
 import Carrusel_Principios from '../components/ListNavegable'
+import { API_BASE_URL } from '../config/api';
+import ProductList from '../components/ProductList';
+import { useCarrito } from '../context/CarritoContext'; // 
 
-import ListProductos from '../components/TarjetasProductos';
-
-function Home({ onAddToCart }) {
+function Home() {
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  
+
+  const { agregarProducto } = useCarrito();
+  
   console.log("Render Home");
 
   useEffect(() => {
     //sirve para hacer peticiones HTTP. En este caso al backend para pedir la lista d productos
-    fetch('http://localhost:4000/api/productos')
+    fetch(`${API_BASE_URL}/productos`) 
     //Cuando fetch obtiene respuesta, pasa un objeto Response a este .then.
     //Ese objeto tiene info como el estado (200, 404, 500, etc.), cabeceras y métodos como .json()
     .then(res => {
@@ -33,10 +38,12 @@ function Home({ onAddToCart }) {
     //Este .then recibe el data (el listado de productos) ya convertido en JSON
     .then(data => {
       const productosConUrl = data.map((p) => ({
-          ...p,
-          imagen: p.imagen, // Usar ruta relativa directamente
-          imagenHover: p.imagenHover || p.imagen,
-        }));
+        ...p,
+        imagen: `${API_BASE_URL.replace('/api', '')}${p.imagen}`,
+        imagenHover: p.imagenHover ? 
+          `${API_BASE_URL.replace('/api', '')}${p.imagenHover}` : 
+          `${API_BASE_URL.replace('/api', '')}${p.imagen}`
+      }));
       //guardamos los productos con las nuevas url
       setProductos(productosConUrl);
       //Actualiza estado loading para mostrar un cartel de "Cargando…"
@@ -62,28 +69,25 @@ function Home({ onAddToCart }) {
     }
     return resultado;
   }
+
+  
+  const handleAddToCart = (producto) => {
+    agregarProducto(producto);
+  };
     
   return (
     <main>
        <Carrusel_Home />
+       
         {/* Best Sellers */}
         <section className="secc-vendidos">
-          <h2>Best Sellers</h2>
-          <p>Cada pieza elegida por nuestros clientes cuenta su propia historia de diseño y calidad Jota</p>
-          
-          <div className="carousel-container-productos" id="carousel-container-productos-mas-vendidos">
-            <div className="contenedor-tarjetas">
-              {loading && <p>Cargando...</p>}
-              {error && <p>{error}</p>}
-              {!loading && !error && (
-                <ListProductos
-                  productos={productos.filter(p => p.masVendidos)}
-                  mostrarMax={3}
-                  onAddToCart={onAddToCart}
-                />
-              )}
-            </div>
-          </div>
+          <ProductList
+            productos={productos.filter(p => p.masVendidos)}
+            titulo="Best Sellers"
+            mostrarMax={3}
+            onAddToCart={handleAddToCart} 
+            emptyMessage="No hay productos más vendidos por el momento"
+          />
         </section>
       
         {/* Inspiraciones */}
@@ -154,19 +158,11 @@ function Home({ onAddToCart }) {
             <span className="texto-link">VER TODO</span>
             <span className="icono-flecha">&#10095;</span>
           </a>
-          <div className="carousel-container-productos" id="carousel-productos-ver-todos">
-            <div className="contenedor-tarjetas">
-              {loading && <p>Cargando...</p>}
-              {error && <p>{error}</p>}
-              {!loading && !error && (
-                <ListProductos
-                  productos={obtenerAleatorios(productos, 3)}
-                  mostrarMax={3}
-                  onAddToCart={onAddToCart}
-                />
-              )}
-            </div>
-          </div>
+          <ProductList
+            productos={obtenerAleatorios(productos, 3)}
+            mostrarMax={3}
+            onAddToCart={handleAddToCart} 
+          />
         </section>
         
         <Carrusel_Principios />

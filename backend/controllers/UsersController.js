@@ -30,14 +30,17 @@ exports.login = async (req, res) => {
       return res.status(401).json({ error: "Credenciales inválidas" });
     }
 
-    // Si el password es correcto, creamos un token JWT.
-    // El token incluye un "payload" (información que querés guardar dentro del token)
-    // con el id del usuario y se firma con una clave secreta.
-    // process.env.JWT_SECRET -> se lee desde el archivo .env 
-    // expiresIn: "1h" -> significa q el token vence en 1 hora.
-    const token = jwt.sign({ id: usuario._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    // CORREGIDO: Token ahora incluye rol, nombre y email
+    const token = jwt.sign(
+      { 
+        id: usuario._id,
+        nombre: usuario.nombreCompleto,
+        email: usuario.email,
+        rol: usuario.rol
+      }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: "1h" }
+    );
 
     // Enviamos al frontend el token + datos básicos del usuario para guardar en el localStorage
     res.json({
@@ -80,9 +83,17 @@ exports.register = async (req, res) => {
 
     await nuevoUsuario.save(); //como intervinimos los datos, usamos save() en vez de create()
 
-    const token = jwt.sign({ id: nuevoUsuario._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    // ✅ CORREGIDO: Token ahora incluye rol, nombre y email
+    const token = jwt.sign(
+      { 
+        id: nuevoUsuario._id,
+        nombre: nuevoUsuario.nombreCompleto,
+        email: nuevoUsuario.email,
+        rol: nuevoUsuario.rol
+      }, 
+      process.env.JWT_SECRET, 
+      { expiresIn: "1h" }
+    );
 
     res.json({
       token,

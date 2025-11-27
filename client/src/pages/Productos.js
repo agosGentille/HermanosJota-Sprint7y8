@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
 import "../styles/StyleProductos.css";
-import TarjetaProductos from "../components/TarjetasProductos"
+import ProductList from "../components/ProductList";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from '../config/api';
+import { useCarrito } from '../context/CarritoContext'; // 
 
-function Productos({onAddToCart}) {
+function Productos() {
   console.log("Render Productos");
+  
+  const { agregarProducto } = useCarrito();
+  
   // Estados principales
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -19,30 +24,61 @@ function Productos({onAddToCart}) {
   const [garantiaSeleccionada, setGarantiaSeleccionada] = useState(false);
   const [mostrarFiltros, setMostrarFiltros] = useState(false);
   const [categoriasFiltro, setCategoriasFiltro] = useState([]);
+  const [categoriasConNombres, setCategoriasConNombres] = useState([]);
 
-  /* Carga inicial de productos */
+  /* Carga inicial de productos Y categorías */
   useEffect(() => {
-    fetch("http://localhost:4000/api/productos")
+    // Cargar productos
+    fetch(`${API_BASE_URL}/productos`) 
       .then((res) => {
         if (!res.ok) throw new Error("Error al cargar los productos");
         return res.json();
       })
       .then((data) => {
-        // CORREGIDO: Eliminar localhost:4000 de las imágenes (usar rutas relativas)
         const productosConUrl = data.map((p) => ({
           ...p,
-          imagen: p.imagen, // Usar ruta relativa directamente
-          imagenHover: p.imagenHover || p.imagen,
+          imagen: `${API_BASE_URL.replace('/api', '')}${p.imagen}`,
+          imagenHover: p.imagenHover ? 
+            `${API_BASE_URL.replace('/api', '')}${p.imagenHover}` : 
+            `${API_BASE_URL.replace('/api', '')}${p.imagen}`
         }));
 
         setProductos(productosConUrl);
-        let categoriasFiltro = [];
+        
+        // Extraer IDs únicos de categorías de los productos
+        const categoriasIds = [];
         data.forEach(p => {
-          if (!categoriasFiltro.includes(p.categoria)) {
-            categoriasFiltro.push(p.categoria);
+          if (p.categoria && !categoriasIds.includes(p.categoria)) {
+            categoriasIds.push(p.categoria);
           }
         });
-        setCategoriasFiltro(categoriasFiltro);
+        
+        // Cargar nombres de categorías desde el backend
+        fetch(`${API_BASE_URL}/categories`)
+          .then(res => {
+            if (!res.ok) throw new Error("Error al cargar categorías");
+            return res.json();
+          })
+          .then(categoriasData => {
+            // Mapear IDs a nombres de categorías
+            const categoriasConInfo = categoriasIds.map(catId => {
+              const categoria = categoriasData.find(c => c._id === catId);
+              return {
+                id: catId,
+                nombre: categoria ? categoria.nombre : catId
+              };
+            });
+            
+            setCategoriasConNombres(categoriasConInfo);
+            setCategoriasFiltro(categoriasIds);
+          })
+          .catch(err => {
+            console.error("Error cargando categorías:", err);
+            // Si falla, usar solo los IDs
+            setCategoriasConNombres(categoriasIds.map(id => ({ id, nombre: id })));
+            setCategoriasFiltro(categoriasIds);
+          });
+          
         setLoading(false);
       })
       .catch((err) => {
@@ -146,6 +182,11 @@ function Productos({onAddToCart}) {
     }
   });
 
+  // Función para manejar agregar al carrito usando el contexto
+  const handleAddToCart = (producto) => {
+    agregarProducto(producto);
+  };
+
   //Render principal
   return (
     <main className="productos-container">
@@ -163,20 +204,20 @@ function Productos({onAddToCart}) {
       >
         <h2>Filtros</h2>
 
-        {/* Filtro: Categoría */}
+        {/* Filtro: Categoría - CORREGIDO */}
         <div className="filtro-seccion">
           <h3>Categoría</h3>
           <ul>
-            {categoriasFiltro.map((cat, i) => (
+            {categoriasConNombres.map((cat, i) => (
               <li key={i}>
                 <input
                   type="checkbox"
                   id={`cat-${i}`}
-                  value={cat}
+                  value={cat.id}
                   onChange={handleCategoriaChange}
-                  checked={categoriaSeleccionadas.includes(cat)}
+                  checked={categoriaSeleccionadas.includes(cat.id)}
                 />
-                <label htmlFor={`cat-${i}`}>{cat}</label>
+                <label htmlFor={`cat-${i}`}>{cat.nombre}</label>
               </li>
             ))}
           </ul>
@@ -276,17 +317,12 @@ function Productos({onAddToCart}) {
           </div>
         </div>
 
-        {/* Tarjetas */}
-        <div className="contenedor-tarjetas">
-          {productosOrdenados.length === 0 ? (
-            <p className="mensaje-vacio">No se encontraron productos</p>
-          ) : (
-            <TarjetaProductos 
-              productos={productosOrdenados}
-              onAddToCart={onAddToCart}
-            />
-          )}
-        </div>
+        
+        <ProductList
+          productos={productosOrdenados}
+          onAddToCart={handleAddToCart}
+          emptyMessage="No se encontraron productos con los filtros aplicados"
+        />
       </section>
     </main>
   );

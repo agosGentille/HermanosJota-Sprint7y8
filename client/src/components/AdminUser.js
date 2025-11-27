@@ -1,21 +1,25 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+// import { useNavigate } from "react-router-dom";
 import "../styles/AdminUser.css";
+import { AuthContext } from "../context/AuthContext";
 
+import { API_BASE_URL } from "../config/api";
 const AdminUser = () => {
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
 
   // info del admin logueado
-  const emailAdmin = localStorage.getItem("emailUsuario");
-  const rolAdmin = localStorage.getItem("rolUsuario");
+  const { usuario } = useContext(AuthContext);
   const token = localStorage.getItem("token");
+
+  const emailAdmin = usuario?.email;
+  const rolAdmin = usuario?.rol;
 
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:4000/api/users", {
-        headers: { "Authorization": `Bearer ${token}` },
+      const res = await fetch(`${API_BASE_URL}/users`, {
+        headers: { Authorization: `Bearer ${token}` },
       });
       if (!res.ok) throw new Error("Error cargando usuarios");
       const data = await res.json();
@@ -29,8 +33,12 @@ const AdminUser = () => {
   };
 
   useEffect(() => {
+    if (!usuario || !token) {
+      alert("Debes iniciar sesión");
+      return;
+    }
     fetchUsers();
-  }, []);
+  }, [usuario, token]);
 
   const handleDelete = async (userId) => {
     if (rolAdmin !== "administrador") {
@@ -41,11 +49,11 @@ const AdminUser = () => {
     if (!window.confirm("¿Eliminar usuario?")) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+      const res = await fetch(`${API_BASE_URL}/users/${userId}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       if (!res.ok) throw new Error("Error eliminando usuario");
@@ -82,11 +90,11 @@ const AdminUser = () => {
     if (!window.confirm(confirmMsg)) return;
 
     try {
-      const res = await fetch(`http://localhost:4000/api/users/role/${user._id}`, {
+      const res = await fetch(`${API_BASE_URL}/users/role/${user._id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ rol: nuevoRol }),
       });
@@ -111,25 +119,42 @@ const AdminUser = () => {
           {users.map((u) => {
             const userRol = (u.rol || "").toLowerCase();
             const toggleLabel =
-              userRol === "editor" ? "Convertir a visitante" :
-              userRol === "visitante" ? "Convertir a editor" : "-";
+              userRol === "editor"
+                ? "Convertir a visitante"
+                : userRol === "visitante"
+                ? "Convertir a editor"
+                : "-";
 
             return (
               <li key={u._id} className="admin-user-row">
                 <div className="user-info">
-                  <div><strong>Nombre:</strong> {u.nombreCompleto || "-"}</div>
-                  <div><strong>DNI:</strong> {u.dni || "-"}</div>
-                  <div><strong>Email:</strong> {u.email || "-"}</div>
-                  <div><strong>Teléfono:</strong> {u.telefono || "-"}</div>
-                  <div><strong>Rol:</strong> {u.rol || "-"}</div>
+                  <div>
+                    <strong>Nombre:</strong> {u.nombreCompleto || "-"}
+                  </div>
+                  <div>
+                    <strong>DNI:</strong> {u.dni || "-"}
+                  </div>
+                  <div>
+                    <strong>Email:</strong> {u.email || "-"}
+                  </div>
+                  <div>
+                    <strong>Teléfono:</strong> {u.telefono || "-"}
+                  </div>
+                  <div>
+                    <strong>Rol:</strong> {u.rol || "-"}
+                  </div>
                 </div>
 
                 <div className="user-actions">
                   {userRol !== "administrador" && (
-                    <button onClick={() => handleToggleRole(u)}>{toggleLabel}</button>
+                    <button onClick={() => handleToggleRole(u)}>
+                      {toggleLabel}
+                    </button>
                   )}
                   {userRol !== "administrador" && (
-                    <button onClick={() => handleDelete(u._id)}>Eliminar</button>
+                    <button onClick={() => handleDelete(u._id)}>
+                      Eliminar
+                    </button>
                   )}
                 </div>
               </li>

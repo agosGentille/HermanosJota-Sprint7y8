@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/AdminProductList.css";
+import { API_BASE_URL } from '../config/api';
 
 const AdminProductList = ({ onAddProductClick, showToast }) => {
   const [productos, setProductos] = useState([]);
@@ -11,10 +12,18 @@ const AdminProductList = ({ onAddProductClick, showToast }) => {
   useEffect(() => {
     const fetchProductos = async () => {
       try {
-        const response = await fetch("http://localhost:4000/api/productos");
+        const response = await fetch(`${API_BASE_URL}/productos`);
+
         if (!response.ok) throw new Error("Error cargando productos");
         const data = await response.json();
-        setProductos(data);
+const productosConUrls = data.map((p) => ({
+  ...p,
+  imagen: `${API_BASE_URL.replace('/api', '')}${p.imagen}`,
+  imagenHover: p.imagenHover ? 
+    `${API_BASE_URL.replace('/api', '')}${p.imagenHover}` : 
+    `${API_BASE_URL.replace('/api', '')}${p.imagen}`
+}));
+setProductos(productosConUrls);
       } catch (error) {
         console.error("Error:", error);
         if (showToast) {
@@ -32,7 +41,7 @@ const AdminProductList = ({ onAddProductClick, showToast }) => {
   const eliminarProducto = async (id) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este producto?")) {
       try {
-        const response = await fetch(`http://localhost:4000/api/productos/${id}`, {
+        const response = await fetch(`${API_BASE_URL}/productos/${id}`, {
           method: "DELETE",
         });
 

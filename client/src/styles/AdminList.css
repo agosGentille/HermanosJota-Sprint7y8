@@ -106,3 +106,61 @@
 .btn-eliminar:hover {
   background-color: #c82333;
 }
+/* Para tablets */
+@media (max-width: 768px) {
+  .admin-list-container {
+    padding: 15px;
+  }
+  
+  .admin-list-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .admin-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* Para móviles */
+@media (max-width: 480px) {
+  .admin-list-container {
+    padding: 10px;
+  }
+  
+  .admin-list-header {
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .admin-list-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .btn-agregar {
+    width: 100%;
+  }
+  
+  .admin-table {
+    font-size: 14px;
+  }
+  
+  .admin-table th,
+  .admin-table td {
+    padding: 8px 10px;
+  }
+  
+  .acciones {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .btn-editar,
+  .btn-eliminar {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}

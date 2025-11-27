@@ -1,5 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
+import { useCarrito } from "../context/CarritoContext";
 import ModalLogin from "./ModalLogin";
 import ModalRegister from "./ModalRegister";
 import ModalForgotPassword from "./ModalForgotPassword";
@@ -8,14 +10,17 @@ import "../styles/HeaderFooter.css";
 import logo from "../images/logo.svg";
 import menu from "../images/iconoMenu.png";
 
-function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }) {
+function Header() { 
   const [showLogin, setShowLogin] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const [showRegister, setShowRegister] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [showForgot, setShowForgot] = useState(false);
-
+  
+  
+  const { usuario, login, logout, esAdmin, esEditor } = useContext(AuthContext);
+  const { toggleCarrito, bounce, cantidadProductos } = useCarrito(); 
 
   const userMenuRef = useRef(null);
   const navigate = useNavigate();
@@ -28,25 +33,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogoutClick = () => {
-    if (window.confirm("¿Desea cerrar sesión?")) {
-      onLogout();
-      setShowUserMenu(false);
-      if (location.pathname === "/profile") {
-        navigate("/");
-      }
-    }
-  };
-
-  const [bounce, setBounce] = useState(false);
-
-  useEffect(() => {
-    if (carrito.length > 0) {
-      setBounce(true);
-      const timeout = setTimeout(() => setBounce(false), 300);
-      return () => clearTimeout(timeout);
-    }
-  }, [carrito]);
+  
 
   return (
     <header className="header-sticky">
@@ -72,7 +59,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
             <Link to="/contacto">CONTACTO</Link>
           </li>
           {/* Solo mostrar Administrar si es admin */}
-          {(esAdmin || usuario?.rol === "editor") && (
+          {(esAdmin || esEditor) && (
             <li>
               <Link to="/admin" className="admin-link">
                 ADMINISTRAR
@@ -85,8 +72,13 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
       <div className="header-right">
         {/* Icono usuario */}
         <div className="user-container" ref={userMenuRef}>
+          
+          {(usuario) && (
+            <span className="user-welcome">Hola {usuario?.nombre}!</span>
+          )}
+
           <span
-            className={`material-symbols-outlined header-usuario ${
+            className={`material-symbols-outlined header-usuario user-container ${
               usuario ? "logueado" : ""
             }`}
             onClick={() => {
@@ -96,7 +88,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
                 setShowLogin(true);
               }
             }}
-            title={usuario ? "Usuario" : "Iniciar sesión"}
+            title={usuario ? `${usuario?.nombre}` : "Iniciar sesión"}
           >
             account_circle
           </span>
@@ -112,7 +104,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
               >
                 Mi perfil
               </button>
-              <button onClick={handleLogoutClick} className="logout-btn">
+              <button onClick={logout} className="logout-btn">
                 Cerrar sesión
               </button>
             </div>
@@ -123,9 +115,8 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
         <ModalLogin
           show={showLogin}
           onClose={() => setShowLogin(false)}
-          onLogin={(userData) => {
-            // Esta función se llamará cuando el login sea exitoso
-            // El estado de usuario se manejará en App.js a través de localStorage
+          onLogin={(token) => {
+            login(token);
             setShowLogin(false);
           }}
           onShowRegister={() => setShowRegister(true)}
@@ -135,8 +126,6 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
           show={showRegister}
           onClose={() => setShowRegister(false)}
           onLogin={(userData) => {
-            // Esta función se llamará cuando el registro sea exitoso
-            // El estado de usuario se manejará en App.js a través de localStorage
             setShowRegister(false);
           }}
           onShowLogin={() => setShowLogin(true)}
@@ -146,7 +135,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
           onClose={() => setShowForgot(false)}
         />
 
-        {/* Carrito */}
+        
         <div className="header-carrito-container" onClick={toggleCarrito}>
           <span
             className="header-carrito material-symbols-outlined"
@@ -155,7 +144,7 @@ function Header({ toggleCarrito, carrito, usuario, esAdmin, esEditor, onLogout }
             shopping_bag
           </span>
           <span className={`numerito ${bounce ? "bounce" : ""}`}>
-            {carrito.length}
+            {cantidadProductos} 
           </span>
         </div>
 

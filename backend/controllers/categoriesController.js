@@ -28,7 +28,6 @@ const createCategory = async (req, res) => {
     const nueva = await Category.create({ nombre, descripcion, activa });
     res.status(201).json(nueva);
   } catch (error) {
-    // error por unique index, etc.
     res.status(400).json({ error: error.message });
   }
 };

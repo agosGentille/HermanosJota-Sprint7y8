@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/AdminForm.css";
-
+import { API_BASE_URL } from '../config/api';
 const AdminCategoriaForm = ({ editMode = false, inPanel = false, showToast, categoriaId, onBackClick }) => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
@@ -47,7 +47,7 @@ const AdminCategoriaForm = ({ editMode = false, inPanel = false, showToast, cate
     if (editMode && categoriaId) {
       const fetchCategoria = async () => {
         try {
-          const response = await fetch(`http://localhost:4000/api/categories/${categoriaId}`);
+          const response = await fetch(`${API_BASE_URL}/categories/${categoriaId}`);
           if (!response.ok) throw new Error("Error cargando categoría");
           const data = await response.json();
           setCategoria(data);
@@ -90,8 +90,8 @@ const AdminCategoriaForm = ({ editMode = false, inPanel = false, showToast, cate
 
     try {
       const url = editMode && categoriaId
-        ? `http://localhost:4000/api/categories/${categoriaId}`
-        : "http://localhost:4000/api/categories";
+  ? `${API_BASE_URL}/categories/${categoriaId}`
+  : `${API_BASE_URL}/categories`;
 
       const method = editMode && categoriaId ? "PUT" : "POST";
 

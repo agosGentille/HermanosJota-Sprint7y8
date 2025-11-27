@@ -137,7 +137,9 @@
 
 .user-container {
   position: relative;
-  display: inline-block;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .btn-admin {
@@ -188,6 +190,12 @@
   max-height: 500px; /* suficientemente grande para contener todo */
   opacity: 1;
   transform: translateY(0);
+}
+
+.user-welcome {
+  font-size: 0.85rem;
+  color: #87A96B;
+  white-space: nowrap;
 }
 
 /* Elementos dentro del dropdown */

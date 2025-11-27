@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import '../styles/productDetail.css';
+import { API_BASE_URL } from '../config/api';
+import { useCarrito } from '../context/CarritoContext'; // ✅ Ruta corregida
+import { AuthContext } from '../context/AuthContext'; // ✅ Importar AuthContext
 
-export default function ProductDetail({ onAddToCart, esAdmin }) {
+export default function ProductDetail({ showToast }) {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { agregarProducto } = useCarrito(); 
+  const { esAdmin } = useContext(AuthContext); // ✅ Obtener esAdmin del contexto
+  
   const [producto, setProducto] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,16 +21,23 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
   useEffect(() => {
     console.log("ID desde URL:", id);
     setLoading(true);
-    fetch(`http://localhost:4000/api/productos/${id}`)
+    fetch(`${API_BASE_URL}/productos/${id}`)
       .then(res => {
         if (!res.ok) throw new Error("Producto no encontrado");
         return res.json();
       })
       .then(data => {
-        setProducto(data);
+        // Mapear URLs de imágenes si es necesario
+        const productoConUrls = {
+          ...data,
+          imagen: `${API_BASE_URL.replace('/api', '')}${data.imagen}`,
+          imagenHover: data.imagenHover ? `${API_BASE_URL.replace('/api', '')}${data.imagenHover}` : null
+        };
+        
+        setProducto(productoConUrls);
         setImages([
-          data.imagen, 
-          data.imagenHover || null
+          productoConUrls.imagen, 
+          productoConUrls.imagenHover || null
         ].filter(Boolean));
       })
       .catch(err => setError(err.message))
@@ -38,10 +51,19 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
     setBackgroundPos(`${x}% ${y}%`);
   };
 
+  const handleAddToCart = () => {
+    if (producto) {
+      agregarProducto(producto);
+      if (showToast) {
+        showToast("Producto agregado al carrito", "success");
+      }
+    }
+  };
+
   const handleEliminar = async () => {
     if (window.confirm('¿Estás seguro de que quieres eliminar este producto? Esta acción no se puede deshacer.')) {
       try {
-        const response = await fetch(`http://localhost:4000/api/productos/${producto._id}`, {
+        const response = await fetch(`${API_BASE_URL}/productos/${producto._id}`, {
           method: 'DELETE'
         });
 
@@ -123,11 +145,11 @@ export default function ProductDetail({ onAddToCart, esAdmin }) {
             {producto.stock !== undefined && <p><strong>Stock disponible:</strong> {producto.stock} unidades</p>}
           </div>
           
-          <button className="btn-agregarcarrito" onClick={() => onAddToCart(producto)}>
+          <button className="btn-agregarcarrito" onClick={handleAddToCart}>
             Añadir al carrito
           </button>
 
-          {esAdmin && (
+          {esAdmin && ( // ✅ Usar esAdmin del contexto
             <div className="admin-actions" style={{ marginTop: '20px', display: 'flex', gap: '10px' }}>
               <Link 
                 to={`/admin/editar-producto/${producto._id}`}

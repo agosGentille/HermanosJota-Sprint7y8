@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import "../styles/AdminForm.css";
+import { API_BASE_URL } from '../config/api';
 
 const AdminUserForm = ({ editMode = false }) => {
   const navigate = useNavigate();
@@ -20,7 +21,7 @@ const AdminUserForm = ({ editMode = false }) => {
     if (editMode && id) {
       const fetchUser = async () => {
         try {
-          const response = await fetch(`http://localhost:4000/api/users/${id}`);
+          const response = await fetch(`${API_BASE_URL}/users/${id}`);
           if (!response.ok) throw new Error("Error cargando usuario");
           const data = await response.json();
           setUser(data);
@@ -47,8 +48,8 @@ const AdminUserForm = ({ editMode = false }) => {
 
     try {
       const url = editMode
-        ? `http://localhost:4000/api/users/${id}`
-        : "http://localhost:4000/api/users";
+  ? `${API_BASE_URL}/users/${id}`
+  : `${API_BASE_URL}/users`;
 
       const method = editMode ? "PUT" : "POST";
 
@@ -78,7 +79,7 @@ const AdminUserForm = ({ editMode = false }) => {
     if (!window.confirm("¿Seguro que deseas eliminar este usuario?")) return;
 
     try {
-      const response = await fetch(`http://localhost:4000/api/users/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/users/${id}`, {
         method: "DELETE",
       });
       if (!response.ok) throw new Error("Error al eliminar usuario");
@@ -166,7 +167,7 @@ const AdminUserForm = ({ editMode = false }) => {
           <div className="form-group">
             <select name="rol" value={user.rol} onChange={handleChange}>
               <option value="visitante">Visitante</option>
-              <option value="admin">Administrador</option>
+              <option value="editor">Editor</option>
             </select>
           </div>
         </div>

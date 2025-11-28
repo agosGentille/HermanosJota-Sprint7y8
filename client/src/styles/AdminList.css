@@ -12,13 +12,13 @@
 }
 
 .admin-list-header h2 {
-  color: #333;
+  color: var(--color-texto);
   margin: 0;
 }
 
 .btn-agregar {
   background-color: #28a745;
-  color: white;
+  color: var(--color-texto-blanco);
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
@@ -34,7 +34,7 @@
 .admin-table {
   width: 100%;
   border-collapse: collapse;
-  background-color: white;
+  background-color: var(--color-fondo);
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -48,13 +48,13 @@
 }
 
 .admin-table th {
-  background-color: #f8f9fa;
+  background-color: var(--color-fondo);
   font-weight: 600;
-  color: #333;
+  color: var(--color-texto-secundario);
 }
 
 .admin-table tr:hover {
-  background-color: #f8f9fa;
+  background-color: var(--color-fondo-tabla-admin-hover);
 }
 
 .badge {

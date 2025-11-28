@@ -49,6 +49,15 @@
   /* Iconos */
   --filtro-iconos: invert(20%);
   --filtro-icono-ig: invert(100%);
+
+  /* Admin nav btns*/
+  --color-btn-nav: #e9ecef;
+  --color-btn-nav-seleccionado: #007bff;
+  --color-btn-nav-hover: #dee2e6;
+  --color-fondo-tabla-admin: #FFFFFF;
+  --color-fondo-tabla-admin-hover: #ecebeb;
+  --color-h2-admin: #2c3e50;
+  --color-h3-admin: #495057;
 }
 
 /* ------------ MODO OSCURO ------------ */
@@ -99,6 +108,15 @@
   /* Iconos */
   --filtro-iconos: invert(100%);
   --filtro-icono-ig: invert(0%);
+
+    /* Admin nav btns*/
+  --color-btn-nav: #636464;
+  --color-btn-nav-seleccionado: #007bff;
+  --color-btn-nav-hover: #545555;
+  --color-fondo-tabla-admin: #242424;
+   --color-fondo-tabla-admin-hover: #414040;
+  --color-h2-admin: #ffffff;
+  --color-h3-admin: #e7e6e6;
 }
 
 /* APLICACIÓN GLOBAL*/

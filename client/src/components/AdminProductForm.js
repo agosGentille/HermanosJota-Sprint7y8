@@ -240,7 +240,7 @@ const AdminProductForm = ({ editMode = false, inPanel = false, showToast }) => {
         </button>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="form">
         <div className="form-section">
           <h3>Información Básica</h3>
 

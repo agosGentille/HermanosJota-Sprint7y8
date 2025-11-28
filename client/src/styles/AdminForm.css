@@ -5,8 +5,9 @@
   margin: 0 auto;
   margin-top: 4rem;
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: var(--color-fondo-tabla-admin);
   border-radius: 10px;
+  color: var(--color-texto);
 }
 
 .admin-form-header {
@@ -15,20 +16,20 @@
   align-items: center;
   margin-bottom: 30px;
   padding: 20px;
-  background: white;
+  background-color: var(--color-fondo-tabla-admin) !important;
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .admin-form-header h2 {
-  color: #2c3e50;
+  color: var(--color-h2-admin);
   margin: 0;
   font-size: 28px;
   font-weight: 600;
 }
 
 .btn-volver {
-  background: #6c757d;
+  background-color: #6c757d;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -40,8 +41,12 @@
 }
 
 .btn-volver:hover {
-  background: #5a6268;
+  background-color: #5a6268;
   transform: translateY(-1px);
+}
+
+.form {
+  background-color: var(--color-fondo-tabla-admin) !important;
 }
 
 .form-section {
@@ -49,11 +54,11 @@
   padding: 25px;
   border: 1px solid #e9ecef;
   border-radius: 8px;
-  background: #fafbfc;
+  background-color: var(--color-fondo-tabla-admin);
 }
 
 .form-section h3 {
-  color: #495057;
+  color: var(--color-h3-admin);
   margin-bottom: 20px;
   border-bottom: 2px solid #007bff;
   padding-bottom: 10px;
@@ -85,7 +90,7 @@
   display: block;
   margin-bottom: 8px;
   font-weight: 600;
-  color: #495057;
+  color: var(--color-h3-admin);
   font-size: 14px;
 }
 
@@ -98,7 +103,8 @@
   border-radius: 6px;
   font-size: 14px;
   transition: all 0.3s ease;
-  background: white;
+  background-color: var(--color-fondo-tabla-admin);
+  color: var(--color-texto);
 }
 
 .form-group input:focus,
@@ -106,19 +112,18 @@
   outline: none;
   border-color: #007bff;
   box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-  background: #f8f9fa;
 }
 
 .form-group input:disabled {
-  background: #f8f9fa;
-  color: #6c757d;
+  background-color: var(--color-fondo-disabled);
+  color: var(--color-texto-secundario);
   cursor: not-allowed;
 }
 
 .form-group small {
   display: block;
   margin-top: 5px;
-  color: #6c757d;
+  color: var(--color-texto-secundario);
   font-size: 12px;
   font-style: italic;
 }
@@ -133,7 +138,7 @@
   align-items: center;
   gap: 10px;
   padding: 15px;
-  background: white;
+  background-color:var(--color-fondo-tabla-admin);
   border-radius: 6px;
   border: 2px solid #e9ecef;
 }
@@ -158,7 +163,7 @@
 }
 
 .btn-guardar {
-  background: #28a745;
+  background-color: #28a745;
   color: white;
   border: none;
   padding: 14px 35px;
@@ -171,19 +176,19 @@
 }
 
 .btn-guardar:hover:not(:disabled) {
-  background: #218838;
+  background-color: #218838;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
 }
 
 .btn-guardar:disabled {
-  background: #6c757d;
+  background-color: var(--color-fondo-disabled);
   cursor: not-allowed;
   transform: none;
 }
 
 .btn-cancelar {
-  background: #6c757d;
+  background-color: #6c757d;
   color: white;
   border: none;
   padding: 14px 35px;
@@ -196,7 +201,7 @@
 }
 
 .btn-cancelar:hover {
-  background: #5a6268;
+  background-color: #5a6268;
   transform: translateY(-2px);
 }
 
@@ -279,7 +284,7 @@
   width: 90%;
   margin: 7.5rem auto 2rem;
   padding: 2rem;
-  background: white;
+  background-color: white;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
@@ -290,14 +295,14 @@
   width: 100%;
   margin: 0;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   border-radius: 0;
   box-shadow: none;
 }
 
 
 .admin-form-container.in-panel form {
-  background: white;
+  background-color: white;
   padding: 2rem;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
@@ -306,7 +311,7 @@
 
 
 .admin-form-container.in-panel .admin-form-header {
-  background: white;
+  background-color: white;
   padding: 1.5rem 2rem;
   margin: 0 -2rem 2rem -2rem;
   border-radius: 8px 8px 0 0;

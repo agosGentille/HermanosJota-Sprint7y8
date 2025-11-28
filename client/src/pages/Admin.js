@@ -25,7 +25,7 @@ function AdminPage({ showToast }) {
 
   return (
     <div className="admin-page">
-      <header className="admin-header">
+      <div className="admin-header">
         <h1>{getTituloPanel()}</h1>
         <p>Bienvenido, {usuario?.nombre || usuario?.email}</p>
         
@@ -65,9 +65,9 @@ function AdminPage({ showToast }) {
             </button>
           )}
         </nav>
-      </header>
+      </div>
 
-      <main className="admin-main">
+      <div className="admin-main">
         {/* SECCIÓN DE USUARIOS - SOLO PARA ADMIN */}
         {section === "users" && esAdmin ? (
           <section className="admin-section">
@@ -124,7 +124,7 @@ function AdminPage({ showToast }) {
             />
           </section>
         )}
-      </main>
+      </div>
     </div>
   );
 }

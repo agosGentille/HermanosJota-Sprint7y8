@@ -9,15 +9,7 @@
 }
 
 :root {
-  --color-texto-primario: black;
-  --color-texto-secundario: white;
-
-  --color-primario: #a0522d;
-  --color-secundario: #87a96b;
-
   --color-background: #f5e6d3;
-  --color-acentos-premium: #d4a437;
-  --color-acentos-suaves: #c47a6d;
 
   --titulo-tamanio-grande: 4rem;
   --titulo-tamanio-normal: 3.4rem;
@@ -33,7 +25,7 @@
 }
 
 html {
-  background-color: white;
+  background-color: var(--color-fondo);
 }
 
 /* estilos para contacto */
@@ -44,17 +36,12 @@ main {
   padding: 1rem;
 }
 
-.principal {
-  margin-top: clamp(100px, 10vh, 150px);
-}
-
 section {
   margin-bottom: 100px;
 }
 
 /* seccion 'Nuestra historia' */
 .nuestra-historia {
-  margin: 3rem auto;
   max-width: 900px;
   padding: 2rem;
   border-radius: 12px;
@@ -69,19 +56,19 @@ section {
   text-align: justify;
   letter-spacing: 0.5px;
   line-height: 1.5;
-  color: #333;
+  color: var(--color-texto);
 }
 
 .nuestra-historia__texto__resaltar {
   font-weight: var(--texto-peso-medio);
-  color: var(--color-acentos-premium);
+  color: var(--color-dorado);
 }
 
 .nuestra-historia__texto__subtitulo {
   font-size: var(--sub-titulo-tamanio);
   font-weight: var(--texto-peso-medio);
   margin-top: 1rem;
-  color: var(--color-primario);
+  color: var(--color-madera);
 }
 
 .nuestra-historia video {
@@ -90,7 +77,7 @@ section {
   max-width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  border: 4px solid var(--color-acentos-premium);
+  border: 4px solid var(--color-dorado);
   border-radius: 12px;
   box-shadow: 0 6px 16px black;
   transition: transform 0.3s ease;
@@ -106,7 +93,7 @@ section {
   max-width: 900px;
   margin: 3rem auto;
   padding: 2rem;
-  background-color: var(--color-background);
+  background-color: var(--color-fondo-secundario);
   border-radius: 12px;
   box-shadow: 0 4px 10px #333;
 }
@@ -118,7 +105,7 @@ section {
   letter-spacing: 0.1em;
   margin-bottom: 1rem;
   letter-spacing: 1px;
-  color: var(--color-primario);
+  color: var(--color-madera);
   text-align: center;
   font-family: "Playfair Display", sans-serif;
   font-weight: 500;
@@ -150,6 +137,7 @@ section {
 
 .contacto__formulario__label {
   font-weight: var(--texto-peso-medio);
+  color: var(--color-texto-secundario);
 }
 
 .required {
@@ -161,6 +149,7 @@ section {
   padding: 0.75rem;
   border: 1px solid #ccc;
   border-radius: 5px;
+  color: var(--color-texto);
 }
 
 .contacto__formulario__mensaje {
@@ -171,8 +160,8 @@ section {
 
 .contacto__formulario__input:focus,
 .contacto__formulario__mensaje:focus {
-  outline: 2px solid var(--color-primario);
-  border-color: var(--color-acentos-premium);
+  outline: 2px solid var(--color-madera);
+  border-color: var(--color-dorado);
 }
 
 .contacto__formulario__boton {
@@ -181,7 +170,7 @@ section {
   cursor: pointer;
   margin: auto;
   width: 100%;
-  background-color: var(--color-primario);
+  background-color: var(--color-madera);
   font-weight: var(--texto-peso-medio);
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -189,8 +178,8 @@ section {
 
 .contacto__formulario__boton:hover,
 .contacto__formulario__boton:focus {
-  background-color: var(--color-secundario);
-  color: var(--color-texto-secundario);
+  background-color: var(--color-verde);
+  color: var(--color-texto-blanco);
 }
 
 .error-message {
@@ -200,11 +189,11 @@ section {
 }
 
 .input-error {
-  background-color: #fff0f0;
+  background-color: var(--color-fondo-secundario-suave);
 }
 
 .input-success {
-  background-color: #f0fff0;
+  background-color: var(--color-fondo);
 }
 
 .char-counter {
@@ -238,7 +227,7 @@ section {
   height: 300px;
   margin: 3rem auto;
   overflow-x: auto;
-  background-color: var(--color-background);
+  background-color: var(--color-fondo);
   border-radius: 8px;
   box-shadow: 0 2px 6px black;
   font-weight: var(--texto-peso-regular);
@@ -252,6 +241,7 @@ section {
 .contacto-digital td {
   padding: 0.8rem;
   border-bottom: 1px solid white;
+  color: var(--color-texto-secundario);
 }
 
 /* Última fila sin borde */
@@ -260,7 +250,7 @@ section {
 }
 
 .contacto-digital a {
-  color: var(--color-secundario);
+  color: var(--color-verde);
   text-decoration: none;
   font-size: var(--enlaces-tamanio);
 }
@@ -268,14 +258,14 @@ section {
 .contacto-digital a:hover,
 .contacto-digital a:focus {
   text-decoration: underline;
-  color: var(--color-acentos-premium);
+  color: var(--color-dorado);
 }
 
 .contacto__ubicacion {
   max-width: 900px;
   height: 450px;
   margin: 3rem auto;
-  background-color: var(--color-background);
+  background-color: var(--color-fondo);
   border-radius: 8px;
   box-shadow: 0 2px 6px black;
 }

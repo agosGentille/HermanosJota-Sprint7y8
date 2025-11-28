@@ -1,12 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-:root {
-    --clr-backg: #F5E6D3;
-    --clr-secondary: #87A96B;
-    --clr-detail: #D4A437;
-    --clr-title: #A0522D;
-}
-
 /* Carrito lateral */
 .carrito-lateral {
     position: fixed;
@@ -14,7 +7,7 @@
     right: -100%;
     width: 350px;
     height: 100%;
-    background: var(--clr-backg);
+    background: var(--color-fondo-secundario);
     box-shadow: -2px 0 10px rgba(0,0,0,0.3);
     padding: 20px;
     display: flex;
@@ -38,6 +31,19 @@
     color: var(--clr-title);
 }
 
+.btnCerrarCarrito, .btnVaciarCarrito{
+    background: var(--color-dorado);
+    color: var(--color-texto-blanco);
+    border: var(--btn-border);
+    border-radius: 50px;
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.btnCerrarCarrito:hover{background-color: var(--color-dorado-hover);}
+.btnVaciarCarrito{background: var(--color-rosa);border: var(--color-borde);}
+.btnVaciarCarrito:hover{background: var(--color-rosa-hover);}
+
 #cerrar-carrito {
     background: none;
     border: none;
@@ -58,7 +64,7 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    background: #fff;
+    background: var(--color-fondo);
     border-radius: 8px;
     padding: 0.5rem;
 }
@@ -66,7 +72,7 @@
 .carrito-producto img {
     width: 60px;
     border-radius: 8px;
-    background-color: var(--clr-backg);
+    background-color: var(--color-fondo-secundario);
 }
 
 .carrito-info h4 {
@@ -81,9 +87,9 @@
 }
 
 .carrito-controles button {
-    background: var(--clr-secondary);
+    background: var(--color-verde);
     border: none;
-    color: #fff;
+    color: var(--color-texto-blanco);
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     cursor: pointer;
@@ -92,7 +98,7 @@
 }
 
 .carrito-controles button:hover {
-    background: var(--clr-detail);
+    background: var(--color-dorado);
 }
 
 .btn-eliminar {
@@ -112,8 +118,8 @@
 
 .btn-pagar {
     display: block;
-    background: var(--clr-secondary);
-    color: #fff;
+    background: var(--color-verde);
+    color: var(--color-texto-blanco);
     text-align: center;
     padding: 0.75rem;
     border-radius: 2rem;
@@ -125,8 +131,8 @@
 }
 
 .btn-pagar:hover {
-    background: var(--clr-detail);
-    color: #fff;
+    background: var(--color-dorado);
+    color: var(--color-texto-blanco);
 }
 
 /* Overlay */
@@ -165,18 +171,18 @@
 }
 
 .toast.info {
-    background: var(--clr-secondary);
-    color: white;
+    background: var(--color-verde);
+    color:var(--color-texto-blanco);
 }
 
 .toast.success {
     background: #28a745;
-    color: white;
+    color: var(--color-texto-blanco);
 }
 
 .toast.error {
     background: #dc3545;
-    color: white;
+    color: var(--color-texto-blanco);
 }
 
 @keyframes slideIn {

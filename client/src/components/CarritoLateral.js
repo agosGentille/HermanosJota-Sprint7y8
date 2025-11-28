@@ -36,7 +36,7 @@ function CarritoLateral() {
     <aside className={`carrito-lateral ${isCarritoAbierto ? "abierto" : ""}`}>
       <div className="carrito-header">
         <h2>Carrito</h2>
-        <button onClick={toggleCarrito}>&times;</button>
+        <button onClick={toggleCarrito} className="btnCerrarCarrito material-symbols-outlined">close</button>
       </div>
 
       <div className="carrito-productos">
@@ -64,7 +64,7 @@ function CarritoLateral() {
       {carrito.length > 0 && (
         <div className="carrito-footer">
           <p>Total: ${total}</p>
-          <button onClick={vaciarCarrito}>Vaciar Carrito</button>
+          <button onClick={vaciarCarrito} className="btnVaciarCarrito">Vaciar Carrito</button>
           <Link to="/carrito" className="btn-pagar" onClick={toggleCarrito}>
             Ir al Carrito
           </Link>

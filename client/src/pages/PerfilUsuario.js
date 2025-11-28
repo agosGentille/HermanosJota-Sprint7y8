@@ -157,7 +157,7 @@ function PerfilUsuario() {
           name="nombre"
           value={perfil.nombre}
           onChange={handleChange}
-          
+          disabled={!editable}
         />
 
         <label>DNI:</label>

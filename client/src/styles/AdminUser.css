@@ -1,10 +1,10 @@
 .admin-users-container {
   padding: 20px;
-  background-color: #f8f9fa;
+  background-color: var(--color-fondo-tabla-admin);
 }
 
 .admin-users-container h2 {
-  color: #2c3e50;
+  color: var(--color-h2-admin);
   font-size: 28px;
   font-weight: 600;
   margin-bottom: 20px;
@@ -14,10 +14,10 @@
 
 .admin-users-container > p {
   padding: 20px;
-  background: white;
+  background: var(--color-fondo);
   border-radius: 8px;
   border: 1px dashed #ced4da;
-  color: #6c757d;
+  color: var(--color-texto);
   text-align: center;
   font-style: italic;
 }
@@ -36,7 +36,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px 25px;
-  background: white;
+  background: var(--color-fondo);
   border-radius: 8px;
   box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -55,14 +55,14 @@
 }
 
 .user-info strong {
-  color: #495057;
+  color: var(--color-texto);
   font-weight: 600;
   margin-right: 5px;
 }
 
 .user-info div {
   font-size: 14px;
-  color: #343a40;
+  color: var(--color-texto);
 }
 
 .user-info div:nth-child(5) {

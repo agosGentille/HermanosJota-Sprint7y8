@@ -71,10 +71,11 @@ const compraSchema = new mongoose.Schema({
 compraSchema.pre("save", async function(next) {
   if (this.isNew) {
     try {
-      const ultimaCompra = await mongoose.model("Compra").findOne().sort({ nroCompra: -1 });
+      // CAMBIA ESTA LÍNEA:
+      const ultimaCompra = await mongoose.model("Compras").findOne().sort({ nroCompra: -1 });
       this.nroCompra = ultimaCompra ? ultimaCompra.nroCompra + 1 : 1;
     } catch (error) {
-      // Si hay error, empezar desde 1
+      console.error("Error generando nroCompra:", error);
       this.nroCompra = 1;
     }
   }

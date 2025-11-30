@@ -58,6 +58,9 @@
   --color-fondo-tabla-admin-hover: #ecebeb;
   --color-h2-admin: #2c3e50;
   --color-h3-admin: #495057;
+
+  --color-fondo-elemento: #fafafa;
+  --color-body-carrito: whitesmoke;
 }
 
 /* ------------ MODO OSCURO ------------ */
@@ -109,14 +112,18 @@
   --filtro-iconos: invert(100%);
   --filtro-icono-ig: invert(0%);
 
-    /* Admin nav btns*/
+  /* Admin nav btns*/
   --color-btn-nav: #636464;
   --color-btn-nav-seleccionado: #007bff;
   --color-btn-nav-hover: #545555;
   --color-fondo-tabla-admin: #242424;
-   --color-fondo-tabla-admin-hover: #414040;
+  --color-fondo-tabla-admin-hover: #414040;
   --color-h2-admin: #ffffff;
   --color-h3-admin: #e7e6e6;
+
+  /*Carrito*/
+  --color-fondo-elemento: #1a1a1a;
+  --color-body-carrito: #242424;
 }
 
 /* APLICACIÓN GLOBAL*/

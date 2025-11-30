@@ -8,6 +8,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PerfilUsuario from "./pages/PerfilUsuario";
+import MisComprasUsuario from "./pages/MisComprasUsuario";
 import ProductDetail from "./components/ProductDetail";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
@@ -21,6 +22,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { CarritoProvider } from "./context/CarritoContext";
 import { AuthProvider } from "./context/AuthContext";
 import NotFound from './components/Notfound';
+
+import './styles/Theme.css';
 
 function App() {
   const { toasts, showToast, removeToast } = useToast();
@@ -59,6 +62,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <PerfilUsuario />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/mis-compras"
+              element={
+                <ProtectedRoute>
+                  <MisComprasUsuario />
                 </ProtectedRoute>
               }
             />

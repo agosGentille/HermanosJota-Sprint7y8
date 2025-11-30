@@ -1,13 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100..900&display=swap");
 
-:root {
-    --clr-title: #A0522D;
-    --clr-backg: #F5E6D3;
-    --clr-secondary: #87A96B;
-    --clr-acent: #C47A6D;
-    --clr-detail: #D4A437;
-}
-
 * {
     margin: 0;
     padding: 0;
@@ -16,48 +8,22 @@
 }
 
 body {
-    background-color: whitesmoke;
+    background-color: var(--color-body-carrito);
 }
 
 main {
     display: block;
     padding: 2rem 1rem;
     margin-top: 15vh;
-    color: #333;
+    color: var(--color-texto);
 }
 
 /* ---------------- Carrito ---------------- */
-
-.seguir-comprando {
-    text-align: left;
-    margin-bottom: 1rem;
-}
-.seguir-comprando a {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: inherit;
-}
-#icono-seguir-comprando {
-    color: #333;
-    transition: color 0.3s ease;
-}
-#icono-seguir-comprando:hover {
-    color: var(--clr-detail);
-}
-
-.titulo-carrito {
-    margin-bottom: 2rem;
-}
 .titulo__principal {
     font-size: 2rem;
     font-family: "Playfair Display", serif;
-    color: var(--clr-title);
+    color: var(--color-madera);
     margin-top: 0.5rem;
-}
-#icono-camion {
-    color: var(--clr-title);
 }
 
 /* Contenedor general */
@@ -72,7 +38,7 @@ main {
     gap: 1.5rem;
     padding: 2rem;
     min-height: 600px;
-    background-color: #fff;
+    background-color: var(--color-fondo);
     text-align: center;
 }
 
@@ -82,7 +48,7 @@ main {
     text-align: center;
     padding: 2rem;
     font-weight: bold;
-    color: var(--clr-title);
+    color: var(--color-madera);
 }
 
 /* Tabla de productos */
@@ -99,7 +65,7 @@ main {
     border: 1px solid #ccc;
     border-radius: 1rem;
     text-align: center;
-    background-color: #fafafa;
+    background-color: var(--color-fondo-elemento);
     gap: 0.5rem;
 }
 
@@ -117,7 +83,7 @@ main {
 }
 
 .carrito-producto-link {
-    color: #333;
+    color: var(--color-texto);
     text-decoration: none;
     font-weight: 500;
     position: relative;
@@ -129,7 +95,7 @@ main {
     bottom: -2px;
     width: 0;
     height: 2px;
-    background-color: #333;
+    background-color: var(--color-texto);
     transition: width 0.3s ease;
 }
 .carrito-producto-link:hover::after {
@@ -147,15 +113,15 @@ main {
     height: 28px;
     border: none;
     border-radius: 0.3rem;
-    background-color: var(--clr-secondary);
-    color: #000;
+    background-color: var(--color-verde);
+    color: var(--color-texto);
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 .btn-cantidad:hover {
-    background-color: var(--clr-detail);
+    background-color: var(--color-dorado);
 }
 .cantidad-numero {
     min-width: 24px;
@@ -197,16 +163,16 @@ main {
 }
 .carrito-acciones-vaciar {
     border: none;
-    background-color: var(--clr-acent);
+    background-color: var(--color-rosa);
     padding: 1rem;
     border-radius: 1rem;
     text-transform: uppercase;
     cursor: pointer;
-    color: white;
+    color:var(--color-texto-blanco);
     transition: background-color 0.3s;
 }
 .carrito-acciones-vaciar:hover {
-    background-color: var(--clr-detail);
+    background-color: var(--color-dorado);
 }
 .carrito-acciones-total {
     display: flex;
@@ -216,9 +182,9 @@ main {
 }
 .carrito-acciones-comprar {
     border: none;
-    background-color: var(--clr-secondary);
+    background-color: var(--color-verde);
     padding: 1rem;
-    color: white;
+    color:var(--color-texto-blanco);
     text-transform: uppercase;
     cursor: pointer;
     border-radius: 1rem;
@@ -226,7 +192,7 @@ main {
     transition: all 0.3s ease;
 }
 .carrito-acciones-comprar:hover {
-    background-color: var(--clr-detail);
+    background-color: var(--color-dorado);
 }
 
 /* Nota de pedido */
@@ -246,7 +212,7 @@ main {
     position: absolute;
     top: 1rem;
     left: 0.8rem;
-    color: #888;
+    color: var(--color-texto-secundario);
     font-size: 0.8rem;
     pointer-events: none;
     transition: all 0.2s ease-in-out;
@@ -302,7 +268,7 @@ main {
 .barra-carga {
   width: 80%;
   height: 10px;
-  background: #ddd;
+  background: var(--color-fondo-elemento);
   border-radius: 10px;
   overflow: hidden;
   margin: 20px auto;

@@ -111,6 +111,14 @@ function Header() {
               >
                 Mi perfil
               </button>
+              <button
+                onClick={() => {
+                  navigate("/mis-compras");
+                  setShowUserMenu(false);
+                }}
+              >
+                Mis Compras
+              </button>
               <button onClick={logout} className="logout-btn">
                 Cerrar sesión
               </button>

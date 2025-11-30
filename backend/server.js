@@ -21,6 +21,7 @@ app.use(cors({
   origin: [
     "http://localhost:3000",
     "https://hermanosjotasprint5y6.vercel.app",
+    "https://hermanosjota-lovat.vercel.app/",
   ]
 }));
 app.use(express.json());

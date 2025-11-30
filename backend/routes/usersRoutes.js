@@ -2,6 +2,7 @@
 const express = require("express");
 const router = express.Router();
 const UsersController = require("../controllers/UsersController");
+const ComprasController = require("../controllers/ComprasController");
 const verificarToken = require("../middlewares/verificarToken");
 
 router.post("/login", UsersController.login);
@@ -23,5 +24,9 @@ router.get("/users/:id", UsersController.getUsuario);
 router.put("/users/role/:id", verificarToken, UsersController.updateUserRole);
 
 router.delete("/users/:id", verificarToken, UsersController.deleteUser);
+
+//rutas para usuario (ver compras y detalle de compra)
+router.get("/mis-compras", verificarToken, ComprasController.getMisCompras);
+router.get("/mis-compras/:id", verificarToken, ComprasController.getCompraById);
 
 module.exports = router;

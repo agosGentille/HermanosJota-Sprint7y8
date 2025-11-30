@@ -73,9 +73,9 @@ const Carrito = () => {
                   <td>{producto.titulo}</td>
                   <td>
                     <div className="cantidad-botones">
-                      <button onClick={() => restarCantidad(producto.id)}>−</button>
+                      <button className="btn-cantidad" onClick={() => restarCantidad(producto.id)}>−</button>
                       <CarritoCantidad cantidad={producto.cantidad} />
-                      <button onClick={() => sumarCantidad(producto.id)}>+</button>
+                      <button className="btn-cantidad" onClick={() => sumarCantidad(producto.id)}>+</button>
                     </div>
                   </td>
                   <td>${producto.Precio}</td>

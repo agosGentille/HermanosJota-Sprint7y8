@@ -3,12 +3,15 @@ const router = express.Router();
 const Compra = require("../models/compras");
 const auth = require("../middlewares/verificarToken");
 
+// POST /api/compras - Crear compra
 router.post("/", auth, async (req, res) => {
   try {
     const compraData = {
       ...req.body,
       usuarioId: req.user.id
     };
+
+    console.log("📦 Datos recibidos para compra:", compraData);
 
     if (!compraData.productos || compraData.productos.length === 0) {
       return res.status(400).json({ 
@@ -17,6 +20,7 @@ router.post("/", auth, async (req, res) => {
       });
     }
 
+    // Validación de productos
     for (let producto of compraData.productos) {
       if (!producto.productoId || !producto.cantidad || !producto.precio) {
         return res.status(400).json({
@@ -26,8 +30,13 @@ router.post("/", auth, async (req, res) => {
       }
     }
 
+    console.log("🔄 Creando instancia de Compra...");
     const compra = new Compra(compraData);
+    
+    console.log("📝 Compra antes de guardar - nroCompra:", compra.nroCompra);
+    
     await compra.save();
+    console.log("✅ Compra guardada - nroCompra:", compra.nroCompra);
 
     await compra.populate("productos.productoId", "nombre titulo precio imagen imagenURL");
     
@@ -38,7 +47,7 @@ router.post("/", auth, async (req, res) => {
       nroCompra: compra.nroCompra 
     });
   } catch (error) {
-    console.error("Error creando compra:", error);
+    console.error("❌ Error creando compra:", error);
     
     if (error.name === 'ValidationError') {
       return res.status(400).json({ 
@@ -61,7 +70,7 @@ router.post("/", auth, async (req, res) => {
   }
 });
 
-// Obtener compras del usuario 
+// GET /api/compras/mis-compras - Obtener compras del usuario
 router.get("/mis-compras", auth, async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.query;
@@ -95,6 +104,7 @@ router.get("/mis-compras", auth, async (req, res) => {
   }
 });
 
+// GET /api/compras/mis-compras/:id - Obtener compra específica
 router.get("/mis-compras/:id", auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -136,92 +146,6 @@ router.get("/mis-compras/:id", auth, async (req, res) => {
     res.status(500).json({
       success: false,
       error: "Error al obtener la compra"
-    });
-  }
-});
-
-router.put("/:id/estado", auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { estado } = req.body;
-
-    const estadosPermitidos = ["pendiente", "confirmado", "preparando", "enviado", "entregado", "cancelado"];
-    if (estado && !estadosPermitidos.includes(estado)) {
-      return res.status(400).json({
-        success: false,
-        error: `Estado '${estado}' no permitido. Estados válidos: ${estadosPermitidos.join(", ")}`
-      });
-    }
-
-    const compra = await Compra.findOneAndUpdate(
-      { 
-        _id: id,
-        usuarioId: req.user.id 
-      },
-      { estado },
-      { new: true, runValidators: true }
-    ).populate("productos.productoId", "nombre titulo precio imagen");
-
-    if (!compra) {
-      return res.status(404).json({
-        success: false,
-        error: "Compra no encontrada"
-      });
-    }
-
-    res.json({
-      success: true,
-      mensaje: "Estado de compra actualizado",
-      compra: compra
-    });
-  } catch (error) {
-    console.error("Error actualizando estado de compra:", error);
-    
-    if (error.name === 'ValidationError') {
-      return res.status(400).json({
-        success: false,
-        error: "Datos de actualización inválidos"
-      });
-    }
-    
-    res.status(500).json({
-      success: false,
-      error: "Error al actualizar el estado de la compra"
-    });
-  }
-});
-
-router.put("/:id/cancelar", auth, async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const compra = await Compra.findOneAndUpdate(
-      { 
-        _id: id,
-        usuarioId: req.user.id,
-        estado: { $in: ["pendiente", "confirmado"] } 
-      },
-      { estado: "cancelado" },
-      { new: true }
-    ).populate("productos.productoId", "nombre titulo precio imagen");
-
-    if (!compra) {
-      return res.status(404).json({
-        success: false,
-        error: "Compra no encontrada o no se puede cancelar en el estado actual"
-      });
-    }
-
-    res.json({
-      success: true,
-      mensaje: "Compra cancelada exitosamente",
-      compra: compra
-    });
-  } catch (error) {
-    console.error("Error cancelando compra:", error);
-    res.status(500).json({
-      success: false,
-      error: "Error al cancelar la compra"
     });
   }
 });

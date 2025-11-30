@@ -58,6 +58,7 @@
   transition: border-color 0.3s ease;
   width: 100%;
   gap: 10px;
+  cursor: pointer;
 }
 
 .filtro-group select:focus {

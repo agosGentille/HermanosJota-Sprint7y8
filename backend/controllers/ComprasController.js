@@ -35,14 +35,9 @@ exports.getCompraById = async (req, res) => {
     const compra = await Compra.findOne({
       _id: compraId,
       usuarioId,
-<<<<<<< HEAD
-    }).populate("productoId")
-      .select("-__v");
-=======
     })
       .select("-__v")
       .populate("productos.productoId", "nombre titulo precio imagen imagenURL descripcion");
->>>>>>> e0fbb78f0e8f7e671b996aab4fbd8196e410d200
 
     if (!compra) {
       return res.status(404).json({

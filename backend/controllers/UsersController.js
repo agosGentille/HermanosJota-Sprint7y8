@@ -83,7 +83,7 @@ exports.register = async (req, res) => {
 
     await nuevoUsuario.save(); //como intervinimos los datos, usamos save() en vez de create()
 
-    // ✅ CORREGIDO: Token ahora incluye rol, nombre y email
+    //CORREGIDO: Token ahora incluye rol, nombre y email
     const token = jwt.sign(
       { 
         id: nuevoUsuario._id,

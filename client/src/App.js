@@ -22,6 +22,10 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import { CarritoProvider } from "./context/CarritoContext";
 import { AuthProvider } from "./context/AuthContext";
 import NotFound from './components/Notfound';
+import Checkout from './components/Checkout';
+
+
+import './styles/Theme.css';
 
 import './styles/Theme.css';
 
@@ -48,6 +52,7 @@ function App() {
                 </ProtectedRoute>
               }
             />
+            <Route path="/checkout" element={<Checkout />} />
             
             <Route path="/productos" element={<Producto />} />
             <Route path="/contacto" element={<Contacto />} />

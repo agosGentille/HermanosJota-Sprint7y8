@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Compra = require("../models/compras");
-const auth = require("../middleware/verificarToken");
+const auth = require("../middlewares/verificarToken");
 
 router.post("/", auth, async (req, res) => {
   try {

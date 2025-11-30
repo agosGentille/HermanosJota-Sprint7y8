@@ -25,9 +25,9 @@ import { CarritoProvider } from "./context/CarritoContext";
 import { AuthProvider } from "./context/AuthContext";
 import NotFound from './components/Notfound';
 import Checkout from './components/Checkout';
-
-
-import './styles/Theme.css';
+import ConfirmacionCompra from './pages/ComfirmacionCompra';
+import AdminDetalleCompra from "./components/AdminDetalleCompra"; 
+import DetalleCompraUsuario from "./components/DetalleCompraUsuario";
 
 import './styles/Theme.css';
 
@@ -55,6 +55,15 @@ function App() {
               }
             />
             <Route path="/checkout" element={<Checkout />} />
+            
+            <Route 
+              path="/confirmacion-compra" 
+              element={
+                <ProtectedRoute>
+                  <ConfirmacionCompra />
+                </ProtectedRoute>
+              } 
+            />
             
             <Route path="/productos" element={<Producto />} />
             <Route path="/contacto" element={<Contacto />} />
@@ -86,10 +95,11 @@ function App() {
               path="/mis-compras/:id"
               element={
                 <ProtectedRoute>
-                  <DetalleCompra />
+                  <DetalleCompraUsuario />
                 </ProtectedRoute>
               }
             />
+          
 
             {/* Rutas de administración */}
             <Route
@@ -116,6 +126,16 @@ function App() {
                 </ProtectedRoute>
               }
             />
+
+            <Route
+              path="/admin/detalle-compra/:id"
+              element={
+                <ProtectedRoute adminOnly>
+               <AdminDetalleCompra />
+              </ProtectedRoute>
+              }
+            />
+
             <Route
               path="/admin"
               element={

@@ -124,9 +124,9 @@ exports.crearCompra = async (req, res) => {
   }
 };
 
-// Actualizar estado de compra (para admin)
+// Actualizar estado de compra
 exports.actualizarEstadoCompra = async (req, res) => {
-  try {
+  try {    
     const { id } = req.params;
     const { estado, pago } = req.body;
 
@@ -172,6 +172,63 @@ exports.actualizarEstadoCompra = async (req, res) => {
     res.status(500).json({ 
       success: false,
       error: "Error al actualizar la compra" 
+    });
+  }
+};
+
+// GET /admin/todas - Obtener todas las compras
+exports.getTodasCompras = async (req, res) => {
+  try {
+    console.log("🔄 Solicitando todas las compras...");
+
+    const compras = await Compra.find()
+      .select("-__v")
+      .populate("productos.productoId", "nombre titulo precio imagen imagenURL")
+      .populate("usuarioId", "nombre email")
+      .sort({ fechaCompra: -1 });
+
+    console.log(`✅ Encontradas ${compras.length} compras`);
+
+    res.json({ 
+      success: true,
+      count: compras.length,
+      compras 
+    });
+  } catch (error) {
+    console.error("❌ Error en getTodasCompras:", error);
+    res.status(500).json({ 
+      success: false,
+      error: "Error al obtener todas las compras" 
+    });
+  }
+};
+
+// GET /admin/compras/:id (detalle de compra para admin)
+exports.getCompraByIdAdmin = async (req, res) => {
+  try {
+    const compraId = req.params.id;
+
+    const compra = await Compra.findOne({ _id: compraId })
+      .select("-__v")
+      .populate("productos.productoId", "nombre titulo precio imagen imagenURL descripcion categoria")
+      .populate("usuarioId", "nombre email telefono");
+
+    if (!compra) {
+      return res.status(404).json({
+        success: false,
+        error: "Compra no encontrada"
+      });
+    }
+
+    res.json({
+      success: true,
+      compra
+    });
+  } catch (error) {
+    console.error("Error en getCompraByIdAdmin:", error);
+    res.status(500).json({
+      success: false,
+      error: "Error al obtener la compra"
     });
   }
 };

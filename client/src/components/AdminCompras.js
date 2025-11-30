@@ -8,7 +8,7 @@ const AdminCompras = () => {
   const [compras, setCompras] = useState([]);
   const [filtros, setFiltros] = useState({
     estado: "",
-    pagado: "",
+    pagoEstado: "",
     orden: "fechaDesc"
   });
 
@@ -18,14 +18,16 @@ const AdminCompras = () => {
   const fetchCompras = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/compras`, {
+      const res = await fetch(`${API_BASE_URL}/admin/todas`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      
       if (!res.ok) throw new Error("Error cargando compras");
+      
       const data = await res.json();
       setCompras(Array.isArray(data.compras) ? data.compras : []);
     } catch (err) {
-      console.error(err);
+      console.error("Error cargando compras:", err);
       alert("Error al cargar las compras");
     } finally {
       setLoading(false);
@@ -35,16 +37,18 @@ const AdminCompras = () => {
   useEffect(() => {
     if (!usuario || !token) {
       alert("Debes iniciar sesión");
+      window.location.href = "/login";
       return;
     }
+    
     fetchCompras();
   }, [usuario, token]);
 
-  // Filtrar y ordenar compras
+  //  Filtrar y ordenar compras con estructura actual
   const comprasFiltradas = compras
     .filter(compra => {
       if (filtros.estado && compra.estado !== filtros.estado) return false;
-      if (filtros.pagado && compra.pagado !== filtros.pagado) return false;
+      if (filtros.pagoEstado && compra.pago?.estado !== filtros.pagoEstado) return false;
       return true;
     })
     .sort((a, b) => {
@@ -62,11 +66,12 @@ const AdminCompras = () => {
       }
     });
 
+  //  Cambiar estado del pedido
   const handleCambiarEstado = async (compraId, nuevoEstado) => {
     if (!window.confirm(`¿Cambiar estado a "${nuevoEstado}"?`)) return;
 
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/compras/${compraId}/estado`, {
+      const res = await fetch(`${API_BASE_URL}/compras/${compraId}/estado`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -74,66 +79,114 @@ const AdminCompras = () => {
         },
         body: JSON.stringify({ estado: nuevoEstado }),
       });
+      
       if (!res.ok) throw new Error("Error actualizando estado");
-      await fetchCompras();
+      
+      // Actualizar estado localmente
+      setCompras(prevCompras => 
+        prevCompras.map(compra => 
+          compra._id === compraId 
+            ? { ...compra, estado: nuevoEstado }
+            : compra
+        )
+      );
+      
+      alert("Estado actualizado correctamente");
     } catch (err) {
       console.error(err);
       alert("No se pudo cambiar el estado");
     }
   };
 
-  const handleTogglePagado = async (compraId, actualmentePagado) => {
-    const nuevoEstado = actualmentePagado === "Pagado" ? "No pagado" : "Pagado";
-    
-    if (!window.confirm(`¿Marcar como "${nuevoEstado}"?`)) return;
+  // Cambiar estado de pago
+  const handleCambiarEstadoPago = async (compraId, nuevoEstadoPago) => {
+    if (!window.confirm(`¿Cambiar estado de pago a "${nuevoEstadoPago}"?`)) return;
 
     try {
-      const res = await fetch(`${API_BASE_URL}/admin/compras/${compraId}/pago`, {
+      const res = await fetch(`${API_BASE_URL}/compras/${compraId}/estado`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ pagado: nuevoEstado }),
+        body: JSON.stringify({ 
+          pago: { estado: nuevoEstadoPago } 
+        }),
       });
-      if (!res.ok) throw new Error("Error actualizando pago");
-      await fetchCompras();
+      
+      if (!res.ok) throw new Error("Error actualizando estado de pago");
+      
+      // Actualizar estado localmente
+      setCompras(prevCompras => 
+        prevCompras.map(compra => 
+          compra._id === compraId 
+            ? { 
+                ...compra, 
+                pago: { ...compra.pago, estado: nuevoEstadoPago } 
+              }
+            : compra
+        )
+      );
+      
+      alert("Estado de pago actualizado correctamente");
     } catch (err) {
       console.error(err);
       alert("No se pudo actualizar el estado de pago");
     }
   };
 
-  const estados = ["En preparación", "En camino", "Entregado", "Cancelado"];
+  // Estados disponibles según nuestro modelo
+  const estadosPedido = ["pendiente", "confirmado", "preparando", "enviado", "entregado", "cancelado"];
+  const estadosPago = ["pendiente", "aprobado", "rechazado"];
+
+  // Función para formatear estado para mostrar
+  const formatearEstado = (estado) => {
+    const estados = {
+      pendiente: "Pendiente",
+      confirmado: "Confirmado", 
+      preparando: "Preparando",
+      enviado: "En camino",
+      entregado: "Entregado",
+      cancelado: "Cancelado",
+      aprobado: "Aprobado",
+      rechazado: "Rechazado"
+    };
+    return estados[estado] || estado;
+  };
 
   return (
     <div className="admin-compras-container">
       <h2>Gestión de Compras</h2>
 
-      {/* Filtros */}
+      {/* Filtros CORREGIDOS */}
       <div className="filtros-compras">
         <div className="filtro-group">
-          <label>Estado:</label>
+          <label>Estado del pedido:</label>
           <select 
             value={filtros.estado} 
             onChange={(e) => setFiltros({...filtros, estado: e.target.value})}
           >
             <option value="">Todos los estados</option>
-            {estados.map(estado => (
-              <option key={estado} value={estado}>{estado}</option>
+            {estadosPedido.map(estado => (
+              <option key={estado} value={estado}>
+                {formatearEstado(estado)}
+              </option>
             ))}
           </select>
         </div>
 
         <div className="filtro-group">
-          <label>Pago:</label>
+          <label>Estado de pago:</label>
           <select 
-            value={filtros.pagado} 
-            onChange={(e) => setFiltros({...filtros, pagado: e.target.value})}
+            value={filtros.pagoEstado} 
+            onChange={(e) => setFiltros({...filtros, pagoEstado: e.target.value})}
           >
             <option value="">Todos</option>
-            <option value="Pagado">Pagado</option>
-            <option value="No pagado">No pagado</option>
+            {estadosPago.map(estado => (
+              <option key={estado} value={estado}>
+                {formatearEstado(estado)}
+              </option>
+            ))}
           </select>
         </div>
 
@@ -152,13 +205,13 @@ const AdminCompras = () => {
 
         <button 
           className="btn-limpiar-filtros"
-          onClick={() => setFiltros({ estado: "", pagado: "", orden: "fechaDesc" })}
+          onClick={() => setFiltros({ estado: "", pagoEstado: "", orden: "fechaDesc" })}
         >
           Limpiar filtros
         </button>
       </div>
 
-      {/* Estadísticas rápidas */}
+      {/* Estadísticas rápidas CORREGIDAS */}
       <div className="estadisticas-compras">
         <div className="estadistica-item">
           <span className="estadistica-numero">{compras.length}</span>
@@ -166,13 +219,13 @@ const AdminCompras = () => {
         </div>
         <div className="estadistica-item">
           <span className="estadistica-numero">
-            {compras.filter(c => c.estado === "En preparación").length}
+            {compras.filter(c => c.estado === "pendiente").length}
           </span>
-          <span className="estadistica-label">En preparación</span>
+          <span className="estadistica-label">Pendientes</span>
         </div>
         <div className="estadistica-item">
           <span className="estadistica-numero">
-            {compras.filter(c => c.pagado === "Pagado").length}
+            {compras.filter(c => c.pago?.estado === "aprobado").length}
           </span>
           <span className="estadistica-label">Pagadas</span>
         </div>
@@ -190,9 +243,10 @@ const AdminCompras = () => {
                 <th>N° Compra</th>
                 <th>Fecha</th>
                 <th>Cliente</th>
-                <th>Producto</th>
-                <th>Estado</th>
-                <th>Pagado</th>
+                <th>Productos</th>
+                <th>Total</th>
+                <th>Estado Pedido</th>
+                <th>Estado Pago</th>
                 <th>Acciones</th>
               </tr>
             </thead>
@@ -208,46 +262,66 @@ const AdminCompras = () => {
                     <div className="cliente-email">{compra.email}</div>
                     <div className="cliente-telefono">{compra.telefono}</div>
                   </td>
-                  <td className="info-producto">
-                    {compra.productoId ? (
+                  <td className="info-productos">
+                    {compra.productos && compra.productos.length > 0 ? (
                       <div>
-                        <div className="producto-nombre">{compra.productoId.nombre}</div>
-                        {compra.productoId.precio && (
-                          <div className="producto-precio">${compra.productoId.precio}</div>
+                        <div className="producto-principal">
+                          {compra.productos[0].nombre} x{compra.productos[0].cantidad}
+                        </div>
+                        {compra.productos.length > 1 && (
+                          <div className="mas-productos">
+                            +{compra.productos.length - 1} producto(s) más
+                          </div>
                         )}
                       </div>
                     ) : (
-                      <span className="producto-no-disponible">Producto no disponible</span>
+                      <span className="producto-no-disponible">Sin productos</span>
                     )}
+                  </td>
+                  <td className="total-compra">
+                    ${compra.total?.toLocaleString()}
                   </td>
                   <td className="estado-compra">
                     <select 
                       value={compra.estado} 
                       onChange={(e) => handleCambiarEstado(compra._id, e.target.value)}
-                      className={`select-estado estado-${compra.estado.toLowerCase().replace(' ', '-')}`}
+                      className={`select-estado estado-${compra.estado}`}
                     >
-                      {estados.map(estado => (
-                        <option key={estado} value={estado}>{estado}</option>
+                      {estadosPedido.map(estado => (
+                        <option key={estado} value={estado}>
+                          {formatearEstado(estado)}
+                        </option>
                       ))}
                     </select>
                   </td>
-                  <td className="pagado-compra">
-                    <label className="checkbox-pagado">
-                      <input
-                        type="checkbox"
-                        checked={compra.pagado === "Pagado"}
-                        onChange={() => handleTogglePagado(compra._id, compra.pagado)}
-                      />
-                      <span className="checkmark"></span>
-                      {compra.pagado === "Pagado" ? "Sí" : "No"}
-                    </label>
+                  <td className="estado-pago">
+                    <select 
+                      value={compra.pago?.estado || "pendiente"} 
+                      onChange={(e) => handleCambiarEstadoPago(compra._id, e.target.value)}
+                      className={`select-pago pago-${compra.pago?.estado}`}
+                    >
+                      {estadosPago.map(estado => (
+                        <option key={estado} value={estado}>
+                          {formatearEstado(estado)}
+                        </option>
+                      ))}
+                    </select>
                   </td>
                   <td className="acciones-compra">
                     <button 
-                      className="btn-ver-detalle"
-                      onClick={() => window.open(`/mis-compras/${compra._id}`, '_blank')}
+  className="btn-ver-detalle"
+  onClick={() => window.open(`/admin/detalle-compra/${compra._id}`, '_blank')}
+>
+  Ver detalle
+</button>
+                    <button 
+                      className="btn-actualizar"
+                      onClick={() => {
+                        handleCambiarEstado(compra._id, compra.estado);
+                        handleCambiarEstadoPago(compra._id, compra.pago?.estado);
+                      }}
                     >
-                      Ver detalle
+                      Actualizar
                     </button>
                   </td>
                 </tr>

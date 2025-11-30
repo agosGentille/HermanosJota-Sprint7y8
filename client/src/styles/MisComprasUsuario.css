@@ -71,8 +71,8 @@ html {
   border-bottom: 1px solid var(--color-borde-suave);
 }
 
-.tabla-compras tr:hover {
-  background-color: var(--color-hover);
+.tabla-compras tbody tr:hover {
+  background-color: var(--color-fondo-tabla-admin-hover);
 }
 
 .tabla-compras th {

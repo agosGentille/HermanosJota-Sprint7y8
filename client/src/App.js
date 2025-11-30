@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PerfilUsuario from "./pages/PerfilUsuario";
 import MisComprasUsuario from "./pages/MisComprasUsuario";
+import DetalleCompra from "./pages/DetalleCompra";
 import ProductDetail from "./components/ProductDetail";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
@@ -71,6 +72,15 @@ function App() {
               element={
                 <ProtectedRoute>
                   <MisComprasUsuario />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route
+              path="/mis-compras/:id"
+              element={
+                <ProtectedRoute>
+                  <DetalleCompra />
                 </ProtectedRoute>
               }
             />

@@ -67,14 +67,12 @@ const compraSchema = new mongoose.Schema({
   nota: { type: String, default: "" }
 });
 
-// ✅ MEJORADO: Generar número de compra único de forma más robusta
-compraSchema.pre("save", async function(next) {
-  // Solo generar nroCompra si no existe
+// cambio pre save por pre validate para asegurar nroCompra antes de validación
+compraSchema.pre("validate", async function(next) {
   if (this.isNew && !this.nroCompra) {
     try {
       console.log("🔄 Generando nroCompra...");
       
-      // Busca el máximo nroCompra actual
       const maxCompra = await mongoose.connection.db.collection("compras")
         .find()
         .sort({ nroCompra: -1 })
@@ -90,7 +88,7 @@ compraSchema.pre("save", async function(next) {
       console.log("✅ nroCompra generado:", this.nroCompra);
     } catch (error) {
       console.error("❌ Error generando nroCompra:", error);
-      this.nroCompra = 1; // Fallback
+      this.nroCompra = 1;
     }
   }
   next();

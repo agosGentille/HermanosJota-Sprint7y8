@@ -16,7 +16,7 @@ const compraSchema = new mongoose.Schema({
   direccionPais: { type: String, required: true },
 
   // Estado del pedido
-  estado: {type: String,enum: ["En preparación", "En envío", "Cancelado"],default: "En preparación" },
+  estado: {type: String,enum: ["En preparación", "En camino", "Cancelado", "Entregado"],default: "En preparación" },
   pagado: {type: String,enum: ["Pagado", "No pagado"],default: "No pagado"},
   fechaCompra: {  type: Date, default: Date.now },
 

@@ -1,0 +1,176 @@
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+* {
+  margin-top: none;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+html {
+  font-size: 15px; /*Este valor equivale a 1rem*/
+}
+
+.pantalla-container {
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--color-fondo);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.compras-tarjeta {
+  width: 100%;
+  max-width: 1000px;
+  background-color: var(--color-fondo-tarjeta);
+  padding: 30px;
+  margin: 30px auto;
+  border-radius: 12px;
+  box-shadow: var(--sombra-suave);
+}
+
+.titulo-compras{
+  font-family: "Playfair Display", sans-serif;
+  color: var(--color-madera);
+  margin-bottom: 30px;
+  font-size: 2rem;
+  margin-top: 40px;
+  margin-left: 35px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tabla-compras-container {
+  width: 100%;
+  overflow-x: auto;
+  margin-top: 20px;
+  display: block;
+}
+
+.tabla-compras {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-fondo-tarjeta);
+  border-radius: 12px;
+  overflow: hidden;
+  display: table;
+}
+
+.tabla-compras thead {
+  font-size: 1.2rem;
+  background-color: var(--color-primario);
+  color: var(--color-texto-contraste);
+}
+
+.tabla-compras th,
+.tabla-compras td {
+  padding: 14px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde-suave);
+}
+
+.tabla-compras tbody tr:hover {
+  background-color: var(--color-fondo-tabla-admin-hover);
+}
+
+.tabla-compras th {
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(2, 70px);
+  grid-template-rows: repeat(2, 70px);
+  gap: 0.6rem;
+}
+
+.producto-mini {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--color-fondo-disabled); 
+}
+
+.producto-mini img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay-mas {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: var(--color-texto-blanco);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.td-acciones{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+}
+
+.btn-detalle {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.2s ease;
+  background-color: var(--color-dorado);
+  color: var(--color-texto-blanco);
+}
+
+.btn-detalle:hover {
+  background-color: var(--color-dorado-hover);
+}
+
+.btn-cancelar-pedido {
+  display: inline-block;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
+  transition: 0.2s ease;
+  background-color: var(--color-rosa);
+  color: var(--color-texto-blanco);
+}
+
+.btn-cancelar-pedido:hover {
+  background-color: var(--color-rosa-hover);
+}
+.input,
+.select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  margin-bottom: 15px;
+  font-size: 15px;
+}
+
+.input:focus,
+.select:focus {
+  border-color: var(--color-primario);
+  outline: none;
+}

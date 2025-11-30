@@ -9,6 +9,7 @@ import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import PerfilUsuario from "./pages/PerfilUsuario";
 import MisComprasUsuario from "./pages/MisComprasUsuario";
+import DetalleCompra from "./pages/DetalleCompra";
 import ProductDetail from "./components/ProductDetail";
 import Contacto from "./pages/Contacto";
 import Carrito from "./pages/Carrito";
@@ -16,6 +17,7 @@ import CarritoLateral from "./components/CarritoLateral";
 import Producto from "./pages/Productos";
 import AdminPage from "./pages/Admin";
 import AdminProductForm from "./components/AdminProductForm";
+import AdminComprasList from "./components/AdminCompras";
 import ToastContainer from "./components/ToastContainer";
 import useToast from "./hooks/useToast";
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -80,6 +82,15 @@ function App() {
               }
             />
 
+            <Route
+              path="/mis-compras/:id"
+              element={
+                <ProtectedRoute>
+                  <DetalleCompra />
+                </ProtectedRoute>
+              }
+            />
+
             {/* Rutas de administración */}
             <Route
               path="/admin/crear-producto"
@@ -94,6 +105,14 @@ function App() {
               element={
                 <ProtectedRoute adminOnly>
                   <AdminProductForm editMode={true} showToast={showToast} />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/ver-compras/"
+              element={
+                <ProtectedRoute adminOnly>
+                  <AdminComprasList editMode={true} showToast={showToast} />
                 </ProtectedRoute>
               }
             />

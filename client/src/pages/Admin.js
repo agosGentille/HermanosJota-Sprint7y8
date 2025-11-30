@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import "../styles/AdminPage.css";
 import AdminProductForm from "../components/AdminProductForm";
 import AdminUserForm from "../components/AdminUserForm";
+import AdminCompras from "../components/AdminCompras";
 import AdminUser from "../components/AdminUser";
 import AdminProductList from "../components/AdminProductList";
 import { AuthContext } from "../context/AuthContext";
@@ -30,14 +31,23 @@ function AdminPage({ showToast }) {
         <p>Bienvenido, {usuario?.nombre || usuario?.email}</p>
         
         <nav className="admin-nav">
-          {/* SOLO ADMINISTRADORES - Gestión de usuarios */}
+          {/* SOLO ADMINISTRADORES - Gestión de usuarios y pedidos */}
           {esAdmin && (
-            <button
-              className={section === "users" ? "active" : ""}
-              onClick={() => setSection("users")}
-            >
-              Gestionar usuarios
-            </button>
+            <>
+              <button
+                className={section === "users" ? "active" : ""}
+                onClick={() => setSection("users")}
+              >
+                Gestionar usuarios
+              </button>
+
+              <button
+                className={section === "orders" ? "active" : ""}
+                onClick={() => setSection("orders")}
+              >
+                Gestionar pedidos
+              </button>
+            </>
           )}
 
           {/* ADMINISTRADORES Y EDITORES - Gestión de productos */}
@@ -72,6 +82,12 @@ function AdminPage({ showToast }) {
         {section === "users" && esAdmin ? (
           <section className="admin-section">
             <AdminUser />
+          </section>
+        ) : 
+
+        section === "orders" && esAdmin ? (
+          <section className="admin-section">
+            <AdminCompras />
           </section>
         ) : 
         

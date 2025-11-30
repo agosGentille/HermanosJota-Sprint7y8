@@ -1,0 +1,147 @@
+.popup-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; 
+  padding: 20px;
+  z-index: 2000;
+  backdrop-filter: blur(2px);
+}
+
+/* Tarjeta del popup */
+.popup-card {
+  width: 100%;
+  background: var(--color-fondo);
+  padding: 22px 20px;
+  border-radius: 16px 16px 0 0; 
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.2);
+  animation: popupIn 0.25s ease-out;
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes popupIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(1);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.popup-card h3 {
+  margin-bottom: 8px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--color-texto);
+  text-align: center;
+}
+
+.popup-card p {
+  margin: 0 0 16px 0;
+  color: var(--color-texto-secundario);
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Lista de motivos */
+.motivos-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.motivo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 12px;
+  background: var(--color-fondo);
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: 0.2s;
+  font-size: 1rem;
+}
+
+.motivo-item:hover {
+  background: var(--color-fondo-disabled);
+  border-color: #ccc;
+}
+
+/* Botones */
+.popup-botones {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;  
+  gap: 10px;
+}
+
+.btn-confirmar {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #d12424;
+  color: var(--color-texto-blanco);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.btn-confirmar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-confirmar:hover:not(:disabled) {
+  background: #b41e1e;
+}
+
+.btn-cerrar {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-btn-nav);
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+  color: var(--color-texto);
+}
+
+.btn-cerrar:hover {
+  background: var(--color-btn-nav-hover);
+}
+
+@media (min-width: 600px) {
+  .popup-bg {
+    align-items: center;
+  }
+
+  .popup-card {
+    width: 95%;
+    max-width: 420px;
+    border-radius: 14px;
+    padding: 25px 28px;
+  }
+
+  .popup-botones {
+    flex-direction: row; 
+    justify-content: space-between;
+  }
+
+  .btn-confirmar,
+  .btn-cerrar {
+    width: auto;
+    flex: 1;
+  }
+}

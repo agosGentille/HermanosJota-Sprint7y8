@@ -1,0 +1,432 @@
+/* AdminCompras.css - Mobile First */
+.admin-compras-container {
+  padding: 15px;
+  background-color: var(--color-fondo-tabla-admin);
+}
+
+.admin-compras-container h2 {
+  color: var(--color-h2-admin);
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #e9ecef;
+  text-align: center;
+}
+
+.admin-compras-container > p {
+  padding: 15px;
+  background: var(--color-fondo);
+  border-radius: 8px;
+  border: 1px dashed #ced4da;
+  color: var(--color-texto);
+  text-align: center;
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.filtros-compras {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding: 15px;
+  background: var(--color-fondo);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+}
+
+.filtro-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filtro-group label {
+  font-weight: 600;
+  color: var(--color-texto);
+  font-size: 14px;
+}
+
+.filtro-group select {
+  padding: 12px;
+  border: 1px solid #ced4da;
+  border-radius: 6px;
+  background: var(--color-fondo);
+  color: var(--color-texto);
+  font-size: 16px; /* Para evitar zoom en iOS */
+  transition: border-color 0.3s ease;
+  width: 100%;
+  gap: 10px;
+}
+
+.filtro-group select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.btn-limpiar-filtros {
+  padding: 12px 18px;
+  background: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  margin-top: 5px;
+}
+
+.btn-limpiar-filtros:hover {
+  background: #545b62;
+  box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
+}
+
+.estadisticas-compras {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 25px;
+  align-items: center;
+}
+
+.estadistica-item {
+  text-align: center;
+  padding: 20px;
+  background: var(--color-fondo);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 200px;
+  transition: transform 0.2s ease;
+}
+
+.estadistica-item:hover {
+  transform: translateY(-2px);
+}
+
+.estadistica-numero {
+  display: block;
+  font-size: 24px;
+  font-weight: bold;
+  color: #007bff;
+  margin-bottom: 5px;
+}
+
+.estadistica-label {
+  font-size: 12px;
+  color: var(--color-texto);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.compras-table-container {
+  overflow-x: auto;
+  background: var(--color-fondo);
+  border-radius: 8px;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  margin: 0 -15px;
+  width: calc(100% + 30px);
+}
+
+.admin-compras-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px; /* Mínimo para scroll horizontal en mobile */
+}
+
+.admin-compras-table th {
+  background: #343a40;
+  color: white;
+  padding: 12px 15px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.admin-compras-table td {
+  padding: 12px 15px;
+  border-bottom: 1px solid #e9ecef;
+  font-size: 14px;
+}
+
+.compra-row:hover {
+  background: #f8f9fa;
+  transition: background-color 0.2s ease;
+}
+
+.admin-compras-table th:nth-child(2),
+.admin-compras-table td:nth-child(2),
+.admin-compras-table th:nth-child(3),
+.admin-compras-table td:nth-child(3),
+.admin-compras-table th:nth-child(4),
+.admin-compras-table td:nth-child(4) {
+  display: none;
+}
+
+.nro-compra {
+  font-weight: bold;
+  color: #007bff;
+  font-size: 14px;
+}
+
+.fecha-compra {
+  white-space: nowrap;
+  color: var(--color-texto);
+}
+
+.info-cliente {
+  min-width: 120px;
+}
+
+.info-cliente strong {
+  color: var(--color-texto);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.cliente-email {
+  font-size: 12px;
+  color: var(--color-texto);
+  margin-top: 2px;
+}
+
+.cliente-telefono {
+  font-size: 12px;
+  color: var(--color-texto-secundario);
+  margin-top: 1px;
+}
+
+.info-producto {
+  min-width: 120px;
+}
+
+.producto-nombre {
+  font-weight: 600;
+  color: var(--color-texto);
+  margin-bottom: 2px;
+  font-size: 13px;
+}
+
+.producto-precio {
+  font-size: 12px;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.producto-no-disponible {
+  color: #dc3545;
+  font-style: italic;
+  font-size: 12px;
+}
+
+/* Estados */
+.estado-compra {
+  min-width: 140px;
+}
+
+.select-estado {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.select-estado:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.estado-en-preparación {
+  background: #fff3cd;
+  color: #856404;
+  border-color: #ffeaa7;
+}
+
+.estado-en-camino {
+  background: #cce7ff;
+  color: #004085;
+  border-color: #b3d7ff;
+}
+
+.estado-entregado {
+  background: #d4edda;
+  color: #155724;
+  border-color: #c3e6cb;
+}
+
+.estado-cancelado {
+  background: #f8d7da;
+  color: #721c24;
+  border-color: #f5c6cb;
+}
+
+/* Pagado */
+.pagado-compra {
+  text-align: center;
+}
+
+.checkbox-pagado {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  justify-content: center;
+  font-size: 13px;
+}
+
+.checkbox-pagado input {
+  margin: 0;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.checkbox-pagado input:checked {
+  accent-color: #28a745;
+}
+
+.acciones-compra {
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn-ver-detalle {
+  padding: 8px 12px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-ver-detalle:hover {
+  background: #138496;
+  box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
+}
+
+@media (min-width: 768px) {
+  .admin-compras-container {
+    padding: 20px;
+  }
+
+  .admin-compras-container h2 {
+    font-size: 28px;
+    text-align: left;
+  }
+
+  .filtros-compras {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 20px;
+  }
+
+  .filtro-group {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  .filtro-group select {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .btn-limpiar-filtros {
+    margin-top: 0;
+    font-size: 14px;
+  }
+
+  .estadisticas-compras {
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .estadistica-item {
+    width: auto;
+    min-width: 140px;
+  }
+
+  .estadistica-numero {
+    font-size: 28px;
+  }
+
+  .estadistica-label {
+    font-size: 13px;
+  }
+
+  .admin-compras-table th:nth-child(2),
+  .admin-compras-table td:nth-child(2) {
+    display: table-cell;
+  }
+
+  .compras-table-container {
+    margin: 0;
+    width: 100%;
+  }
+
+  .admin-compras-table {
+    min-width: auto;
+  }
+
+  .admin-compras-table th,
+  .admin-compras-table td {
+    padding: 15px 20px;
+  }
+}
+
+/* Desktop - 1024px en adelante */
+@media (min-width: 1024px) {
+  .filtros-compras {
+    flex-wrap: nowrap;
+  }
+
+  .filtro-group select {
+    min-width: 180px;
+  }
+
+  /* Mostrar todas las columnas en desktop */
+  .admin-compras-table th:nth-child(3),
+  .admin-compras-table td:nth-child(3),
+  .admin-compras-table th:nth-child(4),
+  .admin-compras-table td:nth-child(4) {
+    display: table-cell;
+  }
+
+  .info-cliente {
+    min-width: 200px;
+  }
+
+  .info-producto {
+    min-width: 180px;
+  }
+
+  .estado-compra {
+    min-width: 160px;
+  }
+
+  .admin-compras-table th {
+    font-size: 14px;
+    padding: 15px 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .admin-compras-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}

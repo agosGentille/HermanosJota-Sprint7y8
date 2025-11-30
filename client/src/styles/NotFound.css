@@ -4,12 +4,12 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: var(--color-fondo-gradient);
 }
 
 .not-found-content {
   text-align: center;
-  background: white;
+  background: var(--color-fondo);
   padding: 40px 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -23,14 +23,14 @@
 }
 
 .not-found-content h1 {
-  color: #2d3748;
+  color: var(--color-h2-admin);
   margin-bottom: 15px;
   font-size: 2rem;
   font-weight: 700;
 }
 
 .not-found-content p {
-  color: #718096;
+  color: var(--color-texto-secundario);
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 30px;

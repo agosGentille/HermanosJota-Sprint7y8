@@ -1,132 +1,153 @@
 import React, { useState, useEffect, useContext } from "react";
-import "../styles/PerfilUsuario.css";
+import "../styles/MisComprasUsuario.css";
 import { API_BASE_URL } from "../config/api";
 import { AuthContext } from "../context/AuthContext"; 
+import { useNavigate } from "react-router-dom";
+import ModalCancelarPedido from "../components/ModalCancelarPedido";
 
 function MisComprasUsuario() {
   const { usuario, logout } = useContext(AuthContext); 
-
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const navigate = useNavigate();
+  const [modalAbierto, setModalAbierto] = useState(false);
+  const [compras, setCompras] = useState([]);
 
   useEffect(() => {
-    const fetchUsuario = async () => {
+    const fetchCompras = async () => {
       try {
+        setLoading(true);
         const token = localStorage.getItem("token");
-        
-        if (!token || !usuario) {
+
+        if (!token) {
           setError("No autorizado");
           setLoading(false);
           return;
         }
 
-        const res = await fetch(`${API_BASE_URL}/usuario`, {
+        const res = await fetch(`${API_BASE_URL}/mis-compras`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
+        const data = await res.json();
+
         if (!res.ok) {
-          const data = await res.json();
-          setError(data.error || "Error al obtener los datos de las compras");
+          setError(data.error || "Error al obtener las compras");
           setLoading(false);
           return;
         }
 
-        const data = await res.json();
+        setCompras(data.compras);
         setLoading(false);
       } catch (err) {
         console.error(err);
-        setError("No se pudieron cargar los datos de las compras");
+        setError("No se pudieron cargar las compras");
         setLoading(false);
       }
     };
 
-    if (usuario) {
-      fetchUsuario();
+    fetchCompras();
+  }, []);
+
+  // Función para formatear los productos (adaptada al nuevo modelo)
+  const getProductosParaMostrar = (compra) => {
+    // Si tienes un solo producto por compra
+    if (compra.productoId) {
+      return [{
+        _id: compra.productoId._id,
+        nombre: compra.productoId.nombre,
+        imagen: compra.productoId.imagen
+      }];
     }
-  }, [usuario]); 
-
-  const compras = [
-    {
-      id: "C-10324",
-      fecha: "2025-01-18T14:20:00",
-      producto: {
-        nombre: "Silla Ergonómica X-200",
-        imagen: "https://via.placeholder.com/80",
-      },
-    },
-    {
-      id: "C-10317",
-      fecha: "2025-01-10T09:12:00",
-      producto: {
-        nombre: "Mesa de Roble Premium",
-        imagen: "https://via.placeholder.com/80",
-      },
-    },
-    {
-      id: "C-10301",
-      fecha: "2024-12-28T17:40:00",
-      producto: {
-        nombre: "Lámpara LED Vintage",
-        imagen: "https://via.placeholder.com/80",
-      },
-    },
-  ];
-
+    return [];
+  };
 
   return (
     <div className="mis-compras-container">
       <div className="compras-tarjeta">
-        <h2>Mi Compras</h2>
+        <h2 className="titulo-compras">Mis Compras</h2>
+
         {error && <p className="errorCompras active">* {error}</p>}
         {loading && <p>Cargando compras...</p>}
 
         {!loading && !error && compras.length === 0 && (
-          <p>No tienes compras registradas.</p>
+          <p className="no-compras">No tienes compras realizadas</p>
         )}
 
         {!loading && !error && compras.length > 0 && (
-          <div className="tabla-compras">
-            <table>
+          <div className="tabla-compras-container">
+            <table className="tabla-compras">
               <thead>
                 <tr>
                   <th>Nro Compra</th>
                   <th>Fecha</th>
                   <th>Producto</th>
-                  <th>Imagen</th>
+                  <th>Estado</th>
                   <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
-                {compras.map((compra) => (
-                  <tr key={compra.id}>
-                    <td>{compra.id}</td>
-                    <td>{new Date(compra.fecha).toLocaleDateString()}</td>
-                    <td>{compra.producto.nombre}</td>
-                    <td>
-                      <img
-                        src={compra.producto.imagen}
-                        alt={compra.producto.nombre}
-                        className="img-compra"
-                      />
-                    </td>
-                    <td>
-                      <button
-                        className="btn-detalle"
-                        onClick={() =>
-                          window.location.href = `/mis-compras/${compra.id}`
-                        }
-                      >
-                        Ver detalle
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                {compras.map((compra) => {
+                  const productos = getProductosParaMostrar(compra);
+                  
+                  return (
+                    <tr key={compra._id}>
+                      <td>{compra.nroCompra}</td>
+                      <td>{new Date(compra.fechaCompra).toLocaleDateString()}</td>
+                      <td>
+                        <div className="grid-productos">
+                          {productos.map((producto, index) => (
+                            <div key={index} className="producto-mini">
+                              <img 
+                                src={producto.imagen} 
+                                alt={producto.nombre} 
+                                onError={(e) => {
+                                  e.target.src = '/imagen-placeholder.jpg';
+                                }}
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`estado-badge estado-${compra.estado.toLowerCase().replace(' ', '-')}`}>
+                          {compra.estado}
+                        </span>
+                      </td>
+                      <td className="td-acciones">
+                        <button
+                          className="btn-detalle"
+                          onClick={() => navigate(`/mis-compras/${compra._id}`)}
+                        >
+                          Ver detalle
+                        </button>
+                        {compra.estado === "En preparación" && (
+                          <button
+                            className="btn-cancelar-pedido"
+                            onClick={() => setModalAbierto(true)}
+                          >
+                            Cancelar Pedido
+                          </button>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
         )}
+        
+        <ModalCancelarPedido
+          abierto={modalAbierto}
+          onClose={() => setModalAbierto(false)}
+          onConfirmar={(motivo) => {
+            alert("Pedido cancelado. Motivo: " + motivo);
+            setModalAbierto(false);
+          }}
+        />
       </div>
     </div>
   );

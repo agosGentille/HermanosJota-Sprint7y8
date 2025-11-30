@@ -14,6 +14,8 @@ const productRoutes = require("./routes/productRoutes.js");
 const contactoRoutes = require("./routes/ContactRoutes.js");
 const carritoRoutes = require("./routes/carritoRoutes");
 const categoriesRoutes = require("./routes/categories.js");
+const comprasRoutes = require("./routes/Compras.js");
+
 
 app.use(cors({
   origin: [
@@ -35,6 +37,7 @@ app.use("/api/productos", productRoutes);
 app.use("/api/contacto", contactoRoutes);
 app.use("/api/carrito", carritoRoutes);
 app.use("/api/categories", categoriesRoutes);
+app.use("/api/compras", comprasRoutes);
 
 app.use("/images", express.static(path.join(__dirname, "public/images")));
 
@@ -56,6 +59,6 @@ app.use((err, req, res, next) => {
 
 app.listen(PORT, () => {
   console.log(`Se inició el servidor en el puerto: ${PORT}`);
-  // console.log(`URL: https://hermanosjota-sprint5y6.onrender.com/`);
+  // console.log(`URL: https://hermanosjota-sprint7y8.onrender.com/`);
   console.log(`URL: http://localhost:${PORT}/`);
 });

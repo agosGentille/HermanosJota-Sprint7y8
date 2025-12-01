@@ -1,22 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
-:root {
-  --color-fondo: #f8f9fa;
-  --color-fondo-tarjeta: #ffffff;
-  --color-madera: #8B4513;
-  --color-primario: #2c5530;
-  --color-texto-contraste: #ffffff;
-  --color-borde-suave: #e0e0e0;
-  --color-fondo-tabla-admin-hover: #f5f5f5;
-  --color-dorado: #d4af37;
-  --color-dorado-hover: #b8941f;
-  --color-rosa: #e74c3c;
-  --color-rosa-hover: #c0392b;
-  --color-texto-blanco: #ffffff;
-  --color-fondo-disabled: #f0f0f0;
-  --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);
-}
-
 * {
   margin: 0;
   padding: 0;
@@ -77,7 +60,7 @@
 }
 
 .btn-ir-tienda {
-  background: var(--color-primario);
+  background: var(--color-);
   color: white;
   border: none;
   padding: 12px 30px;
@@ -92,7 +75,6 @@
   background: #245028;
 }
 
-/* Tabla */
 .tabla-compras-container {
   width: 100%;
   overflow-x: auto;
@@ -109,7 +91,7 @@
 }
 
 .tabla-compras thead {
-  background-color: var(--color-primario);
+  background-color: var(--color-madera-oscuro);
   color: var(--color-texto-blanco);
 }
 
@@ -140,7 +122,7 @@
 }
 
 .fecha-compra {
-  color: #666;
+  color: var(--color-texto);
   white-space: nowrap;
 }
 
@@ -150,7 +132,7 @@
 
 .cantidad-productos {
   text-align: center;
-  color: #666;
+  color: var(--color-texto);
 }
 
 .total-compra {
@@ -197,7 +179,7 @@
 
 .info-productos-texto {
   font-size: 0.85rem;
-  color: #666;
+  color: var(--color-texto);
   line-height: 1.3;
 }
 

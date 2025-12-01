@@ -10,7 +10,7 @@
 
 /* --- HEADER --- */
 .header-sticky {
-    position: fixed;
+    position: sticky;
     top: 0;
     left: 0;
     width: 100%;
@@ -235,7 +235,7 @@ footer {
     padding: 1rem;
     display: flex;
     flex-direction: column;
-    width: 100vw;
+    width: 100%;
 }
 
 .footer-header{

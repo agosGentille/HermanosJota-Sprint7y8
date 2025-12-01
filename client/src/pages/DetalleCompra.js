@@ -12,6 +12,8 @@ function DetalleCompra() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const [compraSeleccionada, setCompraSeleccionada] = useState(null);
+
   useEffect(() => {
     const fetchCompra = async () => {
       try {
@@ -68,6 +70,58 @@ function DetalleCompra() {
     );
   }
 
+  const formatearEstado = (estado) => {
+      const estados = {
+        pendiente: "Pendiente",
+        confirmado: "Confirmado", 
+        preparando: "Preparando",
+        enviado: "En camino",
+        entregado: "Entregado",
+        cancelado: "Cancelado"
+      };
+      return estados[estado] || estado;
+    };
+  
+    const handleCancelarPedido = (compra) => {
+      setCompraSeleccionada(compra);
+      setModalAbierto(true);
+    };
+  
+    const handleConfirmarCancelacion = async (motivo) => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await fetch(`${API_BASE_URL}/compras/${compraSeleccionada._id}/estado`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ estado: "cancelado" }),
+        });
+  
+        if (res.ok) {
+          // Actualizar el estado localmente
+          setCompra(prevCompras => 
+            prevCompras.map(compra => 
+              compra._id === compraSeleccionada._id 
+                ? { ...compra, estado: "cancelado" }
+                : compra
+            )
+          );
+          alert("Pedido cancelado exitosamente");
+        } else {
+          alert("Error al cancelar el pedido");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error al cancelar el pedido");
+      } finally {
+        setModalAbierto(false);
+        setCompraSeleccionada(null);
+      }
+    };
+  
+
   if (error) {
     return (
       <div className="detalle-container">
@@ -98,7 +152,7 @@ function DetalleCompra() {
     <div className="detalle-container">
       <div className="detalle-tarjeta">
         <h2 className="titulo-detalle">Detalle de Compra</h2>
-
+        
         <div className="detalle-info">
           <p><strong>Nro Compra:</strong> {compra.nroCompra}</p>
           <p><strong>Fecha:</strong> {new Date(compra.fechaCompra).toLocaleDateString()}</p>

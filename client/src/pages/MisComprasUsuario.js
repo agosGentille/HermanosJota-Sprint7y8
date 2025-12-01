@@ -6,11 +6,12 @@ import { useNavigate } from "react-router-dom";
 import ModalCancelarPedido from "../components/ModalCancelarPedido";
 
 function MisComprasUsuario() {
-  const { usuario, logout } = useContext(AuthContext); 
+  const { usuario } = useContext(AuthContext); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
   const [modalAbierto, setModalAbierto] = useState(false);
+  const [compraSeleccionada, setCompraSeleccionada] = useState(null);
   const [compras, setCompras] = useState([]);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ function MisComprasUsuario() {
           return;
         }
 
-        const res = await fetch(`${API_BASE_URL}/mis-compras`, {
+        const res = await fetch(`${API_BASE_URL}/compras/mis-compras`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -39,7 +40,8 @@ function MisComprasUsuario() {
           return;
         }
 
-        setCompras(data.compras);
+        console.log("Compras recibidas:", data.compras);
+        setCompras(data.compras || []);
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -51,17 +53,72 @@ function MisComprasUsuario() {
     fetchCompras();
   }, []);
 
-  // Función para formatear los productos (adaptada al nuevo modelo)
+  // Función para formatear los productos
   const getProductosParaMostrar = (compra) => {
-    // Si tienes un solo producto por compra
-    if (compra.productoId) {
-      return [{
-        _id: compra.productoId._id,
-        nombre: compra.productoId.nombre,
-        imagen: compra.productoId.imagen
-      }];
+    if (compra.productos && compra.productos.length > 0) {
+      return compra.productos.slice(0, 4); // Mostrar máximo 4 productos
     }
     return [];
+  };
+
+  // Función para obtener el total de productos
+  const getTotalProductos = (compra) => {
+    if (compra.productos && compra.productos.length > 0) {
+      return compra.productos.reduce((total, producto) => total + producto.cantidad, 0);
+    }
+    return 0;
+  };
+
+  // Función para formatear estado
+  const formatearEstado = (estado) => {
+    const estados = {
+      pendiente: "Pendiente",
+      confirmado: "Confirmado", 
+      preparando: "Preparando",
+      enviado: "En camino",
+      entregado: "Entregado",
+      cancelado: "Cancelado"
+    };
+    return estados[estado] || estado;
+  };
+
+  const handleCancelarPedido = (compra) => {
+    setCompraSeleccionada(compra);
+    setModalAbierto(true);
+  };
+
+  const handleConfirmarCancelacion = async (motivo) => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_BASE_URL}/compras/${compraSeleccionada._id}/estado`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ estado: "cancelado" }),
+      });
+
+      if (res.ok) {
+        // Actualizar el estado localmente
+        setCompras(prevCompras => 
+          prevCompras.map(compra => 
+            compra._id === compraSeleccionada._id 
+              ? { ...compra, estado: "cancelado" }
+              : compra
+          )
+        );
+        alert("Pedido cancelado exitosamente");
+      } else {
+        alert("Error al cancelar el pedido");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error al cancelar el pedido");
+    } finally {
+      setModalAbierto(false);
+      setCompraSeleccionada(null);
+    }
   };
 
   return (
@@ -70,10 +127,18 @@ function MisComprasUsuario() {
         <h2 className="titulo-compras">Mis Compras</h2>
 
         {error && <p className="errorCompras active">* {error}</p>}
-        {loading && <p>Cargando compras...</p>}
+        {loading && <p className="cargando">Cargando compras...</p>}
 
         {!loading && !error && compras.length === 0 && (
-          <p className="no-compras">No tienes compras realizadas</p>
+          <div className="no-compras-container">
+            <p className="no-compras">No tienes compras realizadas</p>
+            <button 
+              className="btn-ir-tienda"
+              onClick={() => navigate("/")}
+            >
+              Ir a la tienda
+            </button>
+          </div>
         )}
 
         {!loading && !error && compras.length > 0 && (
@@ -81,27 +146,33 @@ function MisComprasUsuario() {
             <table className="tabla-compras">
               <thead>
                 <tr>
-                  <th>Nro Compra</th>
+                  <th>N° Compra</th>
                   <th>Fecha</th>
-                  <th>Producto</th>
+                  <th>Productos</th>
+                  <th>Cantidad</th>
+                  <th>Total</th>
                   <th>Estado</th>
-                  <th>Acción</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {compras.map((compra) => {
                   const productos = getProductosParaMostrar(compra);
+                  const totalProductos = getTotalProductos(compra);
+                  const productosRestantes = compra.productos ? compra.productos.length - 4 : 0;
                   
                   return (
-                    <tr key={compra._id}>
-                      <td>{compra.nroCompra}</td>
-                      <td>{new Date(compra.fechaCompra).toLocaleDateString()}</td>
-                      <td>
+                    <tr key={compra._id} className="fila-compra">
+                      <td className="nro-compra">#{compra.nroCompra}</td>
+                      <td className="fecha-compra">
+                        {new Date(compra.fechaCompra).toLocaleDateString()}
+                      </td>
+                      <td className="td-productos">
                         <div className="grid-productos">
                           {productos.map((producto, index) => (
                             <div key={index} className="producto-mini">
                               <img 
-                                src={producto.imagen} 
+                                src={producto.imagen || producto.productoId?.imagenURL} 
                                 alt={producto.nombre} 
                                 onError={(e) => {
                                   e.target.src = '/imagen-placeholder.jpg';
@@ -109,11 +180,28 @@ function MisComprasUsuario() {
                               />
                             </div>
                           ))}
+                          {productosRestantes > 0 && (
+                            <div className="producto-mini overlay-mas">
+                              +{productosRestantes}
+                            </div>
+                          )}
+                        </div>
+                        <div className="info-productos-texto">
+                          {compra.productos && compra.productos[0]?.nombre}
+                          {compra.productos && compra.productos.length > 1 && (
+                            <span> y {compra.productos.length - 1} más</span>
+                          )}
                         </div>
                       </td>
-                      <td>
-                        <span className={`estado-badge estado-${compra.estado.toLowerCase().replace(' ', '-')}`}>
-                          {compra.estado}
+                      <td className="cantidad-productos">
+                        {totalProductos} {totalProductos === 1 ? 'producto' : 'productos'}
+                      </td>
+                      <td className="total-compra">
+                        ${compra.total?.toLocaleString()}
+                      </td>
+                      <td className="estado-compra">
+                        <span className={`estado-badge estado-${compra.estado}`}>
+                          {formatearEstado(compra.estado)}
                         </span>
                       </td>
                       <td className="td-acciones">
@@ -123,12 +211,16 @@ function MisComprasUsuario() {
                         >
                           Ver detalle
                         </button>
+<<<<<<< HEAD
                         {compra.estado !== "Entregado" && (
+=======
+                        {(compra.estado === "pendiente" || compra.estado === "confirmado") && (
+>>>>>>> 9cbf3a5f44d2fda0197f4ce2dae637efb46538bb
                           <button
                             className="btn-cancelar-pedido"
-                            onClick={() => setModalAbierto(true)}
+                            onClick={() => handleCancelarPedido(compra)}
                           >
-                            Cancelar Pedido
+                            Cancelar
                           </button>
                         )}
                       </td>
@@ -142,11 +234,11 @@ function MisComprasUsuario() {
         
         <ModalCancelarPedido
           abierto={modalAbierto}
-          onClose={() => setModalAbierto(false)}
-          onConfirmar={(motivo) => {
-            alert("Pedido cancelado. Motivo: " + motivo);
+          onClose={() => {
             setModalAbierto(false);
+            setCompraSeleccionada(null);
           }}
+          onConfirmar={handleConfirmarCancelacion}
         />
       </div>
     </div>

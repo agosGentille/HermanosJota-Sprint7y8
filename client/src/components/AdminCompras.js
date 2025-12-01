@@ -98,42 +98,55 @@ const AdminCompras = () => {
     }
   };
 
-  // Cambiar estado de pago
-  const handleCambiarEstadoPago = async (compraId, nuevoEstadoPago) => {
-    if (!window.confirm(`¿Cambiar estado de pago a "${nuevoEstadoPago}"?`)) return;
+// Versión mejorada que envía todo el objeto pago
+const handleCambiarEstadoPago = async (compraId, nuevoEstadoPago) => {
+  if (!window.confirm(`¿Cambiar estado de pago a "${nuevoEstadoPago}"?`)) return;
 
-    try {
-      const res = await fetch(`${API_BASE_URL}/compras/${compraId}/estado`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ 
-          pago: { estado: nuevoEstadoPago } 
-        }),
-      });
-      
-      if (!res.ok) throw new Error("Error actualizando estado de pago");
-      
-      // Actualizar estado localmente
-      setCompras(prevCompras => 
-        prevCompras.map(compra => 
-          compra._id === compraId 
-            ? { 
-                ...compra, 
-                pago: { ...compra.pago, estado: nuevoEstadoPago } 
-              }
-            : compra
-        )
-      );
-      
-      alert("Estado de pago actualizado correctamente");
-    } catch (err) {
-      console.error(err);
-      alert("No se pudo actualizar el estado de pago");
+  try {
+    // Encontrar la compra actual para preservar los otros datos del pago
+    const compraActual = compras.find(c => c._id === compraId);
+    
+    if (!compraActual) {
+      throw new Error("Compra no encontrada");
     }
-  };
+
+    const res = await fetch(`${API_BASE_URL}/compras/${compraId}/estado`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ 
+        pago: {
+          ...compraActual.pago, // Preservar todos los datos existentes
+          estado: nuevoEstadoPago // Solo cambiar el estado
+        }
+      }),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      throw new Error(errorData.error || `Error ${res.status}`);
+    }
+    
+    // Actualizar estado localmente
+    setCompras(prevCompras => 
+      prevCompras.map(compra => 
+        compra._id === compraId 
+          ? { 
+              ...compra, 
+              pago: { ...compra.pago, estado: nuevoEstadoPago } 
+            }
+          : compra
+      )
+    );
+    
+    alert("Estado de pago actualizado correctamente");
+  } catch (err) {
+    console.error("Error actualizando estado de pago:", err);
+    alert(err.message || "No se pudo actualizar el estado de pago");
+  }
+};
 
   // Estados disponibles según nuestro modelo
   const estadosPedido = ["pendiente", "confirmado", "preparando", "enviado", "entregado", "cancelado"];

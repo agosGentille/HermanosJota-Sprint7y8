@@ -1,22 +1,6 @@
 /* styles/Checkout.css - VERSIÓN ACTUALIZADA CON ESTILO HÍBRIDO */
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100..900&display=swap");
 
-:root {
-  /* Colores principales - Versión Suave */
-  --color-madera-oscuro: #7A5C3C;
-  --color-madera-medio: #8D6E63;
-  --color-madera-claro: #BCAAA4;
-  --color-dorado: #C8A97E;
-  --color-dorado-suave: #E8D9C5;
-  --color-beige: #FAF9F7;
-  --color-beige-oscuro: #F5F1EB;
-  --color-texto-oscuro: #4E342E;
-  --color-texto-medio: #6D4C41;
-  --color-borde-suave: #D7CCC8;
-  --color-peligro: #8B0000;
-  --color-exito: #2E7D32;
-}
-
 .checkout-container {
   display: grid;
   grid-template-columns: 1fr 400px;
@@ -52,7 +36,7 @@
   font-weight: 500;
   transition: all 0.3s ease;
   position: relative;
-  background: white;
+  background: var(--color-beige);
 }
 
 .progress-step.active {
@@ -101,7 +85,7 @@
   font-size: 1rem;
   transition: all 0.2s ease;
   width: 100%;
-  background: white;
+  background: var(--color-fondo);
   font-family: "Poppins", sans-serif;
 }
 
@@ -131,7 +115,7 @@
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
-  background: white;
+  background: var(--color-fondo);
 }
 
 .metodo-pago:hover {
@@ -186,8 +170,9 @@
   border-radius: 6px;
   font-size: 1rem;
   transition: all 0.2s ease;
-  background: white;
+  background: var(--color-fondo);
   font-family: "Poppins", sans-serif;
+  color: var(--color-texto);
 }
 
 .form-tarjeta input:focus {

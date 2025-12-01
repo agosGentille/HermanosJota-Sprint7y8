@@ -1,17 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
+:root {
+  --color-fondo: #f8f9fa;
+  --color-fondo-tarjeta: #ffffff;
+  --color-madera: #8B4513;
+  --color-primario: #2c5530;
+  --color-texto-contraste: #ffffff;
+  --color-borde-suave: #e0e0e0;
+  --color-fondo-tabla-admin-hover: #f5f5f5;
+  --color-dorado: #d4af37;
+  --color-dorado-hover: #b8941f;
+  --color-rosa: #e74c3c;
+  --color-rosa-hover: #c0392b;
+  --color-texto-blanco: #ffffff;
+  --color-fondo-disabled: #f0f0f0;
+  --sombra-suave: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 * {
-  margin-top: none;
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
 }
 
-html {
-  font-size: 15px; /*Este valor equivale a 1rem*/
-}
-
-.pantalla-container {
+.mis-compras-container {
   width: 100%;
   min-height: 100vh;
   background-color: var(--color-fondo);
@@ -23,7 +35,7 @@ html {
 
 .compras-tarjeta {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   background-color: var(--color-fondo-tarjeta);
   padding: 30px;
   margin: 30px auto;
@@ -31,70 +43,140 @@ html {
   box-shadow: var(--sombra-suave);
 }
 
-.titulo-compras{
+.titulo-compras {
   font-family: "Playfair Display", sans-serif;
   color: var(--color-madera);
   margin-bottom: 30px;
-  font-size: 2rem;
-  margin-top: 40px;
-  margin-left: 35px;
+  font-size: 2.2rem;
   font-weight: 600;
   text-align: center;
+  border-bottom: 3px solid var(--color-dorado);
+  padding-bottom: 15px;
 }
 
+/* Estados de carga y error */
+.cargando, .no-compras {
+  text-align: center;
+  padding: 40px;
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.errorCompras {
+  background: #fee;
+  color: #c33;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #c33;
+  margin-bottom: 20px;
+}
+
+.no-compras-container {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.btn-ir-tienda {
+  background: var(--color-primario);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.btn-ir-tienda:hover {
+  background: #245028;
+}
+
+/* Tabla */
 .tabla-compras-container {
   width: 100%;
   overflow-x: auto;
   margin-top: 20px;
-  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--color-borde-suave);
 }
 
 .tabla-compras {
   width: 100%;
   border-collapse: collapse;
   background-color: var(--color-fondo-tarjeta);
-  border-radius: 12px;
-  overflow: hidden;
-  display: table;
+  min-width: 800px;
 }
 
 .tabla-compras thead {
-  font-size: 1.2rem;
   background-color: var(--color-primario);
-  color: var(--color-texto-contraste);
+  color: var(--color-texto-blanco);
 }
 
-.tabla-compras th,
-.tabla-compras td {
-  padding: 14px 16px;
+.tabla-compras th {
+  padding: 16px 12px;
   text-align: left;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla-compras td {
+  padding: 16px 12px;
   border-bottom: 1px solid var(--color-borde-suave);
+  vertical-align: middle;
 }
 
 .tabla-compras tbody tr:hover {
   background-color: var(--color-fondo-tabla-admin-hover);
 }
 
-.tabla-compras th {
+/* Columnas específicas */
+.nro-compra {
   font-weight: 600;
-  text-transform: uppercase;
-  font-size: 14px;
+  color: var(--color-primario);
+  font-size: 1.1rem;
 }
 
+.fecha-compra {
+  color: #666;
+  white-space: nowrap;
+}
+
+.td-productos {
+  min-width: 150px;
+}
+
+.cantidad-productos {
+  text-align: center;
+  color: #666;
+}
+
+.total-compra {
+  font-weight: 600;
+  color: var(--color-primario);
+  font-size: 1.1rem;
+  text-align: right;
+}
+
+/* Grid de productos */
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(2, 70px);
-  grid-template-rows: repeat(2, 70px);
-  gap: 0.6rem;
+  grid-template-columns: repeat(2, 50px);
+  grid-template-rows: repeat(2, 50px);
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .producto-mini {
-  width: 70px;
-  height: 70px;
-  position: relative;
-  border-radius: 8px;
+  width: 50px;
+  height: 50px;
+  border-radius: 6px;
   overflow: hidden;
-  background-color: var(--color-fondo-disabled); 
+  background-color: var(--color-fondo-disabled);
+  position: relative;
+  border: 1px solid var(--color-borde-suave);
 }
 
 .producto-mini img {
@@ -104,73 +186,161 @@ html {
 }
 
 .overlay-mas {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  color: var(--color-texto-blanco);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 16px;
-  border-radius: 8px;
+  font-size: 0.8rem;
 }
 
-.td-acciones{
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  justify-content: center;
+.info-productos-texto {
+  font-size: 0.85rem;
+  color: #666;
+  line-height: 1.3;
+}
+
+/* Estados */
+.estado-compra {
   text-align: center;
 }
 
-.btn-detalle {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
+.estado-badge {
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
   font-weight: 600;
-  transition: 0.2s ease;
-  background-color: var(--color-dorado);
-  color: var(--color-texto-blanco);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.estado-pendiente {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.estado-confirmado {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.estado-preparando {
+  background: #ffe5d0;
+  color: #fd7e14;
+}
+
+.estado-enviado {
+  background: #cce7ff;
+  color: #004085;
+}
+
+.estado-entregado {
+  background: #d4edda;
+  color: #155724;
+}
+
+.estado-cancelado {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Acciones */
+.td-acciones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 120px;
+}
+
+.btn-detalle {
+  background: var(--color-dorado);
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .btn-detalle:hover {
-  background-color: var(--color-dorado-hover);
+  background: var(--color-dorado-hover);
+  transform: translateY(-1px);
 }
 
 .btn-cancelar-pedido {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 8px;
+  background: var(--color-rosa);
+  color: white;
   border: none;
-  cursor: pointer;
-  font-size: 15px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-size: 0.85rem;
   font-weight: 600;
-  transition: 0.2s ease;
-  background-color: var(--color-rosa);
-  color: var(--color-texto-blanco);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
 }
 
 .btn-cancelar-pedido:hover {
-  background-color: var(--color-rosa-hover);
-}
-.input,
-.select {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  margin-bottom: 15px;
-  font-size: 15px;
+  background: var(--color-rosa-hover);
+  transform: translateY(-1px);
 }
 
-.input:focus,
-.select:focus {
-  border-color: var(--color-primario);
-  outline: none;
+/* Responsive */
+@media (max-width: 768px) {
+  .mis-compras-container {
+    padding: 10px;
+  }
+  
+  .compras-tarjeta {
+    padding: 20px;
+    margin: 15px auto;
+  }
+  
+  .titulo-compras {
+    font-size: 1.8rem;
+  }
+  
+  .tabla-compras-container {
+    font-size: 0.9rem;
+  }
+  
+  .grid-productos {
+    grid-template-columns: repeat(2, 40px);
+    grid-template-rows: repeat(2, 40px);
+    gap: 5px;
+  }
+  
+  .producto-mini {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .td-acciones {
+    min-width: 100px;
+  }
+  
+  .btn-detalle,
+  .btn-cancelar-pedido {
+    padding: 8px 12px;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .compras-tarjeta {
+    padding: 15px;
+  }
+  
+  .titulo-compras {
+    font-size: 1.5rem;
+  }
+  
+  .tabla-compras th,
+  .tabla-compras td {
+    padding: 12px 8px;
+  }
 }

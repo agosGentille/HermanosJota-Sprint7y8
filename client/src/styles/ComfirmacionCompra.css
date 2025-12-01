@@ -294,3 +294,157 @@
     font-size: 0.9rem;
   }
 }
+
+/* Animación de la cajita */
+.animacion-caja {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px 0;
+  position: relative;
+  height: 80px;
+}
+
+.caja {
+  font-size: 3rem;
+  animation: flotar 2s ease-in-out infinite;
+}
+
+.linea-trayectoria {
+  width: 100px;
+  height: 3px;
+  background: linear-gradient(90deg, #4CAF50, #2196F3);
+  margin: 0 20px;
+  position: relative;
+}
+
+.linea-trayectoria::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  right: -10px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid #2196F3;
+  border-top: 5px solid transparent;
+  border-bottom: 5px solid transparent;
+}
+
+.icono-casa {
+  font-size: 2.5rem;
+  animation: latido 1.5s ease-in-out infinite;
+}
+
+@keyframes flotar {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes latido {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* Estados del pedido */
+.badge-estado {
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.badge-estado.pendiente {
+  background-color: #FFF3CD;
+  color: #856404;
+  border: 1px solid #FFEAA7;
+}
+
+.badge-estado.confirmado {
+  background-color: #D1ECF1;
+  color: #0C5460;
+  border: 1px solid #BEE5EB;
+}
+
+/* Mejora en los botones */
+.acciones-confirmacion {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 25px 0;
+}
+
+.btn-ver-compras, .btn-inicio, .btn-seguir-comprando {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.btn-ver-compras {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+}
+
+.btn-inicio {
+  background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  color: white;
+}
+
+.btn-seguir-comprando {
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  color: white;
+}
+
+.btn-ver-compras:hover, .btn-inicio:hover, .btn-seguir-comprando:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Pasos de seguimiento */
+.pasos-seguimiento {
+  background: #f8f9fa;
+  padding: 15px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
+
+.pasos-seguimiento ul {
+  list-style: none;
+  padding: 0;
+}
+
+.pasos-seguimiento li {
+  padding: 8px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.pasos-seguimiento li:last-child {
+  border-bottom: none;
+}
+
+/* WhatsApp link */
+.whatsapp-link {
+  display: inline-block;
+  background: #25D366;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: all 0.3s ease;
+}
+
+.whatsapp-link:hover {
+  background: #128C7E;
+  transform: scale(1.05);
+}

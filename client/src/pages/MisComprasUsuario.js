@@ -211,7 +211,11 @@ function MisComprasUsuario() {
                         >
                           Ver detalle
                         </button>
+<<<<<<< HEAD
+                        {compra.estado !== "Entregado" && (
+=======
                         {(compra.estado === "pendiente" || compra.estado === "confirmado") && (
+>>>>>>> 9cbf3a5f44d2fda0197f4ce2dae637efb46538bb
                           <button
                             className="btn-cancelar-pedido"
                             onClick={() => handleCancelarPedido(compra)}

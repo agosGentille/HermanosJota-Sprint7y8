@@ -11,7 +11,7 @@ const Carrito = () => {
     total, 
     subtotal,
     costoEnvio,
-    faltaParaEnvioGratis, // ← Nuevo valor del contexto
+    faltaParaEnvioGratis, 
     vaciarCarrito, 
     eliminarProducto,
     sumarCantidad, 
@@ -164,8 +164,8 @@ const Carrito = () => {
                 </span>
               </div>
               <div className="resumen-total">
-                <strong>Total:</strong>
-                <strong>${total.toLocaleString()}</strong>
+                <strong className="total">Total:</strong>
+                <strong className="total">${total.toLocaleString()}</strong>
               </div>
             </div>
           </div>

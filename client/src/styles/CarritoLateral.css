@@ -45,7 +45,7 @@
 
 .carrito-header h2 {
     font-family: "Playfair Display", serif;
-    color: var(--color-madera-oscuro);
+    color: var(--color-dorado-carrito);
     font-size: 1.4rem;
     font-weight: 500;
     margin: 0;
@@ -82,7 +82,6 @@
     padding-right: 5px;
 }
 
-/* Scrollbar sutil */
 .carrito-productos::-webkit-scrollbar {
     width: 3px;
 }
@@ -99,7 +98,7 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    background: white;
+    background: var(--color-beige-oscuro);
     border-radius: 8px;
     padding: 12px;
     border: 1px solid var(--color-borde-suave);
@@ -188,7 +187,7 @@
 }
 
 .precio-producto {
-    color: var(--color-madera-oscuro);
+    color: var(--color-texto-oscuro);
     font-weight: 600;
     font-size: 0.95rem;
     white-space: nowrap;
@@ -291,7 +290,7 @@
 }
 
 .envio-mensaje strong {
-    color: var(--color-madera-oscuro);
+    color: var(--color-texto-oscuro);
     font-weight: 600;
 }
 
@@ -322,7 +321,7 @@
 }
 
 .envio-linea {
-    color: var(--color-madera-oscuro);
+    color: var(--color-texto-medio);
 }
 
 .envio-gratis-badge {
@@ -345,7 +344,7 @@
     padding-top: 8px;
     margin-top: 8px;
     font-size: 1.1rem;
-    color: var(--color-madera-oscuro);
+    color: var(--color-texto-oscuro);
     font-weight: 600;
 }
 

@@ -1,17 +1,17 @@
 /* ------------ MODO CLARO (X DEFECTO) ------------ */
 :root {
   /* Fondos */
-  --color-fondo: #FFFFFF;
-  --color-fondo-secundario: #F5E6D3; /* beige cálido */
-  --color-fondo-secundario-suave: #fff0f0;
+  --color-fondo: #FAF7F2; 
+  --color-fondo-secundario: #F1E9DE; 
+  --color-fondo-secundario-suave: #F8F4EC;
   --color-fondo-tarjeta: #FFFFFF;
-  --color-fondo-disabled: #f8f3eb;
+  --color-fondo-disabled: #F5F0E6;
 
   /* Textos */
-  --color-texto: #333333;
-  --color-texto-secundario: #555555;
+  --color-texto: #2C2C2C; 
+  --color-texto-secundario: #5A5A5A;
   --color-texto-blanco: #FFFFFF;
-  --color-texto-invertido:#1b1b1b;
+  --color-texto-invertido: #1b1b1b;
 
   /* Paleta principal */
   --color-dorado: #D4A437;
@@ -26,9 +26,9 @@
   --color-verde-acento: #9abd7d;
 
   /* Bordes y sombras */
-  --color-borde: 1px solid rgba(0, 0, 0, 0.1);
-  --sombra-suave: 0 4px 10px rgba(0, 0, 0, 0.08);
-  --sombra-dorada: 0 4px 10px rgba(212, 164, 55, 0.4);
+  --color-borde: 1px solid rgba(139, 90, 43, 0.15);
+  --sombra-suave: 0 4px 10px rgba(139, 90, 43, 0.08);
+  --sombra-dorada: 0 4px 10px rgba(184, 148, 79, 0.3);
 
   /* Botones */
   --btn-bg: transparent;
@@ -37,46 +37,54 @@
   --btn-hover-text: white;
 
   /* Header y Footer */
-  --bg-header: linear-gradient(135deg, #ffffff 0%, #f5e6d3 100%);
-  --bg-footer: linear-gradient(135deg, #f5e6d3 0%, #ffffff 100%);
+  --bg-header: linear-gradient(135deg, #FAF7F2 100%, #E8DBC9 100%);
+  --bg-footer: linear-gradient(135deg, #E8DBC9 0%, #FAF7F2 100%);
 
-  /* Carrusel */
-  --carrusel-filtro: brightness(80%);
-
-  /* Animaciones */
-  --transicion-base: 0.3s ease-in-out;
+  --carrusel-filtro: brightness(85%);
 
   /* Iconos */
   --filtro-iconos: invert(20%);
   --filtro-icono-ig: invert(100%);
 
   /* Admin nav btns*/
-  --color-btn-nav: #e9ecef;
-  --color-btn-nav-seleccionado: #007bff;
-  --color-btn-nav-hover: #dee2e6;
+  ---color-btn-nav: #e9e2d6;
+  --color-btn-nav-seleccionado: #8B5A2B;
+  --color-btn-nav-hover: #d8cdbc;
   --color-fondo-tabla-admin: #FFFFFF;
-  --color-fondo-tabla-admin-hover: #ecebeb;
-  --color-h2-admin: #2c3e50;
-  --color-h3-admin: #495057;
+  --color-fondo-tabla-admin-hover: #f9f5ef;
+  --color-h2-admin: #3E2D1B;
+  --color-h3-admin: #5A4730;
 
-  --color-fondo-elemento: #fafafa;
-  --color-body-carrito: whitesmoke;
+  --color-fondo-elemento: #f8f4ec;
+  --color-body-carrito: #f5f1e8;
 
-  --color-fondo-gradient:linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --color-fondo-gradient: linear-gradient(135deg, #FAF7F2 0%, #E8DBC9 100%);
+
+  --color-madera-oscuro: #8D6E63;
+  --color-madera-carrito: #8D6E63;
+  --color-dorado-carrito: #C8A97E;
+  --color-dorado-suave: #E8D9C5;
+  --color-beige: #FAF9F7;
+  --color-beige-oscuro: #F5F1EB;
+  --color-texto-oscuro: #4E342E;
+  --color-texto-medio: #6D4C41;
+  --color-borde-suave: #D7CCC8;
+  --color-peligro: #8B0000;
+  --color-peligro-hover: #A52A2A;
 }
 
 /* ------------ MODO OSCURO ------------ */
 [data-theme="dark"] {
   /* Fondos */
-  --color-fondo: #1B1B1B;
-  --color-fondo-secundario: #242424;
-  --color-fondo-secundario-suave: #414040;
-  --color-fondo-tarjeta: #2D2D2D;
-  --color-fondo-disabled: #181818;
+  --color-fondo: #1A1612; 
+  --color-fondo-secundario: #2A231C;
+  --color-fondo-secundario-suave: #3A3026;
+  --color-fondo-tarjeta: #2A231C;
+  --color-fondo-disabled: #1E1914;
 
   /* Textos */
-  --color-texto: #EDEDED;
-  --color-texto-secundario: #CFCFCF;
+  --color-texto: #EDE6DE;
+  --color-texto-secundario: #D4C9BC;
   --color-texto-invertido: #FFFFFF;
   --color-texto-blanco: #FFFFFF;
 
@@ -104,8 +112,8 @@
   --btn-hover-text: black;
 
   /* Header y Footer */
-  --bg-header: linear-gradient(135deg, #2a2a2a 0%, #1b1b1b 100%);
-  --bg-footer: linear-gradient(135deg, #1b1b1b 0%, #2a2a2a 100%);
+  --bg-header: linear-gradient(135deg, #2A231C 0%, #1A1612 100%);
+  --bg-footer: linear-gradient(135deg, #1A1612 0%, #2A231C 100%);
 
   /* Carrusel */
   --carrusel-filtro: brightness(60%);
@@ -115,19 +123,31 @@
   --filtro-icono-ig: invert(0%);
 
   /* Admin nav btns*/
-  --color-btn-nav: #636464;
-  --color-btn-nav-seleccionado: #007bff;
-  --color-btn-nav-hover: #545555;
-  --color-fondo-tabla-admin: #242424;
-  --color-fondo-tabla-admin-hover: #414040;
-  --color-h2-admin: #ffffff;
-  --color-h3-admin: #e7e6e6;
+  --color-btn-nav: #3A3026;
+  --color-btn-nav-seleccionado: #C8A96E;
+  --color-btn-nav-hover: #4A3E30;
+  --color-fondo-tabla-admin: #2A231C;
+  --color-fondo-tabla-admin-hover: #3A3026;
+  --color-h2-admin: #EDE6DE;
+  --color-h3-admin: #D4C9BC;
 
   /*Carrito*/
-  --color-fondo-elemento: #1a1a1a;
-  --color-body-carrito: #242424;
+ --color-fondo-elemento: #2A231C;
+  --color-body-carrito: #1A1612;
 
-  --color-fondo-gradient:linear-gradient(135deg, #1a1a1d 0%, #2e3239 100%);
+  --color-fondo-gradient: linear-gradient(135deg, #1A1612 0%, #2A231C 100%);
+
+  --color-madera-oscuro: #5D4636;
+  --color-madera-carrito: #8B6F5A;
+  --color-dorado-carrito: #D2B48C;         
+  --color-dorado-suave: #A68F6B;
+  --color-beige: #2B2724;         
+  --color-beige-oscuro: #1E1A17; 
+  --color-texto-oscuro: #EDE6E1;   
+  --color-texto-medio: #CBBEB6;    
+  --color-borde-suave: #6A5F58;    
+  --color-peligro: #FF5A5A;        
+  --color-peligro-hover: #FF7A7A;
 }
 
 /* APLICACIÓN GLOBAL*/

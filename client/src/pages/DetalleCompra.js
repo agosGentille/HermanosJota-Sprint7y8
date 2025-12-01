@@ -150,7 +150,7 @@ function DetalleCompra() {
         </div>
 
         <div className="botones-accion">
-          {compra.estado === "En preparación" && (
+          {compra.estado !== "Entregado" && (
             <button
               className="btn-cancelar-pedido"
               onClick={() => setModalAbierto(true)}

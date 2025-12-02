@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { API_BASE_URL } from '../config/api';
 import { useCarrito } from '../context/CarritoContext'; // 
 
-function Productos() {
+function Productos({ showToast }) {
   console.log("Render Productos");
   
   const { agregarProducto } = useCarrito();
@@ -185,6 +185,9 @@ function Productos() {
   // Función para manejar agregar al carrito usando el contexto
   const handleAddToCart = (producto) => {
     agregarProducto(producto);
+   if (showToast) {
+      showToast("Producto agregado al carrito", "success");
+    }
   };
 
   //Render principal

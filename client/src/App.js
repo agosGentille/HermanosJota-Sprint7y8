@@ -63,7 +63,7 @@ function App() {
               } 
             />
             
-            <Route path="/productos" element={<Producto />} />
+            <Route path="/productos" element={<Producto showToast={showToast} />} />
             <Route path="/contacto" element={<Contacto />} />
             
             <Route

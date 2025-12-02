@@ -85,6 +85,7 @@
   box-shadow: 0 2px 8px rgba(108, 117, 125, 0.2);
 }
 
+
 .estadisticas-compras {
   display: flex;
   flex-direction: column;
@@ -314,6 +315,23 @@
 }
 
 .btn-ver-detalle:hover {
+  background: #138496;
+  box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
+}
+
+.btn-actualizar {
+  margin-left: 20px;
+  padding: 8px 12px;
+  background: #17a2b8;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+.btn-actualizar:hover {
   background: #138496;
   box-shadow: 0 2px 8px rgba(23, 162, 184, 0.2);
 }

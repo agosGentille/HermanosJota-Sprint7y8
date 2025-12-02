@@ -25,7 +25,6 @@ const Carrito = () => {
   const handleProcederCompra = () => {
     if (!usuario) {
       alert("Debes iniciar sesión para realizar una compra");
-      navigate("/login");
       return;
     }
     

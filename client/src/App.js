@@ -49,9 +49,7 @@ function App() {
             <Route
               path="/carrito"
               element={
-                <ProtectedRoute>
                   <Carrito />
-                </ProtectedRoute>
               }
             />
             <Route path="/checkout" element={<Checkout />} />
